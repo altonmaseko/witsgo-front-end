@@ -6,7 +6,8 @@ export default [
     {
         files:["**/*.js"],
         rules: {
-            "no-unused-vars": "warn"
+            "no-unused-vars": "warn",
+            "use-isnan":"warn"
         },
         languageOptions: {
           globals: {

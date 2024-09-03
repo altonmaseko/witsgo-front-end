@@ -1,7 +1,7 @@
 let x;
 
 
-if (x==Nan){
+if (x==NaN){
     console.log("here");
 }
 
