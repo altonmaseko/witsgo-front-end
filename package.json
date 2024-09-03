@@ -1,0 +1,28 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developerAlton/hexago-front-end.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/developerAlton/hexago-front-end/issues"
+  },
+  "homepage": "https://github.com/developerAlton/hexago-front-end#readme",
+  "devDependencies": {
+    "eslint": "^9.9.1",
+    "stylelint": "^16.9.0",
+    "stylelint-config-standard": "^36.0.1"
+  },
+  "dependencies": {
+    "eslint-plugin-html": "^8.1.1",
+    "globals": "^15.9.0"
+  }
+}

@@ -1,0 +1,19 @@
+import js from "@eslint/js";
+import globals from "globals";
+
+export default [
+  js.configs.recommended,
+    {
+        files:["**/*.js"],
+        rules: {
+            "no-unused-vars": "warn"
+        },
+        languageOptions: {
+          globals: {
+            ...globals.browser,
+            ...globals.node,
+            google: "readonly"
+          },
+        }
+    },
+];
