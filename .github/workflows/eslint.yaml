@@ -8,25 +8,20 @@ on:
       - main
 
 jobs:
-  lint:
+  eslint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Install modules
       run: npm install
-
-  eslint:
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
-    - uses: actions/checkout@v2
     - name: Run ESLint
       run: npx eslint
 
   stylelint:
     runs-on: ubuntu-latest
-    needs: lint
     steps:
     - uses: actions/checkout@v2
+    - name: Install modules
+      run: npm install
     - name: Run Stylelint
       run: npx stylelint **/*.css
