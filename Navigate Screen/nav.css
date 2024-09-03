@@ -82,8 +82,8 @@ button:active {
 .mapContainer {
     width: 100%;
     height: 400px;
-    background-color: #ccc;
     margin-bottom: 10px;
+    overflow: visible;
 }
 
 
@@ -110,4 +110,9 @@ button:active {
   .bottonNav a.active {
     background-color: #4CAF50;
     color: white;
+  }
+
+  #map {
+    height: 100%;
+    width: 100%;
   }
