@@ -15,13 +15,13 @@
         </div>
 
         <form>
-            <input type="text" placeholder="Search">
+            <input type="text" placeholder="Search" id="searchInput">
             <button type="button" id="searchBtn">Search</button>
         </form>
 
         <div class="mapContainer">
             <!-- Map will be displayed here -->
-
+            <div id="map"></div>
         </div>
 
         <button type="button" id="navBtn">Navigate Me</button>
@@ -36,7 +36,12 @@
     </div>
 
     <!-- Move the script tag here -->
-    <script src="nav.js" defer></script>
+    <script src="nav.js"></script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp3Gojowz7zZ5QxlOvjDdI0NPbryoM5Ds&libraries=places&callback=initMap"></script>
 </body>
 </html>
+
+
+<!-- the api key:AIzaSyAp3Gojowz7zZ5QxlOvjDdI0NPbryoM5Ds -->
 
