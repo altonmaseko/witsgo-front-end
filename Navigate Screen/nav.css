@@ -15,7 +15,7 @@ body {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgb(0 0 0 / 10%);
     max-width: 400px;
     width: 100%;
 }
@@ -90,12 +90,12 @@ button:active {
 .bottonNav {
     padding: 20px;
     overflow: hidden;
-    background-color: rgb(255, 255, 255)
+    background-color: rgb(255 255 255)
   }
   
   .bottonNav a {
     float: center;
-    color: #000000;
+    color: #000;
     text-align: center;
     padding: 8px 10px;
     text-decoration: none;
