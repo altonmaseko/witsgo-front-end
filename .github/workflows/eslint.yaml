@@ -1,7 +1,7 @@
 name: CI
 on: push
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -11,3 +11,4 @@ jobs:
       run: npx eslint
     - name: Run Style ESLint
       run: npx stylelint **/*.css --max-warnings 0
+  
