@@ -1,11 +1,10 @@
-body {
+body{
     background-color: white;
     margin: 0;
     padding: 0;
     height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
 }
-
 
 
 .header-info{
@@ -124,7 +123,7 @@ body {
 .horizontal-line hr{
     flex:1;
     width: 20%;
-    height: 0px;
+    height: 0;
 }
 
 .horizontal-line p{
@@ -137,71 +136,6 @@ body {
     height: 45vw;
 }
 
-.curved-header {
-    width: 100%;
-    height: 35vw;
-    background: linear-gradient(to right, #817dae, #7671ad);
-    position: relative;
-    border-bottom-left-radius: 100% 50px;
-    border-bottom-right-radius: 100% 50px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    border: 2px solid black;
-
-}
-
-.curved-header h2{
-    margin: 0;
-    font-size: 32px;
-    font-weight: normal;
-    text-align: center;
-    color: white;
-    padding-bottom: 20px;
-} 
-
-.profile-image{
-    width: 22vw;
-    height: 22vw;
-    top: 23vw;
-    left:50%;
-    border-radius: 50%;
-    border: 2px solid rgb(66, 66, 66);
-    position: absolute;
-    transform: translateX(-50%);
-    z-index: 0;
-}
-
-.rows {
-    display: grid;
-    padding-top: 5px;
-}
-
-/*3176b2*/
-.sub-row {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid black;
-}
-
-.sub-row img{
-    margin-left: 5px;
-}
-
-.sub-row h2{
-    color: black;
-    padding-left: 20px;
-}
-
-.sub-row img{
-    margin-right: 10px;
-}
 
 input{
     margin-right: 10%;
@@ -236,8 +170,8 @@ input{
     margin-top: 5px;
 }
 
-/*Tablets*/
-@media screen and (min-width: 768px) { /* Added 'px' unit */
+/* Tablets */
+@media screen and (width >= 768px) { /* Added 'px' unit */
 
     .container{
         height: 20vw;

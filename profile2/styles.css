@@ -70,7 +70,7 @@ body {
     top: 23vw;
     left:50%;
     border-radius: 50%;
-    border: 2px solid rgb(66, 66, 66);
+    border: 2px solid rgb(66 66 66);
     position: absolute;
     transform: translateX(-50%);
     z-index: 0;
@@ -87,7 +87,8 @@ body {
     margin: 0;
     padding-bottom: 10px;
 }
-/*3176b2*/
+
+/* 3176b2 */
 .sub-row {
     display: flex;
     align-items: center;
@@ -166,16 +167,13 @@ body {
   
   .slider {
     background-color: #ccc;
-    bottom: 0;
+    inset: 0;
     cursor: pointer;
-    left: 0;
     position: absolute;
-    right: 0;
-    top: 0;
     transition: .4s;
   }
   
-  .slider:before {
+  .slider::before {
     background-color: #fff;
     bottom: 4px;
     content: "";
@@ -190,7 +188,7 @@ body {
     background-color: #66bb6a;
   }
   
-  input:checked + .slider:before {
+  input:checked + .slider::before {
     transform: translateX(26px);
   }
   
@@ -198,24 +196,24 @@ body {
     border-radius: 34px;
   }
   
-  .slider.round:before {
+  .slider.round::before {
     border-radius: 50%;
   }
   
   
-#editProfileBtn{
+#edit-profile-button{
     width: fit-content;
     height: fit-content;
     padding: 20px;
 }
 
-#editProfileBtn p{
+#edit-profile-button p{
     font-size: 16px;
     margin: 0;
     padding: 0;
 }
 
-.centerProfileBtn{
+.center-profile-button{
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -224,8 +222,8 @@ body {
 
 }
 
-/*Tablets*/
-@media screen and (min-width: 768px) { /* Added 'px' unit */
+/* Tablets */
+@media screen and (width >= 768px) { /* Added 'px' unit */
 
     .container{
         height: 20vw;
