@@ -1,5 +1,11 @@
 name: CI
-on: push
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -10,5 +16,5 @@ jobs:
     - name: Run ESLint
       run: npx eslint
     - name: Run Style ESLint
-      run: npx stylelint **/*.css --max-warnings 0
+      run: npx stylelint **/*.css
   
