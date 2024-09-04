@@ -4,7 +4,7 @@ import globals from "globals";
 export default [
   js.configs.recommended,
   {
-    ignores: ["cypress/*"],
+    ignores: ["cypress/*","screens/*","cypress.config.js"],
   },
     {
         files:["**/*.js"],

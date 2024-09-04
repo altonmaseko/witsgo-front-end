@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="styles/createAcc.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Create Account</h1>
+        <form>
+            <input type="text" placeholder="username" required>
+            <input type="password" placeholder="password" required>
+            <input type="password" placeholder="confirm password" required>
+            <button type="button" id="signupBtn">Sign Up</button>
+        </form>
+
+        <!-- Authentication Popup -->
+        <div id="authPopup" class="popup">
+            <div class="popup-content">
+                <span class="close">&times;</span>
+                <h2>Enter Authentication Code</h2>
+                <label for="AuthenticationCode">Enter auth code:</label>
+                <input type="password" id="authCode" name="authCode">
+                <button type="button" id="approveBtn">Approve</button>
+            </div>
+        </div>
+
+        <div class="signin">
+            <p>Already have an account? 
+            <button type="button" onclick="window.location.href='login.html'">Sign in</button></p>
+        </div>
+    </div>
+
+    <!-- Move the script tag here -->
+    <script src="scripts/createAcc.js" defer></script>
+</body>
+</html>
+

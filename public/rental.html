@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rental Page</title>
+    <link rel="stylesheet" href="styles/rental.css">
+    <!-- <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script> -->
+    <script src="scripts/rental.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1 style="display: flex; align-items: center; justify-content: space-between;">
+            <img src="images/pfp.jpg" alt="Profile Picture" id="profilePicture">
+            <h1 style="margin: auto;">Rent a ride!</h1>
+        </h1>
+    </header>
+
+    <section id="map"></section>
+
+    <section id="controls">
+        <select id="vehicleSelect" onchange="updateControls()">
+            <option value="">Select a ride</option>
+            <option value="bicycleOpt">Bicycle</option>
+            <option value="scooterOpt">Scooter</option>
+            <option value="skateboardOpt">Skateboard</option>
+        </select>
+        <p id="availability">Select a vehicle to see availability</p>
+        <button id="rentButton" style="display: none;" onclick="rentVehicle()">Rent</button>
+        <p id="rentalStatus" style="display: none;">
+            Time remaining: <a id="timer">30:00</a>
+            <button id="returnButton" style="display: none;" onclick="returnVehicle()">Return</button>
+        </p>
+    </section>
+
+    <footer>
+        <nav>
+            <a href="#">Navigate</a>
+            <a href="#">Renting</a>
+            <a href="#">Schedule</a>
+            <a href="#">Tracking</a>
+        </nav>
+    </footer>
+    
+</body>
+</html>
