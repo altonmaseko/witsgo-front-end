@@ -48,3 +48,77 @@ img{
     color: black;
     font-size: 1.25rem;
 }
+
+/*Media query things*/
+
+/*Phones*/
+@media (max-width: 600px) {
+    .logoThings {
+        flex-direction: row;
+        margin-top: 0; 
+    }
+
+    h1 {
+        font-size: 2rem; 
+        margin-left: 0; 
+    }
+
+    img {
+        max-width: 120px; 
+    }
+
+    .bottom {
+        height: 80px; 
+    }
+
+    .slogan {
+        font-size: 1rem; 
+    }
+}
+
+/*Tablets*/
+@media (min-width: 601px) and (max-width: 1024px) {
+    .logoThings {
+        margin-top: -20px; 
+    }
+
+    h1 {
+        font-size: 3rem; 
+    }
+
+    img {
+        max-width: 200px; 
+    }
+
+    .bottom {
+        height: 110px; 
+    }
+
+    .slogan {
+        font-size: 1.3rem; 
+    }
+}
+
+/*laptops and desktops*/
+@media (min-width: 1025px) {
+    /* Default styles for large screens */
+    .logoThings {
+        margin-top: -50px;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+    }
+
+    img {
+        max-width: 170px;
+    }
+
+    .bottom {
+        height: 100px;
+    }
+
+    .slogan {
+        font-size: 1.25rem;
+    }
+}
