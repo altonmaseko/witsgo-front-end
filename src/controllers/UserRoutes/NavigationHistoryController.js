@@ -20,7 +20,7 @@ const NavigationHistoryController = {
                 return { success: false, message: "document_already_exists" };
             }
 
-            const doc = new NavigationHistory(obj);
+            const doc = new NavigationHistory(recordInfo);
             const savedDoc = await doc.save();
 
             return { success: true, data: savedDoc };
