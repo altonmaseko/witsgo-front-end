@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\"",
-    "stylelint":" npx stylelint **/*.css",
-    "httpserver":"http-server -S -C server.cert -K server.key -p 8080"
+    "stylelint": " npx stylelint **/*.css",
+    "httpserver": "http-server -S -C server.cert -K server.key -p 8080"
   },
   "repository": {
     "type": "git",
