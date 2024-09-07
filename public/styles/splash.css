@@ -12,7 +12,7 @@ body{
     overflow: hidden;
 }
 
-.logoThings{
+.logo-thing{
     display: flex;
     align-items: center;
     margin-top: -50px;
@@ -49,11 +49,11 @@ img{
     font-size: 1.25rem;
 }
 
-/*Media query things*/
+/* Media query things */
 
-/*Phones*/
-@media (max-width: 600px) {
-    .logoThings {
+/* Phones */
+@media (width <= 600px) {
+    .logo-thing {
         flex-direction: row;
         margin-top: 0; 
     }
@@ -76,9 +76,9 @@ img{
     }
 }
 
-/*Tablets*/
-@media (min-width: 601px) and (max-width: 1024px) {
-    .logoThings {
+/* Tablets */
+@media (width >= 601px) and (width <= 1024px) {
+    .logo-thing {
         margin-top: -20px; 
     }
 
@@ -99,10 +99,10 @@ img{
     }
 }
 
-/*laptops and desktops*/
-@media (min-width: 1025px) {
+/* laptops and desktops */
+@media (width >= 1025px) {
     /* Default styles for large screens */
-    .logoThings {
+    .logo-thing {
         margin-top: -50px;
     }
 

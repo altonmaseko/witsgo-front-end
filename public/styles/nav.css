@@ -55,7 +55,7 @@ button{
 }
 
 
-#navBtn{
+#nav-btn{
     margin: 20px;
 }
 
@@ -69,7 +69,7 @@ button:active {
     transform: translateY(1px);
 }
 
-.userDetails {
+.user-details {
     display: flex;
     justify-content: left;
     align-items: center;
@@ -77,16 +77,15 @@ button:active {
     width: 100%;
 }
 
-.userPicture {
-    width: 30%;
+.user-picture {
     width: 30%;
 }
 
-.userPicture:hover {
+.user-picture:hover {
     cursor: pointer;
 }
 
-.mapContainer {
+.map-container {
     width: 100%;
     height: 400px;
     margin-bottom: 10px;
@@ -94,13 +93,13 @@ button:active {
 }
 
 
-.bottonNav {
+.botton-nav {
     padding: 20px;
     overflow: hidden;
     background-color: rgb(255 255 255)
   }
   
-  .bottonNav a {
+  .botton-nav a {
     float: center;
     color: #000;
     text-align: center;
@@ -109,12 +108,12 @@ button:active {
     font-size: 16px;
   }
   
-  .bottonNav a:hover {
+  .botton-nav a:hover {
     background-color: #ddd;
     color: black;
   }
   
-  .bottonNav a.active {
+  .botton-nav a.active {
     background-color: #4CAF50;
     color: white;
   }

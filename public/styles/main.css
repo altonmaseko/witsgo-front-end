@@ -7,6 +7,10 @@ body{
 }
 
 
+input{
+    margin-right: 10%;
+}
+
 .header-info{
     display: flex;
     justify-content: center; 
@@ -62,9 +66,22 @@ body{
     
 }
 
+.horizontal-line hr{
+    flex:1;
+    width: 20%;
+    height: 0;
+}
+
+.horizontal-line p{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
 .google-auth img{
     height: 20px;
 }
+
 
 .google-auth button{
     width: 100%;
@@ -120,16 +137,6 @@ body{
     width: 100%;
 }
 
-.horizontal-line hr{
-    flex:1;
-    width: 20%;
-    height: 0;
-}
-
-.horizontal-line p{
-    padding-left: 10px;
-    padding-right: 10px;
-}
 
 
 .container{
@@ -137,9 +144,7 @@ body{
 }
 
 
-input{
-    margin-right: 10%;
-}
+
 
 .bottom-nav{
     display: flex;
