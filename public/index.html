@@ -4,15 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WitsGo</title>
-    <link rel="stylesheet" href="splash.css">
+    <link rel="stylesheet" href="styles/splash.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <script defer>
+        //waits 2 seconds then navigates to next page
+        let currentUrl = window.location.href;
+
+        // Example: Redirect to the same URL with a different path after 2 seconds
+        currentUrl+="navigation.html";
+
+        // Wait 2 seconds then navigate to the new URL
+        setTimeout(function() {
+            window.location.replace(currentUrl);
+        }, 2000); 
+    </script>
 </head>
 <body>
     <section class="logoThings">
         <img src="WitsGoLogo.png" alt="Wits Go Logo">
         <h1>Wits Go</h1>
     </section>
-
    <div class="bottom">
     <section class="slogan">Destinations made easy</section>
    </div>

@@ -111,17 +111,6 @@ body {
     color: black;
 }
 
-.bottom-nav{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #23527c;
-    color: white;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    padding: 10px 0;
-}
 
 .nav-item{
     color: white;

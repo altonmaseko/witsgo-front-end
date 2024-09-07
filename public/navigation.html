@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navigate Screen</title>
     <link rel="stylesheet" href="styles/nav.css">
+    <link rel="stylesheet" href="styles/bottom_nav.css">
 </head>
 <body>
     <div class="container">
 
         <div class = "userDetails">
-            <img src="images/user.png" alt="User" class="userPicture" id="profileBtn">
+            <img src="images/user1.png" alt="User" class="userPicture" id="profileBtn">
             <p>Username</p>
         </div>
 
@@ -26,12 +27,24 @@
 
         <button type="button" id="navBtn">Navigate Me</button>
 
-        <div class="bottonNav">
-            <a class="active" href="nav.html">Navigate</a>
-            <a href="renting.html">Renting</a>
-            <a href="schedule.html">Schedule</a>
-            <a href="tracking.html">Tracking</a>
-        </div>
+        <section class="bottom-nav">
+            <a href="#home" class="nav-item">
+                <span class="icon">&#8962;</span>
+                <span class="label">Home</span>
+            </a>
+            <a href="#search" class="nav-item">
+                <span class="icon">&#128269;</span>
+                <span class="label">Search</span>
+            </a>
+            <a href="#notifications" class="nav-item">
+                <span class="icon">&#128276;</span>
+                <span class="label">Notifications</span>
+            </a>
+            <a href="#profile" class="nav-item">
+                <span class="icon">&#128100;</span>
+                <span class="label">Profile</span>
+            </a>
+        </section>
 
     </div>
 

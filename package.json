@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\"",
-    "stylelint":" npx stylelint **/*.css"
+    "stylelint":" npx stylelint **/*.css",
+    "lightserver": "npx light-server -s public -p 5000 -w \"**/*.{html,css,js}\" -b 192.168.0.85"
   },
   "repository": {
     "type": "git",

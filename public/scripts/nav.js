@@ -65,3 +65,31 @@ function initMap(){
 }
 
 
+function showPosition(position) {
+    console.log("Latitude: " + position.coords.latitude +"\t"+
+  "Longitude: " + position.coords.longitude);
+  alert("Latitude: " + position.coords.latitude +"\t"+
+  "Longitude: " + position.coords.longitude)
+}
+
+
+
+function getLocation() {
+    alert("here");
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        alert("NOT VALID");
+    }
+}
+
+
+navMeBtn.addEventListener("click",function(){
+    getLocation();
+})
+
+
+
+
+
+
