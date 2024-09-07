@@ -16,7 +16,9 @@ export default [
           globals: {
             ...globals.browser,
             ...globals.node,
-            google: "readonly"
+            google: "readonly",
+            "axios": "readonly",
+            "polyline": "readonly"
           },
         }
     },
