@@ -1,0 +1,58 @@
+<!-- create basic login page -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+    <title>Real Time Tracking Page</title>
+
+</head>
+
+<body>
+    <h1>Login With GOOGLE</h1>
+    <button class="login-button">
+        GOOGLE LOGIN
+    </button>
+
+
+    <!-- Scripts -->
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer>
+        document.querySelector('.login-button').addEventListener('click', async () => {
+            console.log('google clicked');
+
+            window.location.href = 'http://localhost:3000/auth/google';
+
+            return;
+            // const body = {
+            //     homepage: 'http://127.0.0.1:5501/logintest/'
+            // }
+            // await axios.get('http://localhost:3000/auth/google', body)
+            //     .then(response => {
+            //         console.log(response);
+            //     })
+            //     .catch(error => {
+            //         console.error(error);
+            //     });
+        });
+    </script>
+</body>
+
+</html>
