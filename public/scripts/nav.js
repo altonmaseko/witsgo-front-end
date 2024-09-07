@@ -1,15 +1,31 @@
 const searchBtn = document.getElementById("searchBtn");
-const navMeBtn = document.getElementById("navBtn");
+const navMeBtn = document.getElementById("nav-btn");
 const profileBtn = document.getElementById("profileBtn");
+
+
+let map;
 
 profileBtn.addEventListener("click", function() {
     window.location.href = "Profile%20Page/profile.html";
 });
 
+
+let origin = {
+    "latitude":-1,
+    "longitude":-1
+}
+
+
+let dest = {
+    "latitude":-1,
+    "longitude":-1
+}
+
+
 // initialize map
 function initMap(){
     var location = {lat: -26.190697, lng: 28.026110}; // default location (wits)
-    var map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
         center: location,
         mapTypeControl: false
@@ -46,6 +62,14 @@ function initMap(){
                 return;
             }
 
+            const lat = place.geometry.location.lat();
+            const lng = place.geometry.location.lng();
+
+            dest["latitude"] = lat;
+            dest["longitude"] = lng;
+
+            console.log("Latitude: " + lat + ", Longitude: " + lng);
+
             // Create a marker for each place.
             marker = new google.maps.Marker({
                 map: map,
@@ -66,27 +90,79 @@ function initMap(){
 
 
 function showPosition(position) {
-    console.log("Latitude: " + position.coords.latitude +"\t"+
-  "Longitude: " + position.coords.longitude);
-  alert("Latitude: " + position.coords.latitude +"\t"+
-  "Longitude: " + position.coords.longitude)
+    return position.coords;
 }
 
-
-
-function getLocation() {
-    alert("here");
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        alert("NOT VALID");
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.");
+            break;
     }
 }
 
+async function getLocation() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const coords = position.coords;
+                resolve(coords);  // Resolve the Promise with the coordinates
+            }, function(error) {
+                reject(error);  // Reject the Promise if there's an error
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+            reject(new Error("Geolocation is not supported by this browser."));
+        }
+    });
+}
 
-navMeBtn.addEventListener("click",function(){
-    getLocation();
-})
+navMeBtn.addEventListener("click", async function() {
+    if (dest.latitude==-1 || dest.longitude==-1){
+        alert("Please search some place first");
+        return;
+    }
+
+    try {
+        let coords = await getLocation();
+        const url = "http://localhost:3001/v1/route_optimize/route_optimize";
+
+        origin["latitude"]=coords.latitude;
+        origin["longitude"]=coords.longitude;
+
+        let data = {
+            "origin":origin,
+            "destination":dest,
+            "travelMode":"drive"
+        }
+
+        const response = await axios.post(url, data);
+        let outputData = response.data;
+        const encodedPolyline = outputData.data;
+        var decodedPoints = polyline.decode(encodedPolyline);
+
+        const polylinePath = new google.maps.Polyline({
+            path: decodedPoints.map(point => ({ lat: point[0], lng: point[1] })),
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        polylinePath.setMap(map);
+    } catch (error) {
+        console.error("Error getting location:", error);
+    }
+});
 
 
 
