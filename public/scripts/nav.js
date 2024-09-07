@@ -132,6 +132,8 @@ navMeBtn.addEventListener("click", async function() {
         return;
     }
 
+    //TODO remove previous encoded line
+    
     try {
         let coords = await getLocation();
         const url = "http://localhost:3001/v1/route_optimize/route_optimize";
