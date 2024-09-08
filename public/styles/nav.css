@@ -118,6 +118,15 @@ button:active {
     color: white;
   }
 
+  .custom-marker{
+    background-color: #4285F4;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 12px;
+  }
+
   #map {
     height: 100%;
     width: 100%;

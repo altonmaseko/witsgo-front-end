@@ -4,6 +4,7 @@ const profileBtn = document.getElementById("profileBtn");
 
 
 let map;
+let marker;
 
 profileBtn.addEventListener("click", function() {
     window.location.href = "Profile%20Page/profile.html";
@@ -22,21 +23,70 @@ let dest = {
 }
 
 
+function showPosition(position) {
+    return position.coords;
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.");
+            break;
+    }
+}
+
+async function getLocation() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const coords = position.coords;
+                resolve(coords);  // Resolve the Promise with the coordinates
+            }, function(error) {
+                reject(error);  // Reject the Promise if there's an error
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+            reject(new Error("Geolocation is not supported by this browser."));
+        }
+    });
+}
+
+
+
+
 // initialize map
-function initMap(){
-    var location = {lat: -26.190697, lng: 28.026110}; // default location (wits)
-    map = new google.maps.Map(document.getElementById("map"), {
+async function initMap(){
+    let coords = await getLocation();
+    origin["latitude"]=coords.latitude;
+    origin["longitude"]=coords.longitude;
+
+
+    var location = {lat: coords.latitude, lng: coords.longitude}; // default location (wits)
+    const { Map } = await google.maps.importLibrary("maps");
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+    map = new Map(document.getElementById("map"), {
         zoom: 15,
         center: location,
-        mapTypeControl: false
-    });
-    var marker = new google.maps.Marker({
+        mapId: "DEMO_MAP_ID",
+      });
+
+    marker = new AdvancedMarkerElement({
+        map: map,
         position: location,
-        map: map
+        title: "User",
     });
 
     var searchBox = new google.maps.places.SearchBox(document.getElementById('searchInput'));
-
     // updates the addresses when searching 
     map.addListener('bounds_changed', function(){
         searchBox.setBounds(map.getBounds());
@@ -88,43 +138,7 @@ function initMap(){
     });
 }
 
-
-function showPosition(position) {
-    return position.coords;
-}
-
-function showError(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            alert("User denied the request for Geolocation.");
-            break;
-        case error.POSITION_UNAVAILABLE:
-            alert("Location information is unavailable.");
-            break;
-        case error.TIMEOUT:
-            alert("The request to get user location timed out.");
-            break;
-        case error.UNKNOWN_ERROR:
-            alert("An unknown error occurred.");
-            break;
-    }
-}
-
-async function getLocation() {
-    return new Promise((resolve, reject) => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const coords = position.coords;
-                resolve(coords);  // Resolve the Promise with the coordinates
-            }, function(error) {
-                reject(error);  // Reject the Promise if there's an error
-            });
-        } else {
-            alert("Geolocation is not supported by this browser.");
-            reject(new Error("Geolocation is not supported by this browser."));
-        }
-    });
-}
+initMap();
 
 navMeBtn.addEventListener("click", async function() {
     if (dest.latitude==-1 || dest.longitude==-1){
@@ -136,10 +150,14 @@ navMeBtn.addEventListener("click", async function() {
     
     try {
         let coords = await getLocation();
-        const url = "http://localhost:3001/v1/route_optimize/route_optimize";
+        const url = "http://192.168.0.85:3001/v1/route_optimize/route_optimize";
 
         origin["latitude"]=coords.latitude;
         origin["longitude"]=coords.longitude;
+
+        origin["latitude"]=-26.0368145
+        origin["longitude"]=28.0088218
+
 
         let data = {
             "origin":origin,
@@ -150,6 +168,7 @@ navMeBtn.addEventListener("click", async function() {
         const response = await axios.post(url, data);
         let outputData = response.data;
         const encodedPolyline = outputData.data;
+
         var decodedPoints = polyline.decode(encodedPolyline);
 
         const polylinePath = new google.maps.Polyline({
