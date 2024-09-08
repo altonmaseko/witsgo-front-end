@@ -118,13 +118,13 @@ button:active {
     color: white;
   }
 
-  .custom-marker{
-    background-color: #4285F4;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 12px;
+  .custom-marker {
+    width: 50px; /* Set width */
+    height: 50px; /* Set height */
+    background-image: url("../images/person2.png"); /* Ensure the correct path */
+    background-size: contain; /* Fit the image within the container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent repeating */
   }
 
   #map {

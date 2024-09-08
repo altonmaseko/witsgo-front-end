@@ -22,6 +22,7 @@ let dest = {
     "longitude":-1
 }
 
+let markers = []
 
 function showPosition(position) {
     return position.coords;
@@ -64,15 +65,18 @@ async function getLocation() {
 
 
 // initialize map
+//TODO clear markers before each search
 async function initMap(){
+    const { Map } = await google.maps.importLibrary("maps");
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    const { PlacesService, SearchBox } = await google.maps.importLibrary("places");
+
     let coords = await getLocation();
     origin["latitude"]=coords.latitude;
     origin["longitude"]=coords.longitude;
 
 
     var location = {lat: coords.latitude, lng: coords.longitude}; // default location (wits)
-    const { Map } = await google.maps.importLibrary("maps");
-    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
     map = new Map(document.getElementById("map"), {
         zoom: 15,
@@ -80,13 +84,19 @@ async function initMap(){
         mapId: "DEMO_MAP_ID",
       });
 
+
+    const content = document.createElement('div');
+    content.classList.add('custom-marker');
+
     marker = new AdvancedMarkerElement({
         map: map,
         position: location,
         title: "User",
+        content: content,
     });
 
-    var searchBox = new google.maps.places.SearchBox(document.getElementById('searchInput'));
+    const searchBox = new SearchBox(document.getElementById('searchInput'));
+
     // updates the addresses when searching 
     map.addListener('bounds_changed', function(){
         searchBox.setBounds(map.getBounds());
@@ -101,7 +111,10 @@ async function initMap(){
         }
 
         // Clear out the old markers.
-        marker.setMap(null);
+        console.log(markers);
+
+        markers.forEach((element)=>element.setMap(null))
+        markers.clear();
 
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds(); // moves the map to the new location/s
@@ -118,14 +131,24 @@ async function initMap(){
             dest["latitude"] = lat;
             dest["longitude"] = lng;
 
-            console.log("Latitude: " + lat + ", Longitude: " + lng);
-
             // Create a marker for each place.
-            marker = new google.maps.Marker({
+            markers.push({
                 map: map,
-                title: place.name,
-                position: place.geometry.location
-            });
+                position: place.geometry.location,
+                title: place.name
+            })
+
+            markers.push({
+                map: map,
+                position: {lat: origin["latitude"], lng: origin["longitude"]},
+                title: "user",
+                content:document.createElement('div').add('custom-marker')
+            })
+
+            markers.forEach((element)=>{
+                new AdvancedMarkerElement(element)
+            })
+
 
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
@@ -146,8 +169,6 @@ navMeBtn.addEventListener("click", async function() {
         return;
     }
 
-    //TODO remove previous encoded line
-    
     try {
         let coords = await getLocation();
         const url = "http://192.168.0.85:3001/v1/route_optimize/route_optimize";
@@ -155,8 +176,8 @@ navMeBtn.addEventListener("click", async function() {
         origin["latitude"]=coords.latitude;
         origin["longitude"]=coords.longitude;
 
-        origin["latitude"]=-26.0368145
-        origin["longitude"]=28.0088218
+        // origin["latitude"]=-26.0368145
+        // origin["longitude"]=28.0088218
 
 
         let data = {
