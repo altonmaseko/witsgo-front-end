@@ -44,7 +44,8 @@
         document.querySelector('button').addEventListener('click', async () => {
             console.log('google clicked');
 
-            window.location.href = 'http://localhost:3000/auth/google';
+            const homepage = encodeURIComponent('http://127.0.0.1:5501/logintest/');
+            window.location.href = `http://localhost:3000/auth/google?redirect=${homepage}`;
         });
     </script>
 </body>
