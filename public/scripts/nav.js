@@ -1,7 +1,7 @@
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
-const inputField = document.getElementById('searchInput');
+const inputField = document.getElementById('search-input');
 
 
 
