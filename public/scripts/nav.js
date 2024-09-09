@@ -2,6 +2,7 @@ const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
 const inputField = document.getElementById('search-input');
+const directionsTextArea = document.getElementById("directions-text");
 
 
 
@@ -190,9 +191,14 @@ navMeBtn.addEventListener("click", async function() {
             "travelMode":"WALK"
         }
 
+
         const response = await axios.post(url, data);
+
         let outputData = response.data;
-        const encodedPolyline = outputData.data;
+
+
+        const encodedPolyline = outputData.data["polyline"];
+        const legs = outputData.data["legs"];
 
         var decodedPoints = polyline.decode(encodedPolyline);
 
@@ -205,6 +211,50 @@ navMeBtn.addEventListener("click", async function() {
         });
 
         polylinePath.setMap(map);
+
+        //add directions
+
+        while (directionsTextArea.firstChild) {
+            directionsTextArea.removeChild(directionsTextArea.firstChild);
+        }
+
+        
+        legs[0]["steps"].forEach((leg)=>{
+            const instructions = leg["navigationInstruction"];
+            const distances = leg["localizedValues"];
+
+            const instrText = instructions["instructions"];
+            const instrMove = instructions["maneuver"];
+
+            const distanceKM = distances["distance"]["text"];
+            const time = distances["staticDuration"]["text"];
+
+            console.log(instrText,instrMove,distanceKM,time);
+
+
+            const row = document.createElement("section");
+            row.classList.add("directions-row")
+
+
+            const instructionRow = document.createElement("section");
+            instructionRow.classList.add("directions-row-instruction");
+            instructionRow.innerHTML = "<p>"+instrText+"</p>"
+            row.appendChild(instructionRow);
+
+            const instructionDist = document.createElement("section");
+            instructionDist.classList.add("directions-row-distance");
+            instructionDist.innerHTML = "<p>"+distanceKM+"</p>"
+            row.appendChild(instructionDist);
+            
+            const instructionTime = document.createElement("section");
+            instructionTime.classList.add("directions-row-time");
+            instructionTime.innerHTML = "<p>"+time+"</p>"
+            row.appendChild(instructionTime);
+
+            directionsTextArea.appendChild(row);
+        })
+
+
     } catch (error) {
         console.error("Error getting location:", error);
     }
