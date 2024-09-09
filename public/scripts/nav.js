@@ -1,14 +1,40 @@
 const searchBtn = document.getElementById("searchBtn");
 const navMeBtn = document.getElementById("nav-btn");
-const profileBtn = document.getElementById("profileBtn");
+const profileImg = document.getElementById("profile-user");
+let cancelSearch = document.getElementById("cancel-search");
+const inputField = document.getElementById('searchInput');
+
+
+
+inputField.addEventListener("click",function(){
+    profileImg.style.display = "None"
+    cancelSearch.style.display = "flex"
+})
+
+inputField.addEventListener("focusout",function(){
+    if (inputField.value==""){
+        profileImg.style.display = "flex";
+        cancelSearch.style.display = "None"
+    }
+})
+
+
+profileImg.addEventListener("click",function(){
+    window.location.assign("profile.html");
+})
+
+cancelSearch.addEventListener("click",function(){
+    inputField.value="";
+    profileImg.style.display = "flex";
+    cancelSearch.style.display = "None"
+
+})
+
 
 
 let map;
 let marker;
 
-profileBtn.addEventListener("click", function() {
-    window.location.href = "Profile%20Page/profile.html";
-});
 
 
 let origin = {
@@ -62,8 +88,6 @@ async function getLocation() {
 }
 
 
-
-
 // initialize map
 async function initMap(){
     const { Map } = await google.maps.importLibrary("maps");
@@ -96,14 +120,15 @@ async function initMap(){
 
     markers.push(userMarker); // Add the user marker to the markers array
 
-    const searchBox = new SearchBox(document.getElementById('searchInput'));
+
+    const searchBox = new SearchBox(inputField);
 
     // Updates the addresses when searching
     map.addListener('bounds_changed', function() {
         searchBox.setBounds(map.getBounds());
     });
 
-    searchBtn.addEventListener('click', function() {
+    searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
 
         if (places.length === 0) {
@@ -163,7 +188,6 @@ async function initMap(){
 }
 
 
-initMap();
 
 navMeBtn.addEventListener("click", async function() {
     if (dest.latitude==-1 || dest.longitude==-1){
@@ -185,7 +209,7 @@ navMeBtn.addEventListener("click", async function() {
         let data = {
             "origin":origin,
             "destination":dest,
-            "travelMode":"drive"
+            "travelMode":"WALK"
         }
 
         const response = await axios.post(url, data);
@@ -207,6 +231,9 @@ navMeBtn.addEventListener("click", async function() {
         console.error("Error getting location:", error);
     }
 });
+
+initMap();
+
 
 
 

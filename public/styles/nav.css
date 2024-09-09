@@ -5,15 +5,41 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    padding: 0;
     background-color: #f0f0f0;
 }
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#search-input[type="text"] {
+    width: 95%;
+    height: 40px;
+    font-size: 16px;
+    box-sizing: border-box;
+    white-space: nowrap; /* Prevents wrapping */
+    overflow: hidden; /* Hides the overflow */
+    text-overflow: ellipsis; /* Adds the ellipsis */
+}
+
+.user-picture {
+    height: 40px;  /* Adjust image size */
+    margin-left: -40px;  /* Shift image left to overlap the input */
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
 
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: white;
-    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgb(0 0 0 / 10%);
     max-width: 400px;
@@ -56,7 +82,9 @@ button{
 
 
 #nav-btn{
+    padding: 10px;
     margin: 20px;
+    width: 60%;
 }
 
 button:hover {
@@ -77,19 +105,17 @@ button:active {
     width: 100%;
 }
 
-.user-picture {
-    width: 30%;
-}
-
-.user-picture:hover {
-    cursor: pointer;
-}
-
 .map-container {
     width: 100%;
-    height: 400px;
+    height: 70%;
     margin-bottom: 10px;
     overflow: visible;
+}
+
+
+#map {
+    height: 100%;
+    width: 100%;
 }
 
 
@@ -127,7 +153,3 @@ button:active {
     background-repeat: no-repeat; /* Prevent repeating */
   }
 
-  #map {
-    height: 100%;
-    width: 100%;
-  }
