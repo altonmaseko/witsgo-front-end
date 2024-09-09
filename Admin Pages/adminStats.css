@@ -1,0 +1,198 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #4acfbc;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+}
+
+header {
+    background-color: #23527c;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: 24px;
+    width: 100%;
+}
+
+header img#profilePicture {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+section#map {
+    flex: 1;
+    width: 90%;
+    max-width: 800px;
+    height: 50vh;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+section#controls {
+    text-align: center;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+select {
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 300px;
+    font-size: 18px;
+    padding: 10px;
+}
+
+#availability {
+    font-size: 18px;
+    color: #333;
+    margin-left: 10px;
+}
+
+button#rentButton {
+    margin-top: 15px;
+    font-size: 18px;
+    padding: 10px 20px;
+}
+
+#rentalStatus {
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+#timer {
+    font-size: 18px;
+    color: #333;
+    margin-right: 10px;
+}
+
+#returnButton {
+    margin-left: 10px;
+    font-size: 18px;
+    padding: 10px 20px;
+}
+
+.topNav {
+    flex-shrink: 0;
+    background-color: #817daf;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+}
+
+.topNav nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.topNav a {
+    text-decoration: none;
+    color: #fff;
+    padding: 0 30px;
+    font-size: 18px;
+}
+
+.topNav a:hover {
+    color: #ddd;
+}
+
+#stats-nav {
+    text-align: center;
+    margin: 30px auto;
+    font-size: 20px;
+}
+
+#stats-nav nav a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 15px;
+    margin: 0 10px;
+    background-color: #23527c;
+    font-size: 18px;
+}
+
+#stats-nav nav a:hover {
+    background-color: #1e3a5a;
+}
+
+#stats-display {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    max-width: 1000px;
+    margin: 30px auto;
+    
+}
+
+#stats-title {
+    text-align: left;
+    font-size: 26px;
+    margin: 0 0 15px 20px;
+}
+
+#stats-content {
+    flex: 1;
+    width: calc(100% - 40px);
+    height: 100%;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header img#profilePicture {
+        margin: 0 auto 15px;
+    }
+
+    footer nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #stats-title {
+        font-size: 22px;
+    }
+
+    #stats-content {
+        height: 60vh;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    #stats-title {
+        font-size: 1.2rem;
+    }
+}
+

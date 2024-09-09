@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Stats Page</title>
+    <link rel="stylesheet" href="adminStats.css">
+    <script src="adminStats.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1 style="display: flex; align-items: center; justify-content: space-between;">
+            <img src="pfp.jpg" alt="Profile Picture" id="profilePicture">
+            <span style="margin: auto;">Admin Stats</span>
+        </h1>
+    </header>
+
+    <nav class = "topNav">
+        <a href="adminHome.html">Home</a>
+        <a href="adminVehicle.html">Vehicle</a>
+        <a href="adminBus.html">Bus Route</a>
+        <a href="adminSearch.html">Search</a>
+    </nav>
+
+    <section id="stats-nav">
+        <nav>
+            <a href="#" onclick="showStats('monthly', 'Monthly Statistics')">Monthly</a>
+            <a href="#" onclick="showStats('yearly', 'Yearly Statistics')">Yearly</a>
+            <a href="#" onclick="showStats('custom', 'Custom Statistics')">Custom</a>
+        </nav>
+    </section>
+
+    <section id="stats-display">
+        <h2 id="stats-title">Monthly Statistics</h2>
+        <section id="stats-content">
+            <section id="monthly" class="stats-page" style="display: none;">
+                <p>Content for Monthly Statistics</p>
+            </section>
+            <section id="yearly" class="stats-page" style="display: none;">
+                <p>Content for Yearly Statistics</p>
+            </section>
+            <section id="custom" class="stats-page" style="display: none;">
+                <p>Content for Custom Statistics</p>
+            </section>
+        </section>
+    </section>
+
+</body>
+</html>
