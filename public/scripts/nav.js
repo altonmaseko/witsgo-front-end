@@ -1,4 +1,3 @@
-const searchBtn = document.getElementById("searchBtn");
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
@@ -33,7 +32,6 @@ cancelSearch.addEventListener("click",function(){
 
 
 let map;
-let marker;
 
 
 
@@ -49,27 +47,6 @@ let dest = {
 }
 
 let markers = []
-
-function showPosition(position) {
-    return position.coords;
-}
-
-function showError(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            alert("User denied the request for Geolocation.");
-            break;
-        case error.POSITION_UNAVAILABLE:
-            alert("Location information is unavailable.");
-            break;
-        case error.TIMEOUT:
-            alert("The request to get user location timed out.");
-            break;
-        case error.UNKNOWN_ERROR:
-            alert("An unknown error occurred.");
-            break;
-    }
-}
 
 async function getLocation() {
     return new Promise((resolve, reject) => {
@@ -106,7 +83,8 @@ async function initMap(){
         mapId: "DEMO_MAP_ID",
     });
 
-    let markers = []; // Store marker instances
+    //TODO might break, change back to let markers if necessary
+    markers = []; // Store marker instances
 
     const content = document.createElement('div');
     content.classList.add('custom-marker');
