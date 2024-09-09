@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="styles.css">
-        <meta name="description" content="Login page for campus transportation">
-        <meta name="robots" content="noindex">
-        <meta name="googlebot-news" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="UTF-8">
-        <title>Login</title>
-        <script src="login.js"></script>
-    </head>
-    <body class="middle-of-screen-login" style="background-color: #f0f0f0;">
-        <section class="container-login">
-            <section class="header-info">
-                <img src="icons/profile1.png">
-                <h1>Welcome back</h1>
-            </section>
-            <article class="login-form">
-                <form action="/login">
-                    <input type="email" id="email" placeholder="Email Address" required="true">
-                    <input type="password" id="password" placeholder="Password" required="true">
-                    <input type="submit" id="submit" value="Login">
-                </form>
-            </article>
-            <article class="horizontal-line center">
-                <hr>
-                <p>or</p>
-                <hr>
-            </article>
-            <article class="center google-auth" style="text-align: center;">
-                <button type="submit">
-                    <img src="icons/google.png">
-                    <p>Login with Google</p>
-                </button>
-            </article>
-            <a class="signup-text center" href="signup.html">New to WitsGo? Register</a>
+
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Login page for campus transportation">
+    <meta name="robots" content="noindex">
+    <meta name="googlebot-news" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script src="login.js" defer></script>
+</head>
+
+<body class="middle-of-screen-login" style="background-color: #f0f0f0;">
+    <section class="container-login">
+        <section class="header-info">
+            <img src="icons/profile1.png">
+            <h1>Welcome back</h1>
         </section>
-    </body>
+        <article class="login-form">
+            <form action="/login">
+                <input type="email" id="email" placeholder="Email Address" required="true">
+                <input type="password" id="password" placeholder="Password" required="true">
+                <input type="submit" id="submit" value="Login">
+            </form>
+        </article>
+        <article class="horizontal-line center">
+            <hr>
+            <p>or</p>
+            <hr>
+        </article>
+        <article class="center google-auth" style="text-align: center;">
+            <button type="submit" id="login-with-google-button">
+                <img src="icons/google.png">
+                <p>Login with Google</p>
+            </button>
+        </article>
+        <a class="signup-text center" href="signup.html">New to WitsGo? Register</a>
+    </section>
+</body>
+
 </html>

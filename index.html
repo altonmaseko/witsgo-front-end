@@ -1,0 +1,44 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            min-height: 100vh;
+
+        }
+
+        .go-to-real-time-tracking-page {
+            font-size: 2rem;
+            padding: 1rem;
+            border-radius: 0.6rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome to the Home Page</h1>
+
+    <button class="go-to-real-time-tracking-page">
+        Go To Bus Driver Tracking Page
+    </button>
+
+    <!-- SCRIPTS -->
+
+    <script defer>
+        document.querySelector('.go-to-real-time-tracking-page').addEventListener('click', () => {
+            window.location.href = 'Real Time Tracking/bus-driver-tracking.html';
+        });
+    </script>
+
+</body>
+
+</html>
