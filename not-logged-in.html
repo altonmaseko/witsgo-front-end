@@ -50,13 +50,13 @@
             console.log('google clicked');
 
             const homepage = encodeURIComponent(`${clientUrl}/`);
-            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}`;
+            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=false`;
         });
 
         document.querySelector(".register-button").addEventListener("click", async () => {
 
             const homepage = encodeURIComponent(`${clientUrl}/Register Page/finishAccountSetup.html`);
-            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}`;
+            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=true`;
         });
     </script>
 </body>
