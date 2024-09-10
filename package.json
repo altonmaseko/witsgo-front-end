@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"No tests found\" && exit 0",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
