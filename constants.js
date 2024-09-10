@@ -2,5 +2,5 @@
 // export const clientUrl = 'http://localhost:5000';
 
 // Production
-export const serverUrl = 'https://hexago.azurewebsites.net';
+export const serverUrl = 'https://witsgobackend.azurewebsites.net';
 export const clientUrl = 'https://witsgo.azurewebsites.net';
