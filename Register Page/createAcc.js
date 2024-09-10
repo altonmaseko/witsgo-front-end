@@ -1,14 +1,16 @@
 const goToSignInPageButton = document.querySelector("#go-to-sign-in-page-button");
 const signUpButton = document.querySelector("#sign-up-button");
 
+import { clientUrl, serverUrl } from "../constants.js";
+
 
 goToSignInPageButton.addEventListener("click", () => {
-    window.location.href = "../login/login.html";
+    window.location.href = `${clientUrl}/login/login.html`;
 });
 
 signUpButton.addEventListener("click", () => {
-    const finishAccountSetup = encodeURIComponent('http://127.0.0.1:5501/Register Page/finishAccountSetup.html');
-    window.location.href = `http://localhost:3000/auth/google?redirect=${finishAccountSetup}`;
+    const finishAccountSetup = encodeURIComponent(`${clientUrl}/Register Page/finishAccountSetup.html`);
+    window.location.href = `${serverUrl}/auth/google?redirect=${finishAccountSetup}`;
 
 });
 

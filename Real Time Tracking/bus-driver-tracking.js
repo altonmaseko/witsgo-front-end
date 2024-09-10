@@ -1,5 +1,7 @@
 const mapContainer = document.querySelector('.map-container');
 
+import { clientUrl, serverUrl } from "../constants.js";
+
 let map;
 let currentLocationMarker;
 let allowTracking = false;
@@ -64,7 +66,7 @@ function getLocation() {
 initMap();
 
 // SOCKETS ========================================
-const socket = io("http://localhost:3000"); // a connection to the server
+const socket = io(serverUrl); // a connection to the server
 const witsBusRoom = "wits-bus";
 
 socket.on("connect", () => {

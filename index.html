@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" defer src="verifylogin.js"></script> <!-- This script should be put on everypage -->
 
     <style>
         body {
@@ -15,7 +17,7 @@
             min-height: 100vh;
         }
 
-        .go-to-real-time-tracking-page {
+        button {
             font-size: 2rem;
             padding: 1rem;
             border-radius: 0.6rem;
@@ -26,15 +28,34 @@
 <body>
     <h1>Welcome to the Home Page</h1>
 
-    <button class="go-to-real-time-tracking-page">
-        Go To Bus Driver Tracking Page
+    <button class="bus-driver-tracking">
+        bus-driver-tracking.html
+    </button>
+
+    <button class="real-time-tracking">
+        real-time-tracking.html
+    </button>
+
+    <button class="logout">
+        logout
     </button>
 
     <!-- SCRIPTS -->
 
-    <script defer>
-        document.querySelector('.go-to-real-time-tracking-page').addEventListener('click', () => {
+    <script type="module" defer>
+
+        import { clientUrl, serverUrl } from "../constants.js";
+
+        document.querySelector('.bus-driver-tracking').addEventListener('click', () => {
             window.location.href = 'Real Time Tracking/bus-driver-tracking.html';
+        });
+
+        document.querySelector('.real-time-tracking').addEventListener('click', () => {
+            window.location.href = 'Real Time Tracking/real-time-tracking.html';
+        });
+
+        document.querySelector('.logout').addEventListener('click', () => {
+            window.location.href = `${serverUrl}/logout`;
         });
     </script>
 

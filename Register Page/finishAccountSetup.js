@@ -1,5 +1,7 @@
 const finishAccountSetupButton = document.querySelector("#finish-account-setup-button");
 
+import { clientUrl, serverUrl } from "../constants.js";
+
 finishAccountSetupButton.addEventListener("click", async () => {
     const password = document.querySelector("#password-input").value;
     const confirmPassword = document.querySelector("#verify-password-input").value;
@@ -26,7 +28,7 @@ finishAccountSetupButton.addEventListener("click", async () => {
     }
 
     try {
-        let response = await axios.put(`http://localhost:3000/user/update/${email}`, body);
+        let response = await axios.put(`${serverUrl}/user/update/${email}`, body);
         console.log(response.data);
     } catch (error) {
         console.log(error.message);
@@ -34,7 +36,7 @@ finishAccountSetupButton.addEventListener("click", async () => {
         window.location.href = "./createAcc.html";
     }
 
-    window.location.href = "../Real Time Tracking/real-time-tracking.html";
+    window.location.href = `${clientUrl}`;
 
 
 

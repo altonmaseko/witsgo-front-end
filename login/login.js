@@ -1,6 +1,8 @@
 const loginWithGoogleButton = document.getElementById('login-with-google-button');
 
+import { clientUrl, serverUrl } from "../constants.js";
+
 loginWithGoogleButton.addEventListener('click', () => {
-    const homepage = encodeURIComponent('http://127.0.0.1:5501/Real Time Tracking/real-time-tracking.html');
-    window.location.href = `http://localhost:3000/auth/google?redirect=${homepage}`;
+    const homepage = encodeURIComponent(`${clientUrl}/Real Time Tracking/real-time-tracking.html`);
+    window.location.href = `${serverUrl}/auth/google?redirect=${homepage}`;
 });

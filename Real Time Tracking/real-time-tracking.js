@@ -1,5 +1,7 @@
 // FROM STUDENT PERSPECTIVE ****************************************************
 
+import { clientUrl, serverUrl } from "../constants.js";
+
 const mapContainer = document.querySelector('.map-container');
 
 let map;
@@ -132,7 +134,7 @@ const witsBusCheck = document.querySelector(".wits-bus-check");
 const campusControlBusCheck = document.querySelector(".campus-control-bus-check");
 const campusSecurityCheck = document.querySelector(".campus-security-check");
 
-const socket = io("http://localhost:3000"); // a connection to the server
+const socket = io(serverUrl); // a connection to the server
 
 socket.on("connect", () => {
     console.log(`You are connected with ID: ${socket.id}`);
