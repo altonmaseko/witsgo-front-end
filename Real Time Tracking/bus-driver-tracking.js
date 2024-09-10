@@ -3,6 +3,9 @@ const mapContainer = document.querySelector('.map-container');
 let map;
 let currentLocationMarker;
 let allowTracking = false;
+let watchID;
+let lastPositionUpdateTime = 0;
+let watchPositionLimit = 500; // Will execute at most once every 500ms
 
 let GMAP, AdvancedMarkerElement, DirectionsService, DirectionsRenderer; // libraries
 let librariesImported = false;
@@ -39,6 +42,7 @@ async function initMap() {
 
     });
 
+
 }
 
 
@@ -57,52 +61,91 @@ function getLocation() {
         }
     });
 }
-
-// keep track of the user's location as they move
-navigator.geolocation.watchPosition((position) => {
-
-    if (!allowTracking) return;
-
-    console.log("Current Location:", position.coords.latitude, position.coords.longitude);
-
-    const newPosition = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-    };
-
-    // Check if the marker exists, if yes, update its position, else create it
-    if (currentLocationMarker) {
-        currentLocationMarker.position = newPosition;
-    } else {
-        // Create the marker for the first time
-        currentLocationMarker = new AdvancedMarkerElement({
-            map: map,
-            position: newPosition,
-            title: "I am here!!",
-        });
-    }
-
-    // Optionally, update the map center as well
-    map.setCenter(newPosition);
-
-}, (error) => {
-    console.log("Could not get location:", error);
-}, {
-    enableHighAccuracy: true,
-    timeout: 10000, // if cant get location within 5 seconds, return an error
-    maximumAge: 1000
-});
-
 initMap();
+
+// SOCKETS ========================================
+const socket = io("http://localhost:3000"); // a connection to the server
+const witsBusRoom = "wits-bus";
+
+socket.on("connect", () => {
+    console.log(`You are connected with ID: ${socket.id}`);
+
+    // socket.emit("join-room", witsBusRoom, (messageFromServer) => {
+    //     console.log(`FROM SERVER: ${messageFromServer}`)
+    // });
+})
+
+socket.on("server-to-client", data => {
+    console.log(data.message);
+});
+// END: SOCKETS ========================================
 
 const trackMeButton = document.querySelector('#track-me-button');
 trackMeButton.addEventListener('click', async () => {
     if (allowTracking) {
         trackMeButton.textContent = "Track Me";
         allowTracking = false;
+
+        // Stop tracking using the watchID
+        if (watchID !== undefined) {
+            navigator.geolocation.clearWatch(watchID);
+            console.log("Tracking Stopped!");
+        }
     } else {
         trackMeButton.textContent = "Stop Tracking";
         allowTracking = true;
+
+        console.log("Tracking Started!")
+
+        // Start continuous updates using watchPosition
+        watchID = navigator.geolocation.watchPosition((position) => {
+
+            const currentTime = new Date().getTime();
+
+            if (currentTime - lastPositionUpdateTime < watchPositionLimit) {
+                console.log("Position update skipped");
+                return;
+            }
+
+            const newPosition = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            // Send the new position to the server
+            socket.emit("client-to-server", {
+                room: witsBusRoom,
+                message: newPosition
+            });
+
+            // Update marker position
+            if (currentLocationMarker) {
+                currentLocationMarker.position = newPosition;
+            } else {
+                currentLocationMarker = new AdvancedMarkerElement({
+                    map: map,
+                    position: newPosition,
+                    title: "I am here!!"
+                });
+            }
+
+            console.log("Location Updated: ", newPosition);
+
+            // Optionally, center map
+            map.setCenter(newPosition);
+
+            lastPositionUpdateTime = currentTime;
+        }, (error) => {
+            console.error("Error getting location:", error);
+        }, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 1000
+        });
+
+
     }
 });
+
+
 

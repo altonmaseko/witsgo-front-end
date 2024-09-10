@@ -1,7 +1,10 @@
+// FROM STUDENT PERSPECTIVE ****************************************************
+
 const mapContainer = document.querySelector('.map-container');
 
 let map;
 let currentLocationMarker;
+let busMarkers = {};
 
 let GMAP, AdvancedMarkerElement, DirectionsService, DirectionsRenderer; // libraries
 let librariesImported = false;
@@ -18,15 +21,7 @@ async function importLibraries() {
 
 async function initMap() {
 
-    // const { Map } = await google.maps.importLibrary("maps");
-    // const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-
-
     await importLibraries();
-
-    const mslPosition = {
-        lat: - 26.190301215797824, lng: 28.026853151803458
-    }
 
     const currentLocation = await getLocation();
 
@@ -38,13 +33,6 @@ async function initMap() {
 
     });
 
-    // Markers -------------
-    const mslMarker = new AdvancedMarkerElement({
-        map: map,
-        position: mslPosition,
-        title: "MSL",
-    });
-
     currentLocationMarker = new AdvancedMarkerElement({
         map: map,
         position: currentLocation,
@@ -52,11 +40,6 @@ async function initMap() {
 
     });
 
-    // ================================================
-
-    // document.querySelector(".btn-show-path").addEventListener("click", async () => {
-    //     calculateAndDisplayRoute(currentLocation, mslPosition);
-    // });
 
 }
 
@@ -155,11 +138,27 @@ socket.on("connect", () => {
     console.log(`You are connected with ID: ${socket.id}`);
 })
 
+const busIconDiv = document.createElement('div');
+busIconDiv.innerHTML = `<img src="https://maps.google.com/mapfiles/kml/shapes/bus.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
+
 socket.on("server-to-client", data => {
-    console.log(data.message);
+    console.log("Vehicle Location Update:", data.message);
+
+    // If the busMarker does not exist, create it
+    if (!busMarkers[data.id]) {
+        busMarkers[data.id] = new google.maps.marker.AdvancedMarkerElement({
+            map: map,
+            position: data.message, // Set initial position from the server data
+            title: "Bus",
+            content: busIconDiv
+        });
+    } else {
+        // If the busMarker already exists, just update its position
+        busMarkers[data.id].position = data.message;
+    }
+
 })
 
-// FROM STUDENT PERSPECTIVE ********************************
 witsBusCheck.addEventListener("click", (event) => {
     event.currentTarget.classList.toggle('checked');
 
@@ -202,18 +201,4 @@ campusSecurityCheck.addEventListener("click", (event) => {
     }
 });
 
-// FROM BUS DRIVER PERSPECTIVE ********************************
-const sendLocationEveryInterval = () => {
-    const user = document.querySelector(".user").textContent;
-
-    // if (user != 'bus-driver') return;
-
-    setInterval(async () => {
-        // const currentLocation = await getLocation();
-        // console.clear();
-        console.log("INTERVAL");
-    }, 1000);
-}
-
-// sendLocationEveryInterval();
 
