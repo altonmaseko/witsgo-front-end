@@ -1,2 +1,2 @@
 node_modules/
-Real Time Tracking/secrets.js
+.env
