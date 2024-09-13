@@ -77,23 +77,7 @@ async function getLocation() {
         }
     });
 }
-// Function to add wheelchair waypoints to the map
-function addWaypointsToMap() {
-    wheelchairWaypoints.forEach((waypoint) => {
-        const position = { lat: waypoint.latitude, lng: waypoint.longitude };
-        
-        let waypointMarker = new google.maps.Marker({
-            position: position,
-            map: map,
-            title: "Wheelchair Waypoint",
-            icon: {
-                url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/MUTCD_D9-6.svg/300px-MUTCD_D9-6.svg.png" // Use a different marker icon for waypoints
-            }
-        });
 
-        markers.push(waypointMarker); // Add waypoint markers to markers array
-    });
-}
 
 // initialize map
 async function initMap(){
@@ -192,11 +176,40 @@ async function initMap(){
         });
 
         map.fitBounds(bounds);
-        // Add wheelchair waypoints to map
-       addWaypointsToMap();
+       
     });
-    // Add wheelchair waypoints to map
-    addWaypointsToMap();
+    // Wheelchair-accessible markers data (using the coordinates you provided)
+    let wheelchairAccessibleLocations = [
+        { lat: -26.190993, lng: 28.026560 },
+        { lat: -26.189926, lng: 28.026249 },
+        { lat: -26.189083, lng: 28.026486 },
+        { lat: -26.189319, lng: 28.027031 },
+        { lat: -26.192093, lng: 28.027439 },
+        { lat: -26.191646, lng: 28.028547 },
+        { lat: -26.191638, lng: 28.029805 },
+        { lat: -26.192449, lng: 28.029910 },
+        { lat: -26.192348, lng: 28.030961 },
+        { lat: -26.191554, lng: 28.030768 },
+        { lat: -26.191492, lng: 28.029934 },
+        { lat: -26.190840, lng: 28.030164 },
+    ];
+
+    wheelchairAccessibleLocations.forEach(function (location) {
+        // Create a new div element for the marker content
+        const content = document.createElement('div');
+        content.classList.add('wheelchair-marker'); // Apply CSS class
+
+        // Create the wheelchair marker
+        let wheelchairMarker = new AdvancedMarkerElement({
+            map: map,
+            position: { lat: location.lat, lng: location.lng },
+            title: "Wheelchair Accessible",
+            content: content, // Custom content with image
+        });
+
+        markers.push(wheelchairMarker); // Add wheelchair marker to the markers array
+    });
+  
 }
 
 
