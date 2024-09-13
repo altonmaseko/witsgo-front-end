@@ -150,17 +150,19 @@ busIconDiv.innerHTML = `<img src="https://maps.google.com/mapfiles/kml/shapes/bu
 socket.on("server-to-client", data => {
     console.log("Vehicle Location Update:", data.message);
 
+    const busId = data.id;
+
     // If the busMarker does not exist, create it
-    if (!busMarkers[data.id]) {
-        busMarkers[data.id] = new google.maps.marker.AdvancedMarkerElement({
+    if (!busMarkers[busId]) {
+        busMarkers[busId] = new google.maps.marker.AdvancedMarkerElement({
             map: map,
             position: data.message, // Set initial position from the server data
-            title: "Bus",
-            content: busIconDiv
+            title: `Bus ${busId}`,
+            content: busIconDiv.cloneNode(true)
         });
     } else {
         // If the busMarker already exists, just update its position
-        busMarkers[data.id].position = data.message;
+        busMarkers[busId].position = data.message;
     }
 
 })
@@ -207,4 +209,17 @@ campusSecurityCheck.addEventListener("click", (event) => {
     }
 });
 
+// // Add a function to remove inactive bus markers
+// function removeInactiveBusMarkers() {
+//     const currentTime = Date.now();
+//     for (const [busId, markerInfo] of Object.entries(busMarkers)) {
+//         if (currentTime - markerInfo.lastUpdateTime > 60000) { // Remove if no update for 1 minute
+//             markerInfo.marker.setMap(null);
+//             delete busMarkers[busId];
+//         }
+//     }
+// }
+
+// // Call removeInactiveBusMarkers periodically
+// setInterval(removeInactiveBusMarkers, 60000); // Check every minute
 
