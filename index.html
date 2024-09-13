@@ -43,8 +43,14 @@
     <!-- SCRIPTS -->
 
     <script type="module" defer>
-
         import { clientUrl, serverUrl } from "../constants.js";
+
+
+        // get email from query url
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        console.log("User logged in: ", email);
+
 
         document.querySelector('.bus-driver-tracking').addEventListener('click', () => {
             window.location.href = 'Real Time Tracking/bus-driver-tracking.html';

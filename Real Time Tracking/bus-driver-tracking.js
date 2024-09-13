@@ -1,6 +1,10 @@
-const mapContainer = document.querySelector('.map-container');
-
 import { clientUrl, serverUrl } from "../constants.js";
+
+// get the user and get a property
+const user = JSON.parse(localStorage.getItem("user"));
+console.log("User from local storage", user);
+
+const mapContainer = document.querySelector('.map-container');
 
 let map;
 let currentLocationMarker;
@@ -67,14 +71,22 @@ initMap();
 
 // SOCKETS ========================================
 const socket = io(serverUrl); // a connection to the server
+
 const witsBusRoom = "wits-bus";
+const campusControlBusRoom = "campus-control-bus";
+const campusSecurityRoom = "campus-security";
+
+let roomToSend;
+
+if (user.role == "bus-driver") {
+    roomToSend = witsBusRoom;
+} else if (user.role == "campus-security") {
+    roomToSend = campusSecurityRoom;
+}
+
 
 socket.on("connect", () => {
     console.log(`You are connected with ID: ${socket.id}`);
-
-    // socket.emit("join-room", witsBusRoom, (messageFromServer) => {
-    //     console.log(`FROM SERVER: ${messageFromServer}`)
-    // });
 })
 
 socket.on("server-to-client", data => {
@@ -94,6 +106,10 @@ trackMeButton.addEventListener('click', async () => {
             console.log("Tracking Stopped!");
         }
     } else {
+        if (!roomToSend) {
+            alert("You should be a bus driver, campus security or campus control to track your location.");
+            return;
+        };
         trackMeButton.textContent = "Stop Tracking";
         allowTracking = true;
 
@@ -116,7 +132,7 @@ trackMeButton.addEventListener('click', async () => {
 
             // Send the new position to the server
             socket.emit("client-to-server", {
-                room: witsBusRoom,
+                room: roomToSend,
                 message: newPosition
             });
 

@@ -1,5 +1,10 @@
 // FROM STUDENT PERSPECTIVE ****************************************************
 
+
+// get the user and get a property
+const user = JSON.parse(localStorage.getItem("user"));
+console.log("User from local storage", user);
+
 import { clientUrl, serverUrl } from "../constants.js";
 
 const mapContainer = document.querySelector('.map-container');
@@ -124,7 +129,6 @@ initMap();
 
 
 // SOCKETS ========================================
-const user = 'bus-driver';
 
 const witsBusRoom = "wits-bus";
 const campusControlBusRoom = "campus-control-bus";
