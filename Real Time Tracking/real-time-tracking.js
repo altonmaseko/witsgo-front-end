@@ -9,9 +9,12 @@ import { clientUrl, serverUrl } from "../constants.js";
 
 const mapContainer = document.querySelector('.map-container');
 
+const humanIconDiv = document.createElement('div');
+humanIconDiv.innerHTML = `<img src="./map_icons/human_circle_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
+
 let map;
 let currentLocationMarker;
-let busMarkers = {};
+let vehicleMarkers = {};
 
 let GMAP, AdvancedMarkerElement, DirectionsService, DirectionsRenderer; // libraries
 let librariesImported = false;
@@ -38,13 +41,14 @@ async function initMap() {
         center: currentLocation,
         mapId: "DEMO_MAP_ID",
 
+
     });
 
     currentLocationMarker = new AdvancedMarkerElement({
         map: map,
         position: currentLocation,
-        title: "I am here!!",
-
+        title: "I am here",
+        content: humanIconDiv.cloneNode(true)
     });
 
 
@@ -115,7 +119,7 @@ navigator.geolocation.watchPosition((position) => {
     }
 
     // Optionally, update the map center as well
-    map.setCenter(newPosition);
+    // map.setCenter(newPosition);
 
 }, (error) => {
     console.log("Could not get location:", error);
@@ -130,8 +134,8 @@ initMap();
 
 // SOCKETS ========================================
 
-const witsBusRoom = "wits-bus";
-const campusControlBusRoom = "campus-control-bus";
+const busRoom = "bus-driver";
+const campusControlRoom = "campus-control";
 const campusSecurityRoom = "campus-security";
 
 const witsBusCheck = document.querySelector(".wits-bus-check");
@@ -144,25 +148,41 @@ socket.on("connect", () => {
     console.log(`You are connected with ID: ${socket.id}`);
 })
 
+
 const busIconDiv = document.createElement('div');
-busIconDiv.innerHTML = `<img src="https://maps.google.com/mapfiles/kml/shapes/bus.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
+busIconDiv.innerHTML = `<img src="./map_icons/bus_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
+
+const securityIconDiv = document.createElement('div');
+securityIconDiv.innerHTML = `<img src="./map_icons/security_car_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
+
+const campusControlIconDiv = document.createElement('div');
+campusControlIconDiv.innerHTML = `<img src="./map_icons/campus_control_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
 
 socket.on("server-to-client", data => {
-    console.log("Vehicle Location Update:", data.message);
+    console.log("Vehicle Location Update:", data);
 
-    const busId = data.id;
+    const vehicleId = data.id;
 
-    // If the busMarker does not exist, create it
-    if (!busMarkers[busId]) {
-        busMarkers[busId] = new google.maps.marker.AdvancedMarkerElement({
+    let vehicleMarker;
+    if (data.userRole == 'bus-driver') {
+        vehicleMarker = busIconDiv.cloneNode(true);
+    } else if (data.userRole == 'campus-security') {
+        vehicleMarker = securityIconDiv.cloneNode(true);
+    } else if (data.userRole == 'campus-control') {
+        vehicleMarker = campusControlIconDiv.cloneNode(true);
+    }
+
+    // If the vehicle does not exist, create it
+    if (!vehicleMarkers[vehicleId]) {
+        vehicleMarkers[vehicleId] = new google.maps.marker.AdvancedMarkerElement({
             map: map,
             position: data.message, // Set initial position from the server data
-            title: `Bus ${busId}`,
-            content: busIconDiv.cloneNode(true)
+            title: `Bus ${vehicleId}`,
+            content: vehicleMarker
         });
     } else {
         // If the busMarker already exists, just update its position
-        busMarkers[busId].position = data.message;
+        vehicleMarkers[vehicleId].position = data.message;
     }
 
 })
@@ -171,11 +191,11 @@ witsBusCheck.addEventListener("click", (event) => {
     event.currentTarget.classList.toggle('checked');
 
     if (event.currentTarget.classList.contains("checked")) {
-        socket.emit("join-room", witsBusRoom, (messageFromServer) => {
+        socket.emit("join-room", busRoom, (messageFromServer) => {
             console.log(`FROM SERVER: ${messageFromServer}`)
         });
     } else {
-        socket.emit("leave-room", witsBusRoom, (messageFromServer) => {
+        socket.emit("leave-room", busRoom, (messageFromServer) => {
             console.log(`FROM SERVER: ${messageFromServer}`)
         });
     }
@@ -185,11 +205,11 @@ campusControlBusCheck.addEventListener("click", (event) => {
     event.currentTarget.classList.toggle('checked');
 
     if (event.currentTarget.classList.contains("checked")) {
-        socket.emit("join-room", campusControlBusRoom, (messageFromServer) => {
+        socket.emit("join-room", campusControlRoom, (messageFromServer) => {
             console.log(`FROM SERVER: ${messageFromServer}`)
         });
     } else {
-        socket.emit("leave-room", campusControlBusRoom, (messageFromServer) => {
+        socket.emit("leave-room", campusControlRoom, (messageFromServer) => {
             console.log(`FROM SERVER: ${messageFromServer}`)
         });
     }
@@ -209,17 +229,17 @@ campusSecurityCheck.addEventListener("click", (event) => {
     }
 });
 
-// // Add a function to remove inactive bus markers
-// function removeInactiveBusMarkers() {
-//     const currentTime = Date.now();
-//     for (const [busId, markerInfo] of Object.entries(busMarkers)) {
-//         if (currentTime - markerInfo.lastUpdateTime > 60000) { // Remove if no update for 1 minute
-//             markerInfo.marker.setMap(null);
-//             delete busMarkers[busId];
-//         }
-//     }
-// }
+// function to remove inactive bus markers
+function removeInactiveBusMarkers() {
+    const currentTime = Date.now();
+    for (const [busId, markerInfo] of Object.entries(vehicleMarkers)) {
+        if (currentTime - markerInfo.lastUpdateTime > 60000) { // Remove if no update for 1 minute
+            markerInfo.marker.setMap(null);
+            delete vehicleMarkers[busId];
+        }
+    }
+}
 
-// // Call removeInactiveBusMarkers periodically
-// setInterval(removeInactiveBusMarkers, 60000); // Check every minute
+// Call removeInactiveBusMarkers periodically
+setInterval(removeInactiveBusMarkers, 60000); // Check every minute
 

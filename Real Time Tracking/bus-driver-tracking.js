@@ -72,16 +72,18 @@ initMap();
 // SOCKETS ========================================
 const socket = io(serverUrl); // a connection to the server
 
-const witsBusRoom = "wits-bus";
-const campusControlBusRoom = "campus-control-bus";
+const busRoom = "bus-driver";
+const campusControlRoom = "campus-control";
 const campusSecurityRoom = "campus-security";
 
 let roomToSend;
 
 if (user.role == "bus-driver") {
-    roomToSend = witsBusRoom;
+    roomToSend = busRoom;
 } else if (user.role == "campus-security") {
     roomToSend = campusSecurityRoom;
+} else if (user.role == "campus-control") {
+    roomToSend = campusControlRoom;
 }
 
 
@@ -133,7 +135,8 @@ trackMeButton.addEventListener('click', async () => {
             // Send the new position to the server
             socket.emit("client-to-server", {
                 room: roomToSend,
-                message: newPosition
+                message: newPosition,
+                userRole: user.role
             });
 
             // Update marker position
