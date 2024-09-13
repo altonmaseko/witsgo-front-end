@@ -78,22 +78,22 @@ async function getLocation() {
     });
 }
 // Function to add wheelchair waypoints to the map
-// function addWaypointsToMap() {
-//     wheelchairWaypoints.forEach((waypoint) => {
-//         const position = { lat: waypoint.latitude, lng: waypoint.longitude };
+function addWaypointsToMap() {
+    wheelchairWaypoints.forEach((waypoint) => {
+        const position = { lat: waypoint.latitude, lng: waypoint.longitude };
         
-//         let waypointMarker = new google.maps.Marker({
-//             position: position,
-//             map: map,
-//             title: "Wheelchair Waypoint",
-//             icon: {
-//                 url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" // Use a different marker icon for waypoints
-//             }
-//         });
+        let waypointMarker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: "Wheelchair Waypoint",
+            icon: {
+                url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/MUTCD_D9-6.svg/300px-MUTCD_D9-6.svg.png" // Use a different marker icon for waypoints
+            }
+        });
 
-//         markers.push(waypointMarker); // Add waypoint markers to markers array
-//     });
-// }
+        markers.push(waypointMarker); // Add waypoint markers to markers array
+    });
+}
 
 // initialize map
 async function initMap(){
@@ -193,10 +193,10 @@ async function initMap(){
 
         map.fitBounds(bounds);
         // Add wheelchair waypoints to map
-       // addWaypointsToMap();
+       addWaypointsToMap();
     });
     // Add wheelchair waypoints to map
-    //addWaypointsToMap();
+    addWaypointsToMap();
 }
 
 
