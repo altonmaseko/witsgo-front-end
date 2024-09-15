@@ -1,18 +1,16 @@
+<!-- AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Rental Page</title>
     <link rel="stylesheet" href="styles/rental.css">
-    <link rel="stylesheet" href="styles/navBar.css">
-    <!-- <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
-    </script> -->
-    <script src="scripts/rental.js" defer></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script> 
+    <script src="script/rental.js" defer></script>
 </head>
 <body>
     <header>
         <h1 style="display: flex; align-items: center; justify-content: space-between;">
-            <img src="images/pfp.jpg" alt="Profile Picture" id="profile-picture">
+            <img src="images/pfp.jpg" alt="Profile Picture" id="profilePicture">
             <h1 style="margin: auto;">Rent a ride!</h1>
         </h1>
     </header>
@@ -20,17 +18,19 @@
     <section id="map"></section>
 
     <section id="controls">
-        <select id="vehicleSelect" onchange="updateControls()">
-            <option value="">Select a ride</option>
-            <option value="bicycleOpt">Bicycle</option>
-            <option value="scooterOpt">Scooter</option>
-            <option value="skateboardOpt">Skateboard</option>
+        <select id="stationSelect" style="display: none;" onchange="showVehicleDropdown()">
+            <!-- Options will be added dynamically -->
         </select>
+        <select id="vehicleSelect" style="display: none;" onchange="updateControls()">
+            <option value="">Please select a vehicle</option>
+            <!-- Options will be added dynamically -->
+        </select>
+        <button id="cancelButton" style="display: none;" onclick="cancelSelection()">Cancel</button>
         <p id="availability">Select a vehicle to see availability</p>
-        <button id="rent-button" style="display: none;" onclick="rentVehicle()">Rent</button>
-        <p id="rental-status" style="display: none;">
-            Time remaining: <a id="timer">30:00</a>
-            <button id="return-button" style="display: none;" onclick="returnVehicle()">Return</button>
+        <button id="rentButton" style="display: none;" onclick="rentVehicle()">Rent</button>
+        <p id="rentalStatus" style="display: none;">
+            Time remaining: <a id="timer">20:00</a>
+            <button id="returnButton" style="display: none;" onclick="returnVehicle()">Return</button>
         </p>
     </section>
 
