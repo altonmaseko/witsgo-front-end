@@ -69,6 +69,8 @@
         </a>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
         document.querySelector('.schedule-container').addEventListener('click', function () {
             this.classList.toggle('expanded');
@@ -78,7 +80,7 @@
             const scheduleContainer = document.querySelector('.schedule-container');
             let fullText = '';
 
-            fetch('/pdf-text')
+            fetch('https://witsgobackend.azurewebsites.net/v1/schedule/pdf-text')
                 .then(response => response.text())
                 .then(data => {
                     fullText = data;

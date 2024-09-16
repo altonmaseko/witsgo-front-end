@@ -83,7 +83,8 @@ button{
 
 #directions-text{
     width: 95%;
-    height: 80px;
+    height: fit-content;
+    padding-bottom: 50px;
     display: flexbox;
 }
 
@@ -200,10 +201,40 @@ button:active {
     background-repeat: no-repeat; /* Prevent repeating */
   }
 
+  .building-marker {
+    width: 30px; /* Set width */
+    height: 30px; /* Set height */
+    background-image: url("../images/building.png"); /* Ensure the correct path */
+    background-size: contain; /* Fit the image within the container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent repeating */
+  }
+
+
+  .gatehouse-marker {
+    width: 30px; /* Set width */
+    height: 30px; /* Set height */
+    background-image: url("../images/gatehouse.png"); /* Ensure the correct path */
+    background-size: contain; /* Fit the image within the container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent repeating */
+  }
+
+
+  .library-marker {
+    width: 30px; /* Set width */
+    height: 30px; /* Set height */
+    background-image: url("../images/library.png"); /* Ensure the correct path */
+    background-size: contain; /* Fit the image within the container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent repeating */
+  }
+
+
 /* Style for wheelchair accessible marker */
 .wheelchair-marker {
-    width: 40px; /* Width of the marker */
-    height: 40px; /* Height of the marker */
+    width: 30px; /* Width of the marker */
+    height: 30px; /* Height of the marker */
     border-radius: 50%; /* Make the marker circular */
     background-image: url('../images/wheel.png'); /* Path to your icon */
     background-size: contain; /* Ensure the image fits within the div */

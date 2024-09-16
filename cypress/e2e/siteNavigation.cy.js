@@ -7,7 +7,7 @@ describe('Splash Screen Mobile Redirect Test', () => {
 
     it('should redirect to the navigation page after 2 seconds', () => {
       // Visit the splash screen page
-      cy.visit('http://localhost:5500/public/');
+      cy.visit('http://localhost:5000/');
 
       // Wait for 2 seconds for the redirect
       cy.wait(2000);

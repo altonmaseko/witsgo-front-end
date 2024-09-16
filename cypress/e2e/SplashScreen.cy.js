@@ -6,7 +6,7 @@ describe('Splash Screen Tests', () => {
 
         it('should load the splash page', () => {
         // Visit the splash screen page
-        cy.visit('http://localhost:5500/public/')
+        cy.visit('http://localhost:5000/')
     
         // Check if the H1 element contains the text "Wits Go"
         cy.contains("h1", "Wits Go").should('be.visible')
