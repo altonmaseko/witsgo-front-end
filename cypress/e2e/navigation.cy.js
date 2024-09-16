@@ -3,7 +3,7 @@ describe('Navigation Page Test (Mobile View)', () => {
     // Set the viewport size to 360x800 before each test
     beforeEach(() => {
       cy.viewport(360, 800);
-      cy.visit('http://localhost:5500/public/navigation.html',{
+      cy.visit('http://localhost:5000/navigation.html',{
         onBeforeLoad(win) {
           cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake((success, error) => {
             success({
