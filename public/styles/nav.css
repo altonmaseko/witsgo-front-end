@@ -233,8 +233,8 @@ button:active {
 
 /* Style for wheelchair accessible marker */
 .wheelchair-marker {
-    width: 40px; /* Width of the marker */
-    height: 40px; /* Height of the marker */
+    width: 30px; /* Width of the marker */
+    height: 30px; /* Height of the marker */
     border-radius: 50%; /* Make the marker circular */
     background-image: url('../images/wheel.png'); /* Path to your icon */
     background-size: contain; /* Ensure the image fits within the div */
