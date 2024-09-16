@@ -16,8 +16,8 @@ try {
 
 
 // get the user and get a property
-const user = JSON.parse(localStorage.getItem("user"));
-console.log("User from local storage", user);
+const role = localStorage.getItem("role");
+console.log("Role from local storage", role);
 
 const mapContainer = document.querySelector('.map-container');
 
@@ -93,11 +93,11 @@ const campusSecurityRoom = "campus-security";
 
 let roomToSend;
 
-if (user.role == "bus-driver") {
+if (role == "bus-driver") {
     roomToSend = busRoom;
-} else if (user.role == "campus-security") {
+} else if (role == "campus-security") {
     roomToSend = campusSecurityRoom;
-} else if (user.role == "campus-control") {
+} else if (role == "campus-control") {
     roomToSend = campusControlRoom;
 }
 
@@ -151,7 +151,7 @@ trackMeButton.addEventListener('click', async () => {
             socket.emit("client-to-server", {
                 room: roomToSend,
                 message: newPosition,
-                userRole: user.role
+                userRole: role
             });
 
             // Update marker position

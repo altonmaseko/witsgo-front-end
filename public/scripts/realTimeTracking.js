@@ -17,8 +17,7 @@ try {
 // FROM STUDENT PERSPECTIVE ****************************************************
 
 // get the user and get a property
-const user = JSON.parse(localStorage.getItem("user"));
-console.log("User from local storage", user);
+const role = localStorage.getItem("role");
 
 
 const mapContainer = document.querySelector('.map-container');

@@ -48,11 +48,11 @@ finishAccountSetupButton.addEventListener("click", async () => {
 
 
     const body = {
-        password: password,
-        role: userRole,
-        degree: degree,
-        onWheelChair: onWheelChair,
-        age: age
+        password: password.value,
+        role: userRole.value,
+        degree: degree.value,
+        onWheelChair: onWheelChair.value,
+        age: age.value
     }
 
     try {

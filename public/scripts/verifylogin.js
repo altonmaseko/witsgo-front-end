@@ -9,6 +9,7 @@ const checkLogin = async () => {
         console.log(response.data);
     } catch (error) {
         console.log(error.message);
+        alert("Failed to authenticate your session. Please log in again.");
         window.location.href = `${clientUrl}/registerLogin.html`;
     }
 
@@ -20,9 +21,7 @@ const checkLogin = async () => {
 
     localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(response.data.user.user));
-    // get the user and get a property
-    const user = JSON.parse(localStorage.getItem("user"));
-    console.log("User from local storage", user);
-
+    localStorage.setItem("email", response.data.user.user.email);
+    localStorage.setItem("role", response.data.user.user.role);
 }
 checkLogin();

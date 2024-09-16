@@ -61,23 +61,45 @@
     <script defer type="module">
 
         import { serverUrl, clientUrl } from "./scripts/constants.js";
+        const email = JSON.parse(localStorage.getItem("email"));
 
-        const user = JSON.parse(localStorage.getItem("user"));
+        const getUserAndUpdate = async () => {
 
-        if (!user) {
-            alert("Error getting your details. Please login again.");
-            window.location.href = `${clientUrl}/registerLogin.html`;
+            console.log("email from local storage", email);
+            if (!email) {
+                alert("Error getting your details. Please login again.");
+                window.location.href = `${clientUrl}/registerLogin.html`;
+                return;
+            }
+
+            let response;
+            try {
+                response = await axios.get(`${serverUrl}/user/${email}`);
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error getting user", error);
+                return null;
+            }
+
+            const user = response.data.user;
+
+            if (!user) {
+                alert("Error getting your details. Please login again.");
+                window.location.href = `${clientUrl}/registerLogin.html`;
+            }
+
+            console.log(user);
+
+            document.querySelector(".full-name").textContent = user.firstName + " " + user.lastName;
+            document.querySelector(".age").textContent = user.age;
+            document.querySelector(".email").textContent = user.email;
+            document.querySelector(".degree").textContent = user.degree;
+            document.querySelector(".role").textContent = user.role;
+            document.querySelector("#checkbox").checked = user.onWheelChair;
+            document.querySelector(".profile-image").style.backgroundImage = `url(${user.picture})`;
         }
 
-        console.log(user);
-
-        document.querySelector(".full-name").textContent = user.firstName + " " + user.lastName;
-        document.querySelector(".age").textContent = user.age;
-        document.querySelector(".email").textContent = user.email;
-        document.querySelector(".degree").textContent = user.degree;
-        document.querySelector(".role").textContent = user.role;
-        document.querySelector("#checkbox").checked = user.onWheelChair;
-        document.querySelector(".profile-image").style.backgroundImage = `url(${user.picture})`;
+        getUserAndUpdate();
 
         document.querySelector("#logout-button").addEventListener("click", async () => {
             localStorage.removeItem("user");
@@ -99,7 +121,7 @@
 
             localStorage.removeItem("user");
             try {
-                let response = await axios.delete(`${serverUrl}/user/${user.email}`);
+                let response = await axios.delete(`${serverUrl}/user/${email}`);
                 localStorage.removeItem("user");
                 window.location.href = `${clientUrl}`;
 
@@ -108,6 +130,8 @@
                 console.error("Error logging out", error);
             }
         });
+
+
     </script>
 </body>
 
