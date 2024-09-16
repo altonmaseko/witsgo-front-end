@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "stylelint": " npx stylelint **/*.css",
-    "httpserver": "http-server -c -1 -S -C server.cert -K server.key -p 8080"
+    "httpserver": "http-server -c -1 -S -C server.cert -K server.key -p 8080",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,9 @@
   },
   "dependencies": {
     "cypress": "^13.14.1",
+    "dotenv": "^16.4.5",
     "eslint-plugin-html": "^8.1.1",
+    "express": "^4.21.0",
     "globals": "^15.9.0",
     "jest": "^29.7.0"
   }
