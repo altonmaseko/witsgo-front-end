@@ -85,6 +85,22 @@ async function getLocation() {
 
 
 // initialize map
+/**
+ * Initializes the Google Map with user location, markers, and search functionality.
+ * 
+ * This function performs the following tasks:
+ * - Imports necessary libraries from Google Maps API.
+ * - Retrieves the user's current location.
+ * - Initializes the map centered on the user's location.
+ * - Adds a user marker to the map.
+ * - Fetches building data from an API and adds markers for each building.
+ * - Sets up a search box to allow users to search for places and update markers accordingly.
+ * - Adds predefined wheelchair-accessible markers to the map.
+ * 
+ * @async
+ * @function initMap
+ * @returns {Promise<void>} A promise that resolves when the map is fully initialized.
+ */
 async function initMap(){
     const { Map } = await google.maps.importLibrary("maps");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -187,6 +203,64 @@ async function initMap(){
     }
 
 
+    //wheelchairs
+    try{
+        const res = await axios.get(baseURL+"v1/accessibility/getWheelchairs");
+
+        let successData = res.data.data;
+
+        if (successData.success==false || successData==undefined){
+            console.log("Unable to get markers");
+        }
+
+        const data = res.data.data.data;
+
+        data.forEach((element)=>{
+            let newMarker = {
+                id:element._id,
+                name:element.name,
+                wheelchair_friendly:element.wheelchair_friendly,
+                ramp_available:element.ramp_available,
+                elevator_nearby:element.elevator_nearby,
+                type:"wheelchair",
+                location:{ lat: element.latitude, lng: element.longitude},
+            };
+
+            APIMarkersInfo.push(newMarker);
+
+            let newContent = document.createElement('div');
+            newContent.classList.add("wheelchair-marker");
+            
+            let newAdvancedMarker = new AdvancedMarkerElement({
+                map: map,
+                position: newMarker.location,
+                title: newMarker.building_name,
+                content:newContent
+            });
+
+            APIMarkers.push(newAdvancedMarker);
+
+            let infoWindow = new google.maps.InfoWindow({
+                content: `<h3>${newMarker.name}</h3><p>Wheelchair Friendly:${newMarker.wheelchair_friendly}</p>`, // HTML content
+              });
+
+            newAdvancedMarker.addListener("click",()=>{
+                infoWindow.open({
+                    anchor: newAdvancedMarker,   // Attach to the marker
+                    map,              // Open on the map
+                    shouldFocus: false, // Optional: prevent the window from stealing focus
+                  });
+            })
+        })
+    }catch(error){
+        //TODO make error shorter
+        console.log(error);
+    }
+
+
+
+
+
     const searchBox = new SearchBox(inputField);
 
     // Updates the addresses when searching
@@ -254,38 +328,6 @@ async function initMap(){
         map.fitBounds(bounds);
        
     });
-    // Wheelchair-accessible markers data (using the coordinates you provided)
-    let wheelchairAccessibleLocations = [
-        { lat: -26.190993, lng: 28.026560 },
-        { lat: -26.189926, lng: 28.026249 },
-        { lat: -26.189083, lng: 28.026486 },
-        { lat: -26.189319, lng: 28.027031 },
-        { lat: -26.192093, lng: 28.027439 },
-        { lat: -26.191646, lng: 28.028547 },
-        { lat: -26.191638, lng: 28.029805 },
-        { lat: -26.192449, lng: 28.029910 },
-        { lat: -26.192348, lng: 28.030961 },
-        { lat: -26.191554, lng: 28.030768 },
-        { lat: -26.191492, lng: 28.029934 },
-        { lat: -26.190840, lng: 28.030164 },
-    ];
-
-    wheelchairAccessibleLocations.forEach(function (location) {
-        // Create a new div element for the marker content
-        const content = document.createElement('div');
-        content.classList.add('wheelchair-marker'); // Apply CSS class
-
-        // Create the wheelchair marker
-        let wheelchairMarker = new AdvancedMarkerElement({
-            map: map,
-            position: { lat: location.lat, lng: location.lng },
-            title: "Wheelchair Accessible",
-            content: content, // Custom content with image
-        });
-
-        markers.push(wheelchairMarker); // Add wheelchair marker to the markers array
-    });
-  
 }
 
 
