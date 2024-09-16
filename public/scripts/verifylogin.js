@@ -18,7 +18,7 @@ const checkLogin = async () => {
         return;
     }
 
-    localStorage.deleteItem("user");
+    localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(response.data.user.user));
     // get the user and get a property
     const user = JSON.parse(localStorage.getItem("user"));

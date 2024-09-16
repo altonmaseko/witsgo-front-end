@@ -7,6 +7,7 @@
 
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+
     <title>Profile</title>
 </head>
 
@@ -15,7 +16,7 @@
         <section class="curved-header">
             <h1 class="full-name">Lucian Irsigler</h1>
         </section>
-        <img src="images/user1.png" class="profile-image">
+        <div class="profile-image"> </div>
     </section>
     <section class="rows">
         <section>
@@ -59,11 +60,6 @@
 
     <script defer type="module">
 
-        if (true) {
-            alert("Error getting your details. Please login again.");
-            window.location.href = `${clientUrl}/registerLogin.html`;
-        }
-
         import { serverUrl, clientUrl } from "./scripts/constants.js";
 
         const user = JSON.parse(localStorage.getItem("user"));
@@ -73,33 +69,44 @@
             window.location.href = `${clientUrl}/registerLogin.html`;
         }
 
+        console.log(user);
+
         document.querySelector(".full-name").textContent = user.firstName + " " + user.lastName;
         document.querySelector(".age").textContent = user.age;
         document.querySelector(".email").textContent = user.email;
         document.querySelector(".degree").textContent = user.degree;
         document.querySelector(".role").textContent = user.role;
         document.querySelector("#checkbox").checked = user.onWheelChair;
+        document.querySelector(".profile-image").style.backgroundImage = `url(${user.picture})`;
 
         document.querySelector("#logout-button").addEventListener("click", async () => {
             localStorage.removeItem("user");
             try {
-                let response = await axios.post(`${serverUrl}/logout`);
+                let response = await axios.post(`${serverUrl}/logout`, {});
+                localStorage.removeItem("user");
+                window.location.href = `${clientUrl}`;
+
             } catch (error) {
                 alert("Error logging out");
                 console.error("Error logging out", error);
             }
-            window.location.href = `${clientUrl}`;
         });
 
         document.querySelector("#delete-button").addEventListener("click", async () => {
+            if (!confirm("Are you sure you want to delete your account?")) {
+                return;
+            }
+
             localStorage.removeItem("user");
             try {
                 let response = await axios.delete(`${serverUrl}/user/${user.email}`);
+                localStorage.removeItem("user");
+                window.location.href = `${clientUrl}`;
+
             } catch (error) {
                 alert("Error deleting account");
                 console.error("Error logging out", error);
             }
-            window.location.href = `${clientUrl}`;
         });
     </script>
 </body>

@@ -65,8 +65,8 @@ body {
 }
 
 .profile-image {
-    width: 22vw;
-    height: 22vw;
+    width: 100px;
+    height: 100px;
     top: 23vw;
     left: 50%;
     border-radius: 50%;
@@ -74,6 +74,11 @@ body {
     position: absolute;
     transform: translateX(-50%);
     z-index: 0;
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
 }
 
 .rows {
