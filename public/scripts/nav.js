@@ -3,7 +3,9 @@ const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
 const inputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
+const filter = document.getElementById("filterType");
 
+const baseURL = "http://localhost:3000/"
 
 
 inputField.addEventListener("click",function(){
@@ -26,15 +28,13 @@ profileImg.addEventListener("click",function(){
 cancelSearch.addEventListener("click",function(){
     inputField.value="";
     profileImg.style.display = "flex";
-    cancelSearch.style.display = "None"
-
+    cancelSearch.style.display = "None";
+    directionsTextArea.innerHTML="";
 })
 
 
 
 let map;
-
-
 
 let origin = {
     "latitude":-1,
@@ -48,20 +48,25 @@ let dest = {
 }
 
 let markers = []
+let APIMarkers = [];
+let APIMarkersInfo = [];
+
 let wheelchairWaypoints = [
-    { latitude: -26.190993, longitude: 28.026560 },
-    { latitude: -26.189926, longitude: 28.026249 },
-    { latitude: -26.189083, longitude: 28.026486 },
-    { latitude: -26.189319, longitude: 28.027031 },
-    { latitude: -26.192093, longitude: 28.027439 },
-    { latitude: -26.191646, longitude: 28.028547 },
-    { latitude: -26.191638, longitude: 28.029805 },
-    { latitude: -26.192449, longitude: 28.029910 },
-    { latitude: -26.192348, longitude: 28.030961 },
-    { latitude: -26.191554, longitude: 28.030768 },
-    { latitude: -26.191492, longitude: 28.029934 },
-    { latitude: -26.190840, longitude: 28.030164 }
+    // { latitude: -26.190993, longitude: 28.026560 },
+    // { latitude: -26.189926, longitude: 28.026249 },
+    // { latitude: -26.189083, longitude: 28.026486 },
+    // { latitude: -26.189319, longitude: 28.027031 },
+    // { latitude: -26.192093, longitude: 28.027439 },
+    // { latitude: -26.191646, longitude: 28.028547 },
+    // { latitude: -26.191638, longitude: 28.029805 },
+    // { latitude: -26.192449, longitude: 28.029910 },
+    // { latitude: -26.192348, longitude: 28.030961 },
+    // { latitude: -26.191554, longitude: 28.030768 },
+    // { latitude: -26.191492, longitude: 28.029934 },
+    // { latitude: -26.190840, longitude: 28.030164 }
 ];
+
+
 async function getLocation() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
@@ -85,16 +90,23 @@ async function initMap(){
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
     const { PlacesService, SearchBox } = await google.maps.importLibrary("places");
 
-    let coords = await getLocation();
-    origin["latitude"] = coords.latitude;
-    origin["longitude"] = coords.longitude;
 
-    var location = {lat: coords.latitude, lng: coords.longitude}; // default location
+    let coords = await getLocation();
+    // origin["latitude"] = coords.latitude;
+    // origin["longitude"] = coords.longitude;
+
+    origin["latitude"] = -26.1908692;
+    origin["longitude"] = 28.0271597;
+
+    //TODO reset to coords
+    // var location = {lat: coords.latitude, lng: coords.longitude}; // default location
+    var location = {lat:-26.1908692,lng:28.0271597};
 
     map = new Map(document.getElementById("map"), {
-        zoom: 15,
+        zoom: 17,
         center: location,
         mapId: "DEMO_MAP_ID",
+        style: 'mapbox://styles/mapbox/streets-v12',
     });
 
     //TODO might break, change back to let markers if necessary
@@ -113,8 +125,67 @@ async function initMap(){
     markers.push(userMarker); // Add the user marker to the markers array
 
     userMarker.addListener("click",()=>{
-        console.log("clicked");
+        alert("This is you!");
     })
+
+
+
+    //add all other markers
+    try{
+        const res = await axios.get(baseURL+"v1/map/getBuildings");
+
+        let successData = res.data.data;
+
+        if (successData.success==false || successData==undefined){
+            console.log("Unable to get markers");
+        }
+
+        const data = res.data.data.data;
+
+        data.forEach((element)=>{
+            let newMarker = {
+                id:element._id,
+                building_name:element.building_name,
+                campus:element.campus[0],
+                type:element.type[0],
+                code:element.code,
+                location:{ lat: element.latitude, lng: element.longitude},
+                building_id:element.building_id
+            };
+
+            APIMarkersInfo.push(newMarker);
+
+            let newContent = document.createElement('div');
+            newContent.classList.add(newMarker.type+'-marker');
+            
+            let newAdvancedMarker = new AdvancedMarkerElement({
+                map: map,
+                position: newMarker.location,
+                title: newMarker.building_name,
+                content:newContent
+            });
+
+            APIMarkers.push(newAdvancedMarker);
+
+            let newCodeInsert = newMarker.code==null?"None":newMarker.code;
+
+            let infoWindow = new google.maps.InfoWindow({
+                content: `<h3>${newMarker.building_name}</h3><p>Code:${newCodeInsert}</p>`, // HTML content
+              });
+
+            newAdvancedMarker.addListener("click",()=>{
+                infoWindow.open({
+                    anchor: newAdvancedMarker,   // Attach to the marker
+                    map,              // Open on the map
+                    shouldFocus: false, // Optional: prevent the window from stealing focus
+                  });
+            })
+        })
+    }catch(error){
+        //TODO make error shorter
+        console.log(error);
+    }
+
 
     const searchBox = new SearchBox(inputField);
 
@@ -161,8 +232,6 @@ async function initMap(){
 
             markers.push(placeMarker); // Add place marker to the markers array
 
-            
-
             // Add the user's marker back to the array
             let userMarker = new AdvancedMarkerElement({
                 map: map,
@@ -170,10 +239,9 @@ async function initMap(){
                 title: "User",
                 content: content,
             });
-
-
-
             markers.push(userMarker); // Add user marker to markers
+
+
 
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
@@ -232,11 +300,13 @@ navMeBtn.addEventListener("click", async function() {
         let coords = await getLocation();
         const url = "http://192.168.0.85:3000/v1/route_optimize/route_optimize";
 
-        origin["latitude"]=coords.latitude;
-        origin["longitude"]=coords.longitude;
+        //TODO change back
+        // origin["latitude"]=coords.latitude;
+        // origin["longitude"]=coords.longitude;
 
-        // origin["latitude"]=-26.0368145
-        // origin["longitude"]=28.0088218
+
+        origin["latitude"]=-26.1908692
+        origin["longitude"]=28.0271597
 
 
         let data = {
@@ -314,6 +384,27 @@ navMeBtn.addEventListener("click", async function() {
     }
 });
 
+
+filter.addEventListener("change",(event)=>{
+    let filterBy = filter.value;
+
+    if (filterBy=="all"){
+        APIMarkers.forEach((element)=>{
+            element.map = map;
+        })
+    }else{
+        for (let i=0;i<APIMarkers.length;i++){
+            let info = APIMarkersInfo[i];
+            let marker = APIMarkers[i];
+    
+            if (info.type==filterBy){
+                marker.map=map;
+            }else{
+                marker.map=null;
+            }
+        }
+    }
+})
 initMap();
 
 

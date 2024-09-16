@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "stylelint": " npx stylelint **/*.css",
-    "httpserver": "http-server -c -1 -S -C server.cert -K server.key -p 8080"
+    "httpserver": "http-server -c -1 -S -C server.cert -K server.key -p 5000"
   },
   "repository": {
     "type": "git",

@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navigate Screen</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="styles/nav.css">
     <link rel="stylesheet" href="styles/navBar.css">
 </head>
 <body>
+
     <div class="container">
         <section class="search-bar" >
             <input type="text" id="search-input" placeholder="Search">
@@ -19,11 +21,20 @@
             <!-- Map will be displayed here -->
             <div id="map"></div>
         </div>
+        <div class="filter">
+            <label for="filterType">Filter by type:</label>
+            <select id="filterType">
+                <option value="all">All</option>
+                <option value="library">Libraries</option>
+                <option value="building">Building</option>
+                <option value="gatehouse">Gate houses</option>
+                <option value="none">None</option>
+            </select>
+        </div>
 
         <button type="button" id="nav-btn">Navigate Me</button>
 
-
-        <article id="directions-text"></article>
+        <section id="directions-text"></section>
 
 
         <section class="navbar">
@@ -44,7 +55,6 @@
                 <section class="text">Tracking</section>
             </a>
         </section>
-
     </div>
 
     <!-- Move the script tag here -->

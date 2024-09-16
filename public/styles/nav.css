@@ -83,7 +83,8 @@ button{
 
 #directions-text{
     width: 95%;
-    height: 80px;
+    height: fit-content;
+    padding-bottom: 50px;
     display: flexbox;
 }
 
@@ -199,6 +200,36 @@ button:active {
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevent repeating */
   }
+
+  .building-marker {
+    width: 30px; /* Set width */
+    height: 30px; /* Set height */
+    background-image: url("../images/building.png"); /* Ensure the correct path */
+    background-size: contain; /* Fit the image within the container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent repeating */
+  }
+
+
+  .gatehouse-marker {
+    width: 30px; /* Set width */
+    height: 30px; /* Set height */
+    background-image: url("../images/gatehouse.png"); /* Ensure the correct path */
+    background-size: contain; /* Fit the image within the container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent repeating */
+  }
+
+
+  .library-marker {
+    width: 30px; /* Set width */
+    height: 30px; /* Set height */
+    background-image: url("../images/library.png"); /* Ensure the correct path */
+    background-size: contain; /* Fit the image within the container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent repeating */
+  }
+
 
 /* Style for wheelchair accessible marker */
 .wheelchair-marker {
