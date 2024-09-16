@@ -10,9 +10,31 @@
 </head>
 <body>
     <section class="header">
-        <section class="profile-icon"></section>
+        <section class="profile-icon">
+            <img src="icons/profile.png" alt="Profile">
+        </section>
         <h1 class="title">Bus Schedule</h1>
     </section>
+
+    
+    <div class="dropdown-container">
+        <select name="days" id="days">
+            <option value="" disabled selected>Days:</option>
+            <option value="Week">Monday-Friday</option>
+            <option value="Weekend">Saturday-Sunday and Public Holidays</option>
+        </select>
+        
+        <select name="destination" id="destination">
+            <option value="" disabled selected>Destinations:</option>
+            <option value="AMIC">AMIC DECK- AMIC</option>
+            <option value="EOH">ERNST OPPENHEIMER HALL OF RESIDENCE- EOH</option>
+            <option value="KNK">KNOCKANDO HALLS OF RESIDENCE- KNK</option>
+            <option value="NSW">NOSWAL HALL (1 STIEMENS STREET, BRAAMFONTEIN)- NSW</option>
+            <option value="ROSEBANK" id="rosebank-option">ROSEBANK MALL- ROSEBANK</option>
+            <option value="WEC">WITS EDUCATION CAMPUS- WEC</option>
+            <option value="WJ">WITS JUNCTION RESIDENCE- WJ</option>
+        </select>
+    </div>
 
     <section class="schedule-container">
         <!--for bus schedule -->
@@ -36,5 +58,88 @@
             <section class="text">Tracking</section>
         </a>
     </section>
+
+    <script>
+        document.querySelector('.schedule-container').addEventListener('click', function() {
+            this.classList.toggle('expanded');
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const scheduleContainer = document.querySelector('.schedule-container');
+            let fullText = '';
+
+            fetch('/pdf-text')
+                .then(response => response.text())
+                .then(data => {
+                    fullText = data;
+                    updateSchedule(); 
+                })
+                .catch(err => {
+                    console.error('Error fetching the PDF text:', err);
+                });
+
+            const updateSchedule = () => {
+                const dayValue = document.getElementById('days').value;
+                const destinationValue = document.getElementById('destination').value;
+
+                let displayText = '';
+
+                if (dayValue === 'Week') {
+                    displayText = extractText(fullText, 'MONDAY TO FRIDAY', 'CONTACT US');
+                    //Remove Rosebank option if not Weekend 
+                    document.getElementById('rosebank-option').style.display = 'none';
+                } else if (dayValue === 'Weekend') {
+                    displayText = extractText(fullText, 'SATURDAY AND SUNDAY', '•');
+                    document.getElementById('rosebank-option').style.display = 'block';
+                } else {
+                    displayText = fullText; 
+                    document.getElementById('rosebank-option').style.display = 'block'; 
+                }
+
+                if (destinationValue) {
+                    displayText = filterByDestination(displayText, destinationValue);
+                }
+
+                scheduleContainer.innerHTML = displayText || fullText;
+            };
+
+            const extractText = (text, startKeyword, endKeyword) => {
+                const startIndex = text.indexOf(startKeyword);
+                const endIndex = text.indexOf(endKeyword);
+
+                if (startIndex === -1 || endIndex === -1 || startIndex >= endIndex) {
+                    return '';
+                }
+
+                return text.substring(startIndex, endIndex).trim();
+            };
+
+            const filterByDestination = (text, destination) => {
+                const routeStartKeyword = 'Route';
+                const destinationKeyword = destination;
+                let filteredText = '';
+                let index = 0;
+
+                while (index < text.length) {
+                    const routeStartIndex = text.indexOf(routeStartKeyword, index);
+                    if (routeStartIndex === -1) break;
+
+                    const routeEndIndex = text.indexOf(routeStartKeyword, routeStartIndex + routeStartKeyword.length);
+                    const routeText = text.substring(routeStartIndex, routeEndIndex !== -1 ? routeEndIndex : undefined);
+
+                    if (routeText.includes(destinationKeyword)) {
+                        filteredText += routeText + '<br><br>';
+                    }
+
+                    index = routeEndIndex !== -1 ? routeEndIndex : text.length;
+                }
+
+                return filteredText;
+            };
+
+            document.getElementById('days').addEventListener('change', updateSchedule);
+            document.getElementById('destination').addEventListener('change', updateSchedule);
+        });
+    </script>
 </body>
 </html>
