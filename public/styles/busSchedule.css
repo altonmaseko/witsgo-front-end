@@ -16,6 +16,13 @@ body {
     margin-bottom: 10px;
 }
 
+.header h1{
+  margin-left: 20px;
+  margin-top: 15px;
+}
+
+
+
 
 .profile-icon img{
     width: 60px;
