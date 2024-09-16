@@ -1,11 +1,10 @@
+<!-- AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Rental Page</title>
     <link rel="stylesheet" href="styles/rental.css">
-    <!-- <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
-    </script> -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script> 
     <script src="scripts/rental.js" defer></script>
 </head>
 <body>
@@ -19,28 +18,40 @@
     <section id="map"></section>
 
     <section id="controls">
-        <select id="vehicleSelect" onchange="updateControls()">
-            <option value="">Select a ride</option>
-            <option value="bicycleOpt">Bicycle</option>
-            <option value="scooterOpt">Scooter</option>
-            <option value="skateboardOpt">Skateboard</option>
+        <select id="stationSelect" style="display: none;" onchange="showVehicleDropdown()">
+            <!-- Options will be added dynamically -->
         </select>
+        <select id="vehicleSelect" style="display: none;" onchange="updateControls()">
+            <option value="">Please select a vehicle</option>
+            <!-- Options will be added dynamically -->
+        </select>
+        <button id="cancelButton" style="display: none;" onclick="cancelSelection()">Cancel</button>
         <p id="availability">Select a vehicle to see availability</p>
         <button id="rent-button" style="display: none;" onclick="rentVehicle()">Rent</button>
         <p id="rental-status" style="display: none;">
-            Time remaining: <a id="timer">30:00</a>
+            Time remaining: <a id="timer">20:00</a>
             <button id="return-button" style="display: none;" onclick="returnVehicle()">Return</button>
         </p>
     </section>
 
-    <footer>
-        <nav>
-            <a href="#">Navigate</a>
-            <a href="#">Renting</a>
-            <a href="#">Schedule</a>
-            <a href="#">Tracking</a>
-        </nav>
-    </footer>
+    <section class="navbar">
+        <a href="navigation.html">
+            <img src="icons/nav-grey.png" alt="Nav Icon">
+            <section class="text">Navigation</section>
+        </a>
+        <a href="rental.html">
+            <img src="icons/rent-purple.png" alt="Rent Icon">
+            <section class="text">Renting</section>
+        </a>
+        <a href="busSchedule.html">
+            <img src="icons/schedule-grey.png" alt="Schedule Icon">
+            <section class="text">Schedule</section>
+        </a>
+        <a href="#tracking">
+            <img src="icons/tracking-grey.png" alt="Tracking Icon">
+            <section class="text">Tracking</section>
+        </a>
+    </section>
     
 </body>
 </html>
