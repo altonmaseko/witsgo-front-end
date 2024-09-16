@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Not Logged In</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #4acfbc;
+        }
+
+        h1 {
+            font-size: 48px;
+            text-align: center;
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Not Logged In</h1>
+    <hr>
+    <h1>Please log in to access this page.</h1>
+
+    <!-- add nicely styled google login with logo -->
+    <box-icon name='google' color='white' size='lg'></box-icon>
+    <br>
+
+    <button class="login-button">Google Login</button>
+    <hr>
+    <button class="register-button"> REGISTER</button>
+    <!-- Script -->
+    <script type="module" defer>
+
+        import { clientUrl, serverUrl } from "./scripts/constants.js";
+
+        document.querySelector('.login-button').addEventListener('click', async () => {
+            console.log('google clicked');
+
+            const homepage = encodeURIComponent(`${clientUrl}/`);
+            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=false`;
+        });
+
+        document.querySelector(".register-button").addEventListener("click", async () => {
+
+            const homepage = encodeURIComponent(`${clientUrl}/Register Page/finishAccountSetup.html`);
+            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=true`;
+        });
+    </script>
+</body>
+
+</html>
