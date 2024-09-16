@@ -99,6 +99,9 @@ async function initMap(){
 
     markers.push(userMarker); // Add the user marker to the markers array
 
+    userMarker.addListener("click",()=>{
+        console.log("clicked");
+    })
 
     const searchBox = new SearchBox(inputField);
 
@@ -119,6 +122,7 @@ async function initMap(){
         markers.forEach((marker) => {
             marker.map = null;
         });
+
         markers = []; // Reset the markers array
 
         var bounds = new google.maps.LatLngBounds(); // Move the map to the new locations
@@ -144,6 +148,8 @@ async function initMap(){
 
             markers.push(placeMarker); // Add place marker to the markers array
 
+            
+
             // Add the user's marker back to the array
             let userMarker = new AdvancedMarkerElement({
                 map: map,
@@ -151,6 +157,8 @@ async function initMap(){
                 title: "User",
                 content: content,
             });
+
+
 
             markers.push(userMarker); // Add user marker to markers
 
