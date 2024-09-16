@@ -12,7 +12,7 @@
             font-family: Arial, sans-serif;
             background-color: #4acfbc;
             margin: 0;
-            padding: 0;
+            padding: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -32,6 +32,7 @@
         h1 {
             color: limegreen;
             margin-bottom: 30px;
+            font-family: cursive;
         }
 
         .button {
@@ -69,6 +70,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -79,12 +81,31 @@
         <div class="button-container">
             <!-- google logo -->
 
-            <button class="button google-btn">
-                Login with Google
+            <button class="button google-btn login-btn">
+                Login
             </button>
+            <img src="images/google.png" width="45px" height="45px" alt="">
             <button class="button register-btn">Register</button>
         </div>
     </div>
+
+    <script type="module" defer>
+
+        import { clientUrl, serverUrl } from "./scripts/constants.js";
+
+        document.querySelector('.login-btn').addEventListener('click', async () => {
+            console.log('google clicked');
+
+            const homepage = encodeURIComponent(`${clientUrl}/`);
+            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=false`;
+        });
+
+        document.querySelector(".register-btn").addEventListener("click", async () => {
+
+            const homepage = encodeURIComponent(`${clientUrl}/finishAccountSetup.html`);
+            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=true`;
+        });
+    </script>
 </body>
 
 </html>

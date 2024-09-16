@@ -1,75 +1,107 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="styles/profile.css">
-        <link rel="stylesheet" href="styles/bottom_nav.css">
-        <title>Profile</title>
-    </head>
-    <body>
-        <section class="container">
-            <section class="curved-header">
-                <h1>Lucian Irsigler</h1>
-            </section>
-            <img src="images/user1.png" class="profile-image">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/profile.css">
+
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <title>Profile</title>
+</head>
+
+<body>
+    <section class="container">
+        <section class="curved-header">
+            <h1 class="full-name">Lucian Irsigler</h1>
         </section>
-        <section class="rows">
-            <section>
-                <h2>Name:</h2>
-                <section class="sub-row">
-                    <h3>Lucian Irsigler</h2>
-                </section>
+        <img src="images/user1.png" class="profile-image">
+    </section>
+    <section class="rows">
+        <section>
+            <h2>Age:</h2>
+            <section class="sub-row">
+                <h3 class="age">22 years old</h2>
             </section>
-            <section>
-                <h2>Age:</h2>
-                <section class="sub-row">
-                    <h3>22 years old</h2>
-                </section>
+        </section>
+        <section>
+            <h2>Email:</h2>
+            <section class="sub-row">
+                <h3 class="email">example@gmail.com</h2>
             </section>
-            <section>
-                <h2>Degree:</h2>
-                <section class="sub-row">
-                    <h3>Computer Science</h2>
-                </section>
+        </section>
+        <section>
+            <h2>Degree:</h2>
+            <section class="sub-row">
+                <h3 class="degree">Computer Science</h2>
             </section>
-            <section>
-                <h2>Other:</h2>
-                <section class="sub-row">
-                    <h3>Other information</h2>
-                </section>
+        </section>
+        <section>
+            <h2>Role:</h2>
+            <section class="sub-row">
+                <h3 class="role">Role</h2>
             </section>
-            <section class="wheelchair">
-                <div class="checkboxcontainer">
+        </section>
+        <section class="wheelchair">
+            <div class="checkboxcontainer">
                 <h2>Wheelchair</h2>
-                    <label class="switch" for="checkbox">
-                      <input type="checkbox" id="checkbox" />
-                      <div class="slider round"></div>
-                    </label>
-                  </div>
-            </section>
-            <section class="center-profile-button">
-                <button type="button" id="edit-profile-button">
-                    <p>Edit profile</p>
-                </button>  
-            </section>
+                <label class="switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round"></div>
+                </label>
+            </div>
         </section>
-        <section class="bottom-nav">
-            <a href="#home" class="nav-item">
-                <span class="icon">&#8962;</span>
-                <span class="label">Home</span>
-            </a>
-            <a href="#search" class="nav-item">
-                <span class="icon">&#128269;</span>
-                <span class="label">Search</span>
-            </a>
-            <a href="#notifications" class="nav-item">
-                <span class="icon">&#128276;</span>
-                <span class="label">Notifications</span>
-            </a>
-            <a href="#profile" class="nav-item">
-                <span class="icon">&#128100;</span>
-                <span class="label">Profile</span>
-            </a>
-        </section>
-    </body>
+        <div class="logout-delete-container">
+            <button id="logout-button">Logout</button>
+            <button id="delete-button">Delete Account</button>
+        </div>
+    </section>
+
+    <script defer type="module">
+
+        if (true) {
+            alert("Error getting your details. Please login again.");
+            window.location.href = `${clientUrl}/registerLogin.html`;
+        }
+
+        import { serverUrl, clientUrl } from "./scripts/constants.js";
+
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user) {
+            alert("Error getting your details. Please login again.");
+            window.location.href = `${clientUrl}/registerLogin.html`;
+        }
+
+        document.querySelector(".full-name").textContent = user.firstName + " " + user.lastName;
+        document.querySelector(".age").textContent = user.age;
+        document.querySelector(".email").textContent = user.email;
+        document.querySelector(".degree").textContent = user.degree;
+        document.querySelector(".role").textContent = user.role;
+        document.querySelector("#checkbox").checked = user.onWheelChair;
+
+        document.querySelector("#logout-button").addEventListener("click", async () => {
+            localStorage.removeItem("user");
+            try {
+                let response = await axios.post(`${serverUrl}/logout`);
+            } catch (error) {
+                alert("Error logging out");
+                console.error("Error logging out", error);
+            }
+            window.location.href = `${clientUrl}`;
+        });
+
+        document.querySelector("#delete-button").addEventListener("click", async () => {
+            localStorage.removeItem("user");
+            try {
+                let response = await axios.delete(`${serverUrl}/user/${user.email}`);
+            } catch (error) {
+                alert("Error deleting account");
+                console.error("Error logging out", error);
+            }
+            window.location.href = `${clientUrl}`;
+        });
+    </script>
+</body>
+
 </html>

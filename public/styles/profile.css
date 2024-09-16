@@ -6,36 +6,36 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.header-info{
+.header-info {
     display: flex;
-    justify-content: center; 
-    flex-direction: column; 
+    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
 
-.header-info img{
+.header-info img {
     width: 100px;
     height: 100px;
     top: 10%;
 }
 
 
-.login-form form{
+.login-form form {
     display: flex;
-    justify-content: center; 
-    flex-direction: column; 
+    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
 
-.login-form input{
+.login-form input {
     margin-top: 10px;
 }
 
 
 
-.container{
+.container {
     height: 45vw;
 }
 
@@ -55,20 +55,20 @@ body {
 
 }
 
-.curved-header h1{
+.curved-header h1 {
     margin: 0;
     font-size: 40px;
     font-weight: normal;
     text-align: center;
     color: white;
     padding-bottom: 20px;
-} 
+}
 
-.profile-image{
+.profile-image {
     width: 22vw;
     height: 22vw;
     top: 23vw;
-    left:50%;
+    left: 50%;
     border-radius: 50%;
     border: 2px solid rgb(66 66 66);
     position: absolute;
@@ -83,7 +83,7 @@ body {
     padding-right: 15px;
 }
 
-.rows h2{
+.rows h2 {
     margin: 0;
     padding-bottom: 10px;
 }
@@ -96,48 +96,48 @@ body {
     width: 100%;
     border: 2px solid black;
     border-radius: 8px;
-    padding:0;
+    padding: 0;
     height: 30%;
-    margin:0;
+    margin: 0;
 }
 
-.sub-row:hover{
+.sub-row:hover {
     box-shadow: 0 0 100px #817dae;
 
 }
 
-.sub-row h3{
+.sub-row h3 {
     padding-left: 20px;
     color: black;
 }
 
 
-.nav-item{
+.nav-item {
     color: white;
     text-decoration: none;
     text-align: center;
     font-size: 16px;
 }
 
-.icon{
+.icon {
     display: block;
     font-size: 20px;
 }
 
 
-.wheelchair{
+.wheelchair {
     display: flexbox;
     align-items: center;
     justify-content: center;
     margin: 0;
 }
 
-.wheelchair h2{
+.wheelchair h2 {
     display: flex;
     width: fit-content;
 }
 
-.checkboxcontainer{
+.checkboxcontainer {
     width: fit-content;
     display: inline-flex;
 }
@@ -148,21 +148,21 @@ body {
     height: 34px;
     position: relative;
     width: 60px;
-  }
-  
-  .switch input {
-    display:none;
-  }
-  
-  .slider {
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
     background-color: #ccc;
     inset: 0;
     cursor: pointer;
     position: absolute;
     transition: .4s;
-  }
-  
-  .slider::before {
+}
+
+.slider::before {
     background-color: #fff;
     bottom: 4px;
     content: "";
@@ -171,38 +171,38 @@ body {
     position: absolute;
     transition: .4s;
     width: 26px;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked+.slider {
     background-color: #66bb6a;
-  }
-  
-  input:checked + .slider::before {
+}
+
+input:checked+.slider::before {
     transform: translateX(26px);
-  }
-  
-  .slider.round {
+}
+
+.slider.round {
     border-radius: 34px;
-  }
-  
-  .slider.round::before {
+}
+
+.slider.round::before {
     border-radius: 50%;
-  }
-  
-  
-#edit-profile-button{
+}
+
+
+#edit-profile-button {
     width: fit-content;
     height: fit-content;
     padding: 20px;
 }
 
-#edit-profile-button p{
+#edit-profile-button p {
     font-size: 16px;
     margin: 0;
     padding: 0;
 }
 
-.center-profile-button{
+.center-profile-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -212,9 +212,10 @@ body {
 }
 
 /* Tablets */
-@media screen and (width >= 768px) { /* Added 'px' unit */
+@media screen and (width >=768px) {
+    /* Added 'px' unit */
 
-    .container{
+    .container {
         height: 20vw;
     }
 
@@ -223,7 +224,7 @@ body {
         height: 15vw;
     }
 
-    .profile-image{
+    .profile-image {
         max-width: 10vw;
         max-height: 10vw;
         top: 10vw;
@@ -231,3 +232,25 @@ body {
 }
 
 
+
+/* logout and delete */
+
+.logout-delete-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+button {
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: #23527c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1a3f5f;
+}
