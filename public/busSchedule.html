@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Schedule</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles/busSchedule.css">
     <link rel="stylesheet" href="styles/navBar.css">
+
+    <script type="module" defer src="scripts/verifylogin.js"></script> <!-- This script should be put on everypage -->
+
+
 </head>
+
 <body>
     <section class="header">
         <section class="profile-icon">
@@ -16,14 +23,14 @@
         <h1 class="title">Bus Schedule</h1>
     </section>
 
-    
+
     <div class="dropdown-container">
         <select name="days" id="days">
             <option value="" disabled selected>Days:</option>
             <option value="Week">Monday-Friday</option>
             <option value="Weekend">Saturday-Sunday and Public Holidays</option>
         </select>
-        
+
         <select name="destination" id="destination">
             <option value="" disabled selected>Destinations:</option>
             <option value="AMIC">AMIC DECK- AMIC</option>
@@ -53,14 +60,14 @@
             <img src="icons/schedule-purple.png" alt="Schedule Icon">
             <section class="text">Schedule</section>
         </a>
-        <a href="#tracking">
+        <a href="realTimeTracking.html">
             <img src="icons/tracking-grey.png" alt="Tracking Icon">
             <section class="text">Tracking</section>
         </a>
     </section>
 
     <script>
-        document.querySelector('.schedule-container').addEventListener('click', function() {
+        document.querySelector('.schedule-container').addEventListener('click', function () {
             this.classList.toggle('expanded');
         });
 
@@ -72,7 +79,7 @@
                 .then(response => response.text())
                 .then(data => {
                     fullText = data;
-                    updateSchedule(); 
+                    updateSchedule();
                 })
                 .catch(err => {
                     console.error('Error fetching the PDF text:', err);
@@ -92,8 +99,8 @@
                     displayText = extractText(fullText, 'SATURDAY AND SUNDAY', '•');
                     document.getElementById('rosebank-option').style.display = 'block';
                 } else {
-                    displayText = fullText; 
-                    document.getElementById('rosebank-option').style.display = 'block'; 
+                    displayText = fullText;
+                    document.getElementById('rosebank-option').style.display = 'block';
                 }
 
                 if (destinationValue) {
@@ -142,4 +149,5 @@
         });
     </script>
 </body>
+
 </html>

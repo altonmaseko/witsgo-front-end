@@ -1,0 +1,86 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="styles/realTimeTracking.css">
+
+    <link rel="stylesheet" href="styles/navBar.css">
+
+
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+    <script type="module" defer src="scripts/realTimeTracking.js"></script>
+
+
+
+    <title>Real Time Tracking Page</title>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1 class="header-title">
+            Real Time Tracking
+        </h1>
+    </header>
+
+    <main class="main">
+        <div class="map-container">
+        </div>
+        <div class="check-and-vehicle-container">
+            <div class="check-and-vehicle">
+                <div class="check wits-bus-check">
+
+                </div>
+                <p class="vehicle">
+                    Wits Bus
+                </p>
+            </div>
+            <div class="check-and-vehicle">
+                <div class="check campus-control-bus-check">
+
+                </div>
+                <p class="vehicle">
+                    Campus Control Shuttle
+                </p>
+            </div>
+            <div class="check-and-vehicle">
+                <div class="check campus-security-check">
+                </div>
+                <p class="vehicle">
+                    Campus Security
+                </p>
+            </div>
+        </div>
+
+    </main>
+
+
+    <section class="navbar">
+        <a href="navigation.html">
+            <img src="icons/nav-grey.png" alt="Nav Icon">
+            <section class="text">Navigation</section>
+        </a>
+        <a href="rental.html">
+            <img src="icons/rent-grey.png" alt="Rent Icon">
+            <section class="text">Renting</section>
+        </a>
+        <a href="busSchedule.html">
+            <img src="icons/schedule-grey.png" alt="Schedule Icon">
+            <section class="text">Schedule</section>
+        </a>
+        <a href="realTimeTracking.html">
+            <img src="icons/tracking-purple.png" alt="Tracking Icon">
+            <section class="text">Tracking</section>
+        </a>
+    </section>
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finish Account Setup</title>
+    <link rel="stylesheet" href="createAcc.css">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script type="module" src="finishAccountSetup.js" defer></script>
+
+    <style>
+        #role-dropdown {
+            /* Style a drop down nicely */
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Finish Setting Up Your Account</h1>
+        <form class="form">
+            <!-- create inputs for password with ids-->
+            <input type="password" id="password-input" placeholder="password" required>
+            <input type="password" id="verify-password-input" placeholder="verify password" required>
+            <!-- add drop down menu where u can choose role between campus security, bus driver or student -->
+            <select id="role-dropdown" required>
+                <option value="" disabled selected>Select your role</option>
+                <option value="campus-security">Campus Security</option>
+                <option value="bus-driver">Bus Driver</option>
+                <option value="campus-control">Campus Control</option>
+                <option value="student">Student</option>
+            </select>
+
+            <button type="button" id="finish-account-setup-button">Finish Sign Up</button>
+        </form>
+
+    </div>
+
+
+</body>
+
+</html>

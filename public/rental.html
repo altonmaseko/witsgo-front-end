@@ -1,12 +1,19 @@
 <!-- AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s -->
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Rental Page</title>
     <link rel="stylesheet" href="styles/rental.css">
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script> 
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script>
     <script src="scripts/rental.js" defer></script>
+
+    <script type="module" defer src="scripts/verifylogin.js"></script> <!-- This script should be put on everypage -->
+
+
 </head>
+
 <body>
     <header>
         <h1 style="display: flex; align-items: center; justify-content: space-between;">
@@ -47,11 +54,12 @@
             <img src="icons/schedule-grey.png" alt="Schedule Icon">
             <section class="text">Schedule</section>
         </a>
-        <a href="#tracking">
+        <a href="realTimeTracking.html">
             <img src="icons/tracking-grey.png" alt="Tracking Icon">
             <section class="text">Tracking</section>
         </a>
     </section>
-    
+
 </body>
+
 </html>
