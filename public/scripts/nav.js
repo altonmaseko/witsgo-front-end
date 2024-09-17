@@ -135,7 +135,7 @@ async function initMap() {
 
     //add all other markers
     try {
-        const res = await axios.get(serverUrl + "v1/map/getBuildings");
+        const res = await axios.get(serverUrl + "/v1/map/getBuildings");
 
         let successData = res.data.data;
 
@@ -192,7 +192,7 @@ async function initMap() {
 
     //wheelchairs
     try {
-        const res = await axios.get(serverUrl + "v1/accessibility/getWheelchairs");
+        const res = await axios.get(serverUrl + "/v1/accessibility/getWheelchairs");
 
         let successData = res.data.data;
 
