@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="styles/busSchedule.css">
     <link rel="stylesheet" href="styles/navBar.css">
 
-    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-
     <script type="module" defer src="scripts/verifylogin.js"></script> <!-- This script should be put on everypage -->
 
 
@@ -80,7 +77,7 @@
             const scheduleContainer = document.querySelector('.schedule-container');
             let fullText = '';
 
-            fetch('https://witsgobackend.azurewebsites.net/v1/schedule/pdf-text')
+            fetch('/new-schedule')
                 .then(response => response.text())
                 .then(data => {
                     fullText = data;
