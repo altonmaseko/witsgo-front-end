@@ -5,7 +5,10 @@ const inputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
-const baseURL = "http://localhost:3000/"
+import { clientUrl, serverUrl } from "./constants.js";
+
+
+// const baseURL = "http://localhost:3000/"
 
 
 inputField.addEventListener("click", function () {
@@ -132,7 +135,7 @@ async function initMap() {
 
     //add all other markers
     try {
-        const res = await axios.get(baseURL + "v1/map/getBuildings");
+        const res = await axios.get(serverUrl + "/v1/map/getBuildings");
 
         let successData = res.data.data;
 
@@ -189,7 +192,7 @@ async function initMap() {
 
     //wheelchairs
     try {
-        const res = await axios.get(baseURL + "v1/accessibility/getWheelchairs");
+        const res = await axios.get(serverUrl + "/v1/accessibility/getWheelchairs");
 
         let successData = res.data.data;
 
@@ -324,7 +327,8 @@ navMeBtn.addEventListener("click", async function () {
 
     try {
         let coords = await getLocation();
-        const url = "http://192.168.0.85:3000/v1/route_optimize/route_optimize";
+        // const url = `http://192.168.0.85:3000/v1/route_optimize/route_optimize`;
+        const url = `${serverUrl}/v1/route_optimize/route_optimize`;
 
         //TODO change back
         // origin["latitude"]=coords.latitude;
