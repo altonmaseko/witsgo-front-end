@@ -3,4 +3,3 @@ node_modules/
 notes/
 *.cert
 *.key
-public/scripts/constants.js
