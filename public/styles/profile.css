@@ -42,7 +42,8 @@ body {
 .curved-header {
     width: 100%;
     height: 35vw;
-    background: linear-gradient(to right, #817dae, #7671ad);
+    /* background: linear-gradient(to right, #817dae, #7671ad); */
+    background-color: #747BDC;
     position: relative;
     border-bottom-left-radius: 100% 50px;
     border-bottom-right-radius: 100% 50px;
@@ -70,7 +71,6 @@ body {
     top: 23vw;
     left: 50%;
     border-radius: 50%;
-    border: 2px solid rgb(66 66 66);
     position: absolute;
     transform: translateX(-50%);
     z-index: 0;
@@ -79,6 +79,11 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
 
+}
+
+.profile-image img{
+    height: 120px;
+    width: 120px;
 }
 
 .rows {

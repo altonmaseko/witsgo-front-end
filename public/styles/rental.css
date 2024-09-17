@@ -3,7 +3,6 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    background-color: #4acfbc;
     font-family: Arial, sans-serif;
     font-size: 18px;
 }

@@ -7,7 +7,6 @@ body {
     margin: 0;
     padding: 0;
     overflow-y: scroll;
-    background-color: #4acfbc;
 }
 
 .search-bar {
@@ -51,7 +50,6 @@ body {
     /* max-width: 400px; */
     width: 100%;
     height: 100%;
-    background-color: #4acfbc;
     padding: 2rem;
 }
 
@@ -78,7 +76,7 @@ input {
 
 button {
     display: inline-block;
-    background-color: #4CAF50;
+    background-color: #23527c;
     color: white;
     border: none;
     border-radius: 20px;
@@ -143,7 +141,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #1a3f5f;
 }
 
 button:active {
