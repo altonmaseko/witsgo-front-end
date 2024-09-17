@@ -91,7 +91,7 @@ button#rent-button {
     padding: 10px 20px;
 }
 
-
+/*
 footer {
     flex-shrink: 0;
     background-color: #817daf;
@@ -160,7 +160,7 @@ footer a:hover {
 .navbar a.active {
     color: #007bff;
     font-weight: bold;
-}
+} */ 
 
 
 
