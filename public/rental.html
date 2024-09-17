@@ -9,6 +9,8 @@
     <script src="scripts/rental.js" defer></script>
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="module" defer src="scripts/verifylogin.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -27,13 +29,22 @@
             <option value="">Please select a vehicle</option>
             <!-- Options will be added dynamically -->
         </select>
-        <button id="cancelButton" style="display: none;" onclick="cancelSelection()">Cancel</button>
+
+        <!-- Container for buttons -->
+        <div class="button-group">
+            <button id="cancelButton" onclick="cancelSelection()">Cancel</button>
+            <button id="rent-button" onclick="rentVehicle()">Rent</button>
+            <button id="return-button" onclick="returnVehicle()">Return</button>
+            
+        </div>
+
         <p id="availability">Select a vehicle to see availability</p>
-        <button id="rent-button" style="display: none;" onclick="rentVehicle()">Rent</button>
-        <p id="rental-status" style="display: none;">
-            Time remaining: <a id="timer">20:00</a>
-            <button id="return-button" style="display: none;" onclick="returnVehicle()">Return</button>
-        </p>
+        <div id="rental-status-container">
+            <p id="rental-status">
+                Time remaining: <a id="timer">20:00</a>
+                <!-- <button id="return-button" onclick="returnVehicle()">Return</button> -->
+            </p>
+        </div>
     </section>
 
     <section class="navbar">
