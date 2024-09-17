@@ -4,7 +4,7 @@ let googleMapsApiKey;
 try {
     const response = await axios.get(`${serverUrl}/api/secrets/googlemapsapikey`);
     googleMapsApiKey = response.data.googleMapsApiKey;
-    console.log("Google Maps API Key: ", googleMapsApiKey);
+    // console.log("Google Maps API Key: ", googleMapsApiKey);
 } catch (error) {
     alert("Failed to load Google Maps.");
     console.error(error);
