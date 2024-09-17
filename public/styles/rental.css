@@ -3,7 +3,6 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    background-color: #4acfbc;
     font-family: Arial, sans-serif;
     font-size: 18px;
 }
@@ -15,7 +14,7 @@ header {
     text-align: center;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
     font-size: 24px;
 }
@@ -55,9 +54,12 @@ select {
 }
 
 select:disabled {
-    background-color: #e0e0e0; /* Gray out background */
-    color: #a0a0a0; /* Gray out text */
-    cursor: not-allowed; /* Show a not-allowed cursor */
+    background-color: #e0e0e0;
+    /* Gray out background */
+    color: #a0a0a0;
+    /* Gray out text */
+    cursor: not-allowed;
+    /* Show a not-allowed cursor */
 }
 
 #availability {
@@ -213,9 +215,9 @@ footer a:hover {
     flex-direction: column;
 }
 
-@media (width <= 768px) {
+@media (width <=768px) {
     header {
-        flex-direction: column;
+        /* flex-direction: column; */
         text-align: center;
     }
 
@@ -237,7 +239,7 @@ footer a:hover {
     }
 }
 
-@media (width <= 480px) {
+@media (width <=480px) {
     header h1 {
         font-size: 1.5rem;
     }
@@ -246,4 +248,3 @@ footer a:hover {
         font-size: 1.2rem;
     }
 }
-
