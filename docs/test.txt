@@ -1,0 +1,27 @@
+// Define the origin and destination
+const origin = "40.748817,-73.985428";  // Example: New York (coordinates of origin)
+const destination = "40.689247,-74.044502";  // Example: Statue of Liberty (coordinates of destination)
+
+// Custom wheelchair-accessible waypoints (coordinates or place IDs)
+const wheelchairWaypoints = [
+  "40.752726,-73.977229", // Example: Wheelchair ramp at a specific location
+  "40.751620,-73.993800"  // Example: Accessible entrance near Penn Station
+];
+
+// Google Maps API key
+const apiKey = "AIzaSyCEbj6_WGhOUTbbDAVNw3BhOMnQ44yyXOo";
+
+// Construct the URL for the Directions API request, including waypoints
+const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${apiKey}`;
+
+// Fetch the directions data
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    // Extract the encoded polyline from the overview_polyline field
+    const encodedPolyline = data.routes[0].overview_polyline.points;
+
+    console.log("Encoded Polyline:", encodedPolyline);
+
+  })
+  .catch(error => console.error("Error fetching directions:", error));

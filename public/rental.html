@@ -1,0 +1,67 @@
+<!-- AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rental Page</title>
+    <link rel="stylesheet" href="styles/rental.css">
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script>
+    <script src="scripts/rental.js" defer></script>
+
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script type="module" defer src="scripts/verifylogin.js"></script> <!-- This script should be put on everypage -->
+
+
+</head>
+
+<body>
+    <header>
+        <h1 style="display: flex; align-items: center; justify-content: space-between;">
+            <img src="images/pfp.jpg" alt="Profile Picture" id="profile-picture">
+            <h1 style="margin: auto;">Rent a ride!</h1>
+        </h1>
+    </header>
+
+    <section id="map"></section>
+
+    <section id="controls">
+        <select id="stationSelect" style="display: none;" onchange="showVehicleDropdown()">
+            <!-- Options will be added dynamically -->
+        </select>
+        <select id="vehicleSelect" style="display: none;" onchange="updateControls()">
+            <option value="">Please select a vehicle</option>
+            <!-- Options will be added dynamically -->
+        </select>
+        <button id="cancelButton" style="display: none;" onclick="cancelSelection()">Cancel</button>
+        <p id="availability">Select a vehicle to see availability</p>
+        <button id="rent-button" style="display: none;" onclick="rentVehicle()">Rent</button>
+        <p id="rental-status" style="display: none;">
+            Time remaining: <a id="timer">20:00</a>
+            <button id="return-button" style="display: none;" onclick="returnVehicle()">Return</button>
+        </p>
+    </section>
+
+    <section class="navbar">
+        <a href="navigation.html">
+            <img src="icons/nav-grey.png" alt="Nav Icon">
+            <section class="text">Navigation</section>
+        </a>
+        <a href="rental.html">
+            <img src="icons/rent-purple.png" alt="Rent Icon">
+            <section class="text">Renting</section>
+        </a>
+        <a href="busSchedule.html">
+            <img src="icons/schedule-grey.png" alt="Schedule Icon">
+            <section class="text">Schedule</section>
+        </a>
+        <a href="realTimeTracking.html">
+            <img src="icons/tracking-grey.png" alt="Tracking Icon">
+            <section class="text">Tracking</section>
+        </a>
+    </section>
+
+</body>
+
+</html>

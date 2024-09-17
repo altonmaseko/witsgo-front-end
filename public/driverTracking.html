@@ -1,0 +1,80 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track My Bus</title>
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+    <link rel="stylesheet" href="styles/navBar.css">
+
+    <!-- The below script is a self-executing anonymous function that dynamically loads 
+    the Google Maps JavaScript API into the page -->
+
+    <script defer type="module" src="scripts/driverTracking.js"></script>
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            background-color: #4acfbc;
+
+        }
+
+        .map-container {
+            height: 60vh;
+            width: 90%;
+            border-radius: 1rem;
+            border: 2px solid black;
+        }
+
+        #track-me-button {
+            font-size: 2rem;
+            padding: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="map-container"></div>
+
+    <button id="track-me-button">
+        Start Journey
+    </button>
+
+
+    <section class="navbar">
+        <a href="navigation.html">
+            <img src="icons/nav-grey.png" alt="Nav Icon">
+            <section class="text">Navigation</section>
+        </a>
+        <a href="rental.html">
+            <img src="icons/rent-grey.png" alt="Rent Icon">
+            <section class="text">Renting</section>
+        </a>
+        <a href="busSchedule.html">
+            <img src="icons/schedule-grey.png" alt="Schedule Icon">
+            <section class="text">Schedule</section>
+        </a>
+        <a href="realTimeTracking.html">
+            <img src="icons/tracking-purple.png " alt="Tracking Icon">
+            <section class="text">Tracking</section>
+        </a>
+    </section>
+</body>
+
+</html>

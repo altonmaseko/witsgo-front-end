@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WitsGo</title>
+    <link rel="stylesheet" href="styles/splash.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+    <script type="module" defer src="scripts/verifylogin.js"></script> <!-- This script should be put on everypage -->
+
+
+
+    <script defer type="module">
+        import { clientUrl, serverUrl } from "./scripts/constants.js";
+
+
+        //waits 2 seconds then navigates to next page
+        let currentUrl = clientUrl;
+
+        // Example: Redirect to the same URL with a different path after 2 seconds
+        currentUrl += "/navigation.html";
+
+        // Wait 2 seconds then navigate to the new URL
+        setTimeout(function () {
+            window.location.href = currentUrl;
+        }, 2000); 
+    </script>
+</head>
+
+<body>
+    <section class="logo-thing">
+        <img src="WitsGoLogo.png" alt="Wits Go Logo">
+        <h1>Wits Go</h1>
+    </section>
+    <div class="bottom">
+        <section class="slogan">Destinations made easy</section>
+    </div>
+
+</body>
+
+</html>

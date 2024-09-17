@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/profile.css">
+
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+    <title>Profile</title>
+</head>
+
+<body>
+    <section class="container">
+        <section class="curved-header">
+            <h1 class="full-name">Lucian Irsigler</h1>
+        </section>
+        <div class="profile-image"> </div>
+    </section>
+    <section class="rows">
+        <section>
+            <h2>Age:</h2>
+            <section class="sub-row">
+                <h3 class="age">22 years old</h2>
+            </section>
+        </section>
+        <section>
+            <h2>Email:</h2>
+            <section class="sub-row">
+                <h3 class="email">example@gmail.com</h2>
+            </section>
+        </section>
+        <section>
+            <h2>Degree:</h2>
+            <section class="sub-row">
+                <h3 class="degree">Computer Science</h2>
+            </section>
+        </section>
+        <section>
+            <h2>Role:</h2>
+            <section class="sub-row">
+                <h3 class="role">Role</h2>
+            </section>
+        </section>
+        <section class="wheelchair">
+            <div class="checkboxcontainer">
+                <h2>Wheelchair</h2>
+                <label class="switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round"></div>
+                </label>
+            </div>
+        </section>
+        <div class="logout-delete-container">
+            <button id="logout-button">Logout</button>
+            <button id="delete-button">Delete Account</button>
+        </div>
+    </section>
+
+    <script defer type="module">
+
+        import { serverUrl, clientUrl } from "./scripts/constants.js";
+        const email = JSON.parse(localStorage.getItem("email"));
+
+        const getUserAndUpdate = async () => {
+
+            console.log("email from local storage", email);
+            if (!email) {
+                alert("Error getting your details. Please login again.");
+                window.location.href = `${clientUrl}/registerLogin.html`;
+                return;
+            }
+
+            let response;
+            try {
+                response = await axios.get(`${serverUrl}/user/${email}`);
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error getting user", error);
+                return null;
+            }
+
+            const user = response.data.user;
+
+            if (!user) {
+                alert("Error getting your details. Please login again.");
+                window.location.href = `${clientUrl}/registerLogin.html`;
+            }
+
+            console.log(user);
+
+            document.querySelector(".full-name").textContent = user.firstName + " " + user.lastName;
+            document.querySelector(".age").textContent = user.age;
+            document.querySelector(".email").textContent = user.email;
+            document.querySelector(".degree").textContent = user.degree;
+            document.querySelector(".role").textContent = user.role;
+            document.querySelector("#checkbox").checked = user.onWheelChair;
+            document.querySelector(".profile-image").style.backgroundImage = `url(${user.picture})`;
+        }
+
+        getUserAndUpdate();
+
+        document.querySelector("#logout-button").addEventListener("click", async () => {
+            localStorage.removeItem("user");
+            try {
+                let response = await axios.post(`${serverUrl}/logout`, {});
+                localStorage.removeItem("user");
+                window.location.href = `${clientUrl}`;
+
+            } catch (error) {
+                alert("Error logging out");
+                console.error("Error logging out", error);
+            }
+        });
+
+        document.querySelector("#delete-button").addEventListener("click", async () => {
+            if (!confirm("Are you sure you want to delete your account?")) {
+                return;
+            }
+
+            localStorage.removeItem("user");
+            try {
+                let response = await axios.delete(`${serverUrl}/user/${email}`);
+                localStorage.removeItem("user");
+                window.location.href = `${clientUrl}`;
+
+            } catch (error) {
+                alert("Error deleting account");
+                console.error("Error logging out", error);
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>

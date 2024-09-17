@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register</title>
+
+    <link rel="stylesheet" href="styles/navBar.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4acfbc;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            max-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin: 1;
+        }
+
+        h1 {
+            color: limegreen;
+            margin-bottom: 30px;
+            font-family: cursive;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .google-btn {
+            background-color: limegreen;
+            color: white;
+            flex: 1;
+        }
+
+        .google-btn:hover {
+            background-color: #3ebf94;
+        }
+
+        .register-btn {
+            background-color: #4acfbc;
+            color: white;
+            flex: 1;
+        }
+
+        .register-btn:hover {
+            background-color: #3ebf94;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome To Wits Go</h1>
+        <div class="button-container">
+            <!-- google logo -->
+
+            <button class="button google-btn login-btn">
+                Login
+            </button>
+            <img src="images/google.png" width="45px" height="45px" alt="">
+            <button class="button register-btn">Register</button>
+        </div>
+    </div>
+
+    <script type="module" defer>
+
+        import { clientUrl, serverUrl } from "./scripts/constants.js";
+
+        document.querySelector('.login-btn').addEventListener('click', async () => {
+            console.log('google clicked');
+
+            const homepage = encodeURIComponent(`${clientUrl}/`);
+            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=false`;
+        });
+
+        document.querySelector(".register-btn").addEventListener("click", async () => {
+
+            const homepage = encodeURIComponent(`${clientUrl}/finishAccountSetup.html`);
+            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=true`;
+        });
+    </script>
+</body>
+
+</html>
