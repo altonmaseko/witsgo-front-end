@@ -21,7 +21,7 @@
 <body>
     <section class="header">
         <section class="profile-icon">
-            <img src="icons/profile.png" alt="Profile">
+            <img class="profile-img" src="icons/profile.png" alt="Profile">
         </section>
         <h1 class="title">Bus Schedule</h1>
     </section>
@@ -71,7 +71,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script>
+    <script type="module">
+
+        import { serverUrl, clientUrl } from './scripts/constants.js';
+
         document.querySelector('.schedule-container').addEventListener('click', function () {
             this.classList.toggle('expanded');
         });
@@ -80,7 +83,7 @@
             const scheduleContainer = document.querySelector('.schedule-container');
             let fullText = '';
 
-            fetch('https://witsgobackend.azurewebsites.net/v1/schedule/pdf-text')
+            fetch(`${serverUrl}/v1/schedule/pdf-text`)
                 .then(response => response.text())
                 .then(data => {
                     fullText = data;

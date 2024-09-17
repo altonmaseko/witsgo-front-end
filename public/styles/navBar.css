@@ -24,24 +24,24 @@
     color: #747BDC;
 }
 
-.navbar img{
+.navbar img {
     width: 26px;
     height: 26px;
 }
 
 /* Hover effect for the image icon */
 .navbar a:hover {
-    color: #747BDC;   
-    transform: scale(1.05);  
-  }
-  
-  .navbar a:hover img {
-    transform: scale(1.1);  
-    filter: brightness(1.2); 
-  }
+    color: #747BDC;
+    transform: scale(1.05);
+}
+
+.navbar a:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
 
 /* phones */
-@media (width <= 600px) {
+@media (width <=600px) {
     .header {
         flex-direction: row;
         align-items: flex-start;
@@ -49,21 +49,21 @@
     }
 
     .profile-icon {
-        width: 35px;
-        height: 35px;
+        /* width: 35px;
+        height: 35px; */
         margin-right: 10px;
     }
 
     .title {
         font-size: 20px;
-        margin: 0; 
+        margin: 0;
     }
 
     .schedule-container {
         margin: 10px;
-        margin-bottom: 80px; 
+        margin-bottom: 80px;
         padding: 15px;
-        height: auto; 
+        height: auto;
     }
 
     .navbar img {
@@ -77,16 +77,16 @@
 }
 
 /* Tablets */
-@media (width >= 601px) and (width <= 1024px) {
+@media (width >=601px) and (width <=1024px) {
     .header {
-        flex-direction: row; 
-        align-items: center; 
+        flex-direction: row;
+        align-items: center;
         padding: 20px;
     }
 
     .profile-icon {
-        width: 40px;
-        height: 40px;
+        /* width: 40px;
+        height: 40px; */
         margin-right: 15px;
     }
 
@@ -96,7 +96,7 @@
 
     .schedule-container {
         margin: 15px;
-        margin-bottom: 100px; 
+        margin-bottom: 100px;
         padding: 20px;
     }
 
@@ -111,10 +111,10 @@
 }
 
 /* Laptops and desktops */
-@media (width >= 1025px) {
+@media (width >=1025px) {
     .schedule-container {
         margin: 20px;
-        margin-bottom: 100px; 
+        margin-bottom: 100px;
         padding: 20px;
     }
 }

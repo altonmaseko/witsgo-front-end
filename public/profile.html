@@ -61,7 +61,7 @@
     <script defer type="module">
 
         import { serverUrl, clientUrl } from "./scripts/constants.js";
-        const email = JSON.parse(localStorage.getItem("email"));
+        const email = localStorage.getItem("email");
 
         const getUserAndUpdate = async () => {
 

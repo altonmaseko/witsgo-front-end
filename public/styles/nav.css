@@ -7,7 +7,7 @@ body {
     margin: 0;
     padding: 0;
     overflow-y: scroll;
-    background-color: #f0f0f0;
+    background-color: #4acfbc;
 }
 
 .search-bar {
@@ -23,14 +23,19 @@ body {
     height: 40px;
     font-size: 16px;
     box-sizing: border-box;
-    white-space: nowrap; /* Prevents wrapping */
-    overflow: hidden; /* Hides the overflow */
-    text-overflow: ellipsis; /* Adds the ellipsis */
+    white-space: nowrap;
+    /* Prevents wrapping */
+    overflow: hidden;
+    /* Hides the overflow */
+    text-overflow: ellipsis;
+    /* Adds the ellipsis */
 }
 
 .user-picture {
-    height: 40px;  /* Adjust image size */
-    margin-left: -40px;  /* Shift image left to overlap the input */
+    height: 40px;
+    /* Adjust image size */
+    margin-left: -40px;
+    /* Shift image left to overlap the input */
     margin-bottom: 15px;
     cursor: pointer;
 }
@@ -43,9 +48,11 @@ body {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 0 10px rgb(0 0 0 / 10%);
-    max-width: 400px;
+    /* max-width: 400px; */
     width: 100%;
     height: 100%;
+    background-color: #4acfbc;
+    padding: 2rem;
 }
 
 h1 {
@@ -69,7 +76,7 @@ input {
     font-size: 16px;
 }
 
-button{
+button {
     display: inline-block;
     background-color: #4CAF50;
     color: white;
@@ -81,7 +88,7 @@ button{
     height: fit-content;
 }
 
-#directions-text{
+#directions-text {
     width: 95%;
     height: fit-content;
     padding-bottom: 50px;
@@ -89,7 +96,7 @@ button{
 }
 
 
-.directions-row{
+.directions-row {
     width: 100%;
     height: fit-content;
     border: solid 1px black;
@@ -98,19 +105,19 @@ button{
 }
 
 
-.directions-row-instruction{
+.directions-row-instruction {
     border: 1px solid black;
     width: 50%;
     display: flex;
     justify-content: center;
 }
 
-.directions-row-instruction p{
+.directions-row-instruction p {
     margin: 0;
     padding: 1px;
 }
 
-.directions-row-distance{
+.directions-row-distance {
     border: 1px solid black;
     width: 30%;
     display: flex;
@@ -119,17 +126,17 @@ button{
 
 }
 
-.directions-row-time{
+.directions-row-time {
     border: 1px solid black;
     width: 20%;
     display: flex;
     justify-content: center;
-    flex: 1 ;
+    flex: 1;
 
 }
 
 
-#nav-btn{
+#nav-btn {
     padding: 10px;
     margin: 20px;
     width: 60%;
@@ -158,6 +165,8 @@ button:active {
     height: 70%;
     margin-bottom: 10px;
     overflow: visible;
+    border-radius: 1rem;
+    overflow: hidden;
 }
 
 
@@ -171,73 +180,104 @@ button:active {
     padding: 20px;
     overflow: hidden;
     background-color: rgb(255 255 255)
-  }
-  
-  .botton-nav a {
+}
+
+.botton-nav a {
     float: center;
     color: #000;
     text-align: center;
     padding: 8px 10px;
     text-decoration: none;
     font-size: 16px;
-  }
-  
-  .botton-nav a:hover {
+}
+
+.botton-nav a:hover {
     background-color: #ddd;
     color: black;
-  }
-  
-  .botton-nav a.active {
+}
+
+.botton-nav a.active {
     background-color: #4CAF50;
     color: white;
-  }
+}
 
-  .custom-marker {
-    width: 50px; /* Set width */
-    height: 50px; /* Set height */
-    background-image: url("../images/person2.png"); /* Ensure the correct path */
-    background-size: contain; /* Fit the image within the container */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Prevent repeating */
-  }
+.custom-marker {
+    width: 50px;
+    /* Set width */
+    height: 50px;
+    /* Set height */
+    background-image: url("../images/person2.png");
+    /* Ensure the correct path */
+    background-size: contain;
+    /* Fit the image within the container */
+    background-position: center;
+    /* Center the image */
+    background-repeat: no-repeat;
+    /* Prevent repeating */
+}
 
-  .building-marker {
-    width: 30px; /* Set width */
-    height: 30px; /* Set height */
-    background-image: url("../images/building.png"); /* Ensure the correct path */
-    background-size: contain; /* Fit the image within the container */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Prevent repeating */
-  }
+.building-marker {
+    width: 30px;
+    /* Set width */
+    height: 30px;
+    /* Set height */
+    background-image: url("../images/building.png");
+    /* Ensure the correct path */
+    background-size: contain;
+    /* Fit the image within the container */
+    background-position: center;
+    /* Center the image */
+    background-repeat: no-repeat;
+    /* Prevent repeating */
+}
 
 
-  .gatehouse-marker {
-    width: 30px; /* Set width */
-    height: 30px; /* Set height */
-    background-image: url("../images/gatehouse.png"); /* Ensure the correct path */
-    background-size: contain; /* Fit the image within the container */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Prevent repeating */
-  }
+.gatehouse-marker {
+    width: 30px;
+    /* Set width */
+    height: 30px;
+    /* Set height */
+    background-image: url("../images/gatehouse.png");
+    /* Ensure the correct path */
+    background-size: contain;
+    /* Fit the image within the container */
+    background-position: center;
+    /* Center the image */
+    background-repeat: no-repeat;
+    /* Prevent repeating */
+}
 
 
-  .library-marker {
-    width: 30px; /* Set width */
-    height: 30px; /* Set height */
-    background-image: url("../images/library.png"); /* Ensure the correct path */
-    background-size: contain; /* Fit the image within the container */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Prevent repeating */
-  }
+.library-marker {
+    width: 30px;
+    /* Set width */
+    height: 30px;
+    /* Set height */
+    background-image: url("../images/library.png");
+    /* Ensure the correct path */
+    background-size: contain;
+    /* Fit the image within the container */
+    background-position: center;
+    /* Center the image */
+    background-repeat: no-repeat;
+    /* Prevent repeating */
+}
 
 
 /* Style for wheelchair accessible marker */
 .wheelchair-marker {
-    width: 30px; /* Width of the marker */
-    height: 30px; /* Height of the marker */
-    border-radius: 50%; /* Make the marker circular */
-    background-image: url('../images/wheel.png'); /* Path to your icon */
-    background-size: contain; /* Ensure the image fits within the div */
-    background-repeat: no-repeat; /* Prevent image repetition */
-    background-position: center; /* Center the image */
+    width: 30px;
+    /* Width of the marker */
+    height: 30px;
+    /* Height of the marker */
+    border-radius: 50%;
+    /* Make the marker circular */
+    background-image: url('../images/wheel.png');
+    /* Path to your icon */
+    background-size: contain;
+    /* Ensure the image fits within the div */
+    background-repeat: no-repeat;
+    /* Prevent image repetition */
+    background-position: center;
+    /* Center the image */
 }
