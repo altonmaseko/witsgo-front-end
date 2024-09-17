@@ -6,7 +6,7 @@ const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
 import { clientUrl, serverUrl } from "./constants.js";
-
+let userMarker;
 
 // const baseURL = "http://localhost:3000/"
 
@@ -118,7 +118,7 @@ async function initMap() {
     const content = document.createElement('div');
     content.classList.add('custom-marker');
 
-    let userMarker = new AdvancedMarkerElement({
+    userMarker = new AdvancedMarkerElement({
         map: map,
         position: location,
         title: "User",
@@ -294,7 +294,7 @@ async function initMap() {
             markers.push(placeMarker); // Add place marker to the markers array
 
             // Add the user's marker back to the array
-            let userMarker = new AdvancedMarkerElement({
+            userMarker = new AdvancedMarkerElement({
                 map: map,
                 position: { lat: origin["latitude"], lng: origin["longitude"] },
                 title: "User",
@@ -331,12 +331,12 @@ navMeBtn.addEventListener("click", async function () {
         const url = `${serverUrl}/v1/route_optimize/route_optimize`;
 
         //TODO change back
-        // origin["latitude"]=coords.latitude;
-        // origin["longitude"]=coords.longitude;
+        origin["latitude"] = coords.latitude;
+        origin["longitude"] = coords.longitude;
 
 
-        origin["latitude"] = -26.1908692
-        origin["longitude"] = 28.0271597
+        // origin["latitude"] = -26.1908692
+        // origin["longitude"] = 28.0271597
 
 
         let data = {
@@ -436,6 +436,38 @@ filter.addEventListener("change", (event) => {
     }
 })
 initMap();
+
+
+// event listener for locaiton change
+navigator.geolocation.watchPosition((position) => {
+    console.log("Current Location:", position.coords.latitude, position.coords.longitude);
+
+    const newPosition = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+    };
+
+    // Check if the marker exists, if yes, update its position, else create it
+    if (userMarker) {
+        userMarker = newPosition;
+    } else {
+        return;
+    }
+
+    // Optionally, update the map center as well
+    map.setCenter(newPosition);
+
+}, (error) => {
+    console.log("Could not get location:", error);
+}, {
+    enableHighAccuracy: true,
+    timeout: 10000, // if cant get location within 5 seconds, return an error
+    maximumAge: 10000
+});
+
+
+
+
 
 
 

@@ -1,12 +1,12 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Ensure body content flows vertically */
     align-items: center;
     height: 100vh;
     margin: 0;
     padding: 0;
-    overflow-y: scroll;
+    overflow-y: auto; /* Change to auto for better scrolling */
 }
 
 header {
@@ -17,7 +17,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    width: 100%; /* Make header span the full width */
+    box-sizing: border-box; /* Include padding in width */
     font-size: 24px;
 }
 
@@ -29,7 +30,6 @@ header img#profile-picture {
 }
 
 section#map {
-    flex: 1;
     width: 90%;
     max-width: 800px;
     height: 50vh;
@@ -45,37 +45,36 @@ section#controls {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-select {
-    margin-bottom: 15px;
-    width: 100%;
-    max-width: 300px;
-    font-size: 18px;
-    padding: 10px;
-}
-
-select:disabled {
-    background-color: #e0e0e0;
-    color: #a0a0a0;
-    cursor: not-allowed;
+    width: 90%; /* Ensure controls section is the same width as the map */
+    max-width: 800px;
 }
 
 #availability {
     font-size: 18px;
     color: #333;
-    margin-left: 10px;
+    margin-bottom: 15px; /* Ensure space between elements */
+}
+
+.button-group {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-bottom: 15px; /* Space below button group */
 }
 
 button#rent-button,
-button#return-button {
-    margin-top: 15px;
+button#return-button,
+button#cancelButton {
     font-size: 18px;
     padding: 10px 20px;
 }
 
-#rental-status {
+#rental-status-container {
+    display: flex;
+    justify-content: center;
     margin-top: 15px;
+}
+
+#rental-status {
     font-size: 18px;
 }
 
@@ -95,36 +94,6 @@ button#return-button {
     background-color: #E0DDDD;
     padding: 10px 0;
     border-top: 1px solid #ccc;
-}
-
-.navbar a {
-    color: #373434;
-    text-decoration: none;
-    font-family: Roboto, sans-serif;
-    font-weight: 400;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.navbar a[href="#schedule"] {
-    color: #747BDC;
-}
-
-.navbar img {
-    width: 26px;
-    height: 26px;
-}
-
-.navbar a:hover {
-    color: #747BDC;
-    transform: scale(1.05);
-}
-
-.navbar a:hover img {
-    transform: scale(1.1);
-    filter: brightness(1.2);
 }
 
 @media (max-width: 768px) {
