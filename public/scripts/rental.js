@@ -6,7 +6,10 @@ let selectedStation = null;
 let rentedVehicle = null;
 
 window.onload = initMap;
-
+const defaultLocation = {
+  lat: -26.1929,
+  lng: 28.0283
+};
 // Initialize the Google Map
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -21,7 +24,7 @@ function initMap() {
             lng: position.coords.longitude
         };
 
-        showNearbyStations(userLocation);
+        showNearbyStations(defaultLocation);
     }, (error) => {
         console.error('Error getting user location:', error);
     });
