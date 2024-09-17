@@ -22,6 +22,7 @@ body {
     gap: 1rem;
     padding: 1rem;
     background-color: #23527c;
+    color: white;
 }
 
 .header .profile-icon {
@@ -29,7 +30,6 @@ body {
     height: 40px;
     border-radius: 50%;
     border: 2px solid black;
-    background-color: aqua;
 }
 
 /* MAIN */

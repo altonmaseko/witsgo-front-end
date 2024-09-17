@@ -10,32 +10,29 @@ body {
 
 .header {
   display: flex;
+  justify-content: center;  
   align-items: center;
-  padding: 10px;
-  color: #235273;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #23527c;  
+  color: white;               
+  height: 70px;
   margin-bottom: 10px;
 }
 
 .header h1 {
   margin-left: 20px;
   margin-top: 15px;
-}
-
-
-
-
-.profile-icon img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  margin-right: 10px;
+  font-size: 24px;
 }
 
 .title {
   font-family: Poppins, sans-serif;
   font-size: 24px;
   font-weight: 200;
+  color: white;  
 }
+
 
 
 .schedule-container {
