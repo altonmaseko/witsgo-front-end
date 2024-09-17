@@ -1,24 +1,6 @@
 const DISTANCE_THRESHOLD = 150; // meters to show stations
 const RENT_THRESHOLD = 50; // meters to rent or return a vehicle
-
-const stations = [
-  { id: 'station1', name: 'Station 1', lat: -26.192082, lng: 28.026229, icon: 'images/station.png' },
-  { id: 'station2', name: 'Station 2', lat: -26.1906, lng: 28.0268, icon: 'images/station.png' },
-  { id: 'station3', name: 'Station 3', lat: -26.190, lng: 28.027, icon: 'images/station.png' },
-  { id: 'station4', name: 'Station 4', lat: -26.189, lng: 28.029, icon: 'images/station.png' },
-  { id: 'station5', name: 'Station 5', lat: -26.192, lng: 28.029, icon: 'images/station.png' },
-  { id: 'station6', name: 'Station 6', lat: -26.192, lng: 28.032, icon: 'images/station.png' }
-];
-
-const vehicleAvailability = {
-  station1: {bicycle: 5, scooter: 3, skateboard: 7 },
-  station2: {bicycle: 2, scooter: 6, skateboard: 1 },
-  station3: {bicycle: 4, scooter: 2, skateboard: 3 },
-  station4: {bicycle: 3, scooter: 1, skateboard: 5 },
-  station5: {bicycle: 1, scooter: 4, skateboard: 2 },
-  station6: {bicycle: 7, scooter: 3, skateboard: 6 }
-};
-
+let stations = []; // Initialize as empty array
 let userMarker = null;
 let map;
 let stationMarkers = [];
@@ -92,6 +74,26 @@ function updateUserLocation(userLocation) {
   }
 }
 
+async function fetchStations() {
+  try {
+    const response = await axios.get('/stations');
+    stations = response.data; // Update the stations array with data from the server
+    showNearbyStations(userMarker.getPosition()); // Show stations on the map
+  } catch (error) {
+    console.error('Error fetching stations:', error);
+  }
+}
+
+async function fetchVehiclesAtStation(stationId) {
+  try {
+    const response = await axios.get(`/stations/${stationId}/vehicles`);
+    const vehicles = response.data;
+    updateVehicleDropdown(vehicles); // Update vehicle dropdown with fetched data
+  } catch (error) {
+    console.error('Error fetching vehicles:', error);
+  }
+}
+
 function showNearbyStations(userLocation) {
   stationMarkers.forEach((marker) => marker.setMap(null)); // Clear previous markers
 
@@ -122,28 +124,20 @@ function showNearbyStations(userLocation) {
 
 function selectStation(stationId) {
   selectedStationId = stationId;
+  fetchVehiclesAtStation(stationId); // Fetch vehicles when a station is selected
+}
 
-  const stationSelect = document.getElementById('stationSelect');
+function updateVehicleDropdown(vehicles) {
   const vehicleSelect = document.getElementById('vehicleSelect');
-  const cancelButton = document.getElementById('cancelButton');
+  vehicleSelect.innerHTML = ''; // Clear previous options
+  Object.keys(vehicles).forEach(vehicleId => {
+    const option = document.createElement('option');
+    option.value = vehicleId;
+    option.textContent = `${vehicleId.charAt(0).toUpperCase() + vehicleId.slice(1)} (${vehicles[vehicleId]})`;
+    vehicleSelect.appendChild(option);
+  });
 
-  const vehicles = vehicleAvailability[stationId] || {};
-  stationSelect.innerHTML = ''; // Clear previous options
-
-  if (Object.keys(vehicles).length > 0) {
-    Object.keys(vehicles).forEach(vehicleId => {
-      const option = document.createElement('option');
-      option.value = vehicleId;
-      option.textContent = `${vehicleId.charAt(0).toUpperCase() + vehicleId.slice(1)} (${vehicles[vehicleId]})`;
-      stationSelect.appendChild(option);
-    });
-
-    stationSelect.style.display = 'block';
-    vehicleSelect.style.display = 'none';
-    cancelButton.style.display = 'inline-block';
-  } else {
-    alert('No vehicles available at this station.');
-  }
+  vehicleSelect.style.display = 'block';
 }
 
 function showVehicleDropdown() {
@@ -152,14 +146,7 @@ function showVehicleDropdown() {
   const selectedVehicle = stationSelect.value;
 
   if (selectedStationId && selectedVehicle) {
-    const vehicles = vehicleAvailability[selectedStationId] || {};
-    vehicleSelect.innerHTML = ''; // Clear previous options
-    Object.keys(vehicles).forEach(vehicleId => {
-      const option = document.createElement('option');
-      option.value = vehicleId;
-      option.textContent = `${vehicleId.charAt(0).toUpperCase() + vehicleId.slice(1)} (${vehicles[vehicleId]})`;
-      vehicleSelect.appendChild(option);
-    });
+    fetchVehiclesAtStation(selectedStationId); // Fetch vehicles for selected station
 
     vehicleSelect.style.display = 'block';
     stationSelect.style.display = 'none';
@@ -202,7 +189,7 @@ function updateControls() {
   updateRentalStatus();
 }
 
-function rentVehicle() {
+async function rentVehicle() {
   const vehicleSelect = document.getElementById('vehicleSelect');
   const vehicle = vehicleSelect.value;
 
@@ -222,36 +209,48 @@ function rentVehicle() {
 
   const studentId = 'YOUR_STUDENT_ID';  // Replace with actual student ID
 
-  // Example logic for renting the vehicle
-  console.log(`Renting ${vehicle} from station ${selectedStationId} for student ${studentId}`);
-  alert(`You have rented a ${vehicle} from ${stations.find(station => station.id === selectedStationId).name}.`);
+  try {
+    await axios.post('/rentals/rent', {
+      student_id: studentId,
+      vehicle_id: vehicle,
+      station_id: selectedStationId
+    });
 
-  // Disable vehicle selection and update the control
-  document.getElementById('vehicleSelect').style.display = 'none';
-  document.getElementById('stationSelect').style.display = 'none';
-  document.getElementById('cancelButton').style.display = 'none';
-  rentalEndTime = new Date(Date.now() + 20 * 60 * 1000); // Set rental end time to 20 minutes from now
-  updateControls();
+    alert(`You have rented a ${vehicle} from ${stations.find(station => station.id === selectedStationId).name}.`);
+    document.getElementById('vehicleSelect').style.display = 'none';
+    document.getElementById('stationSelect').style.display = 'none';
+    document.getElementById('cancelButton').style.display = 'none';
+    rentalEndTime = new Date(Date.now() + 20 * 60 * 1000); // Set rental end time to 20 minutes from now
+    updateControls();
 
-  // Only show the return button after renting
-  document.getElementById('rentButton').style.display = 'none';
-  document.getElementById('returnButton').style.display = 'inline-block';
+    document.getElementById('rentButton').style.display = 'none';
+    document.getElementById('returnButton').style.display = 'inline-block';
+  } catch (error) {
+    console.error('Error renting vehicle:', error);
+    alert('Failed to rent vehicle. Please try again.');
+  }
 }
 
-function returnVehicle() {
-  // Example logic for returning the vehicle
-  console.log(`Returning vehicle to station ${selectedStationId}`);
-  alert(`You have returned the vehicle to ${stations.find(station => station.id === selectedStationId).name}.`);
+async function returnVehicle() {
+  try {
+    await axios.post('/rentals/return', {
+      student_id: 'YOUR_STUDENT_ID', // Replace with actual student ID
+      station_id: selectedStationId
+    });
 
-  // Reset the selection
-  document.getElementById('vehicleSelect').style.display = 'none';
-  document.getElementById('stationSelect').style.display = 'none';
-  document.getElementById('cancelButton').style.display = 'none';
-  document.getElementById('rentButton').style.display = 'none';
-  document.getElementById('returnButton').style.display = 'none';
-  selectedStationId = null;
-  rentalEndTime = null;
-  updateControls();
+    alert(`You have returned the vehicle to ${stations.find(station => station.id === selectedStationId).name}.`);
+    document.getElementById('vehicleSelect').style.display = 'none';
+    document.getElementById('stationSelect').style.display = 'none';
+    document.getElementById('cancelButton').style.display = 'none';
+    document.getElementById('rentButton').style.display = 'none';
+    document.getElementById('returnButton').style.display = 'none';
+    selectedStationId = null;
+    rentalEndTime = null;
+    updateControls();
+  } catch (error) {
+    console.error('Error returning vehicle:', error);
+    alert('Failed to return vehicle. Please try again.');
+  }
 }
 
 function updateRentalStatus() {
@@ -264,22 +263,19 @@ function updateRentalStatus() {
 
     const minutes = Math.floor(timeRemaining / 60000);
     const seconds = Math.floor((timeRemaining % 60000) / 1000);
+    timer.textContent = `${minutes}m ${seconds}s`;
 
-    timer.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-    rentalStatus.style.display = 'block';
-
-    setTimeout(updateRentalStatus, 1000);
+    if (timeRemaining <= 0) {
+      alert('Your rental period has ended.');
+      returnVehicle(); // Automatically return vehicle if rental period ends
+    }
   } else {
-    rentalStatus.style.display = 'none';
+    timer.textContent = 'No rental in progress';
   }
 }
 
-function testLocations() {
-  testLocation = { lat: -26.191, lng: 28.027 }; // Example test location
-  updateUserLocation(testLocation);
-  showNearbyStations(testLocation);
-}
+// Update rental status every second
+setInterval(updateRentalStatus, 1000);
 
-testLocations(); // Set test location to default center
-window.onload = initMap;
+// Initialize map and fetch stations on page load
+window.onload = fetchStations;
