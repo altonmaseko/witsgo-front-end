@@ -277,6 +277,8 @@ function updateRentalStatus() {
 // Update rental status every second
 setInterval(updateRentalStatus, 1000);
 
-// Initialize map and fetch stations on page load
-window.onload = fetchStations;
-window.onload = initMap;
+window.onload = function() {
+  // Initialize map and fetch stations on page load
+  initMap();
+  fetchStations();
+};
