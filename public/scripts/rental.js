@@ -279,3 +279,4 @@ setInterval(updateRentalStatus, 1000);
 
 // Initialize map and fetch stations on page load
 window.onload = fetchStations;
+window.onload = initMap;
