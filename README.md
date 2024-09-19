@@ -19,3 +19,5 @@ WitsGo will address these challenges by providing:
 - Accessibility Features: Designated accessibility points and features tailored for users with disabilities, ensuring an inclusive campus experience.
 - User-Friendly Interface: An intuitive and streamlined interface for seamless navigation, scheduling, and rental management.
 
+# You can explore and use our amazing website from anywhere: https://witsgo.azurewebsites.net
+
