@@ -29,7 +29,7 @@ const checkLogin = async () => {
     localStorage.setItem("email", response.data.user.user.email);
     localStorage.setItem("role", response.data.user.user.role);
 }
-// checkLogin();
+checkLogin();
 
 
 // PROFILE INTERACTIONS FOR ALL PAGES
