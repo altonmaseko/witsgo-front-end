@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Register</title>
 
+    <link rel="stylesheet" href="styles/navBar.css">
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #4acfbc;
+            background-color: rgb(236, 234, 234);
             margin: 0;
-            padding: 0;
+            padding: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,8 +31,9 @@
         }
 
         h1 {
-            color: limegreen;
+            color:black;
             margin-bottom: 30px;
+            font-family: cursive;
         }
 
         .button {
@@ -46,29 +48,30 @@
         }
 
         .google-btn {
-            background-color: limegreen;
+            background-color: #23527c;
             color: white;
             flex: 1;
         }
 
         .google-btn:hover {
-            background-color: #3ebf94;
+            background-color: #1a3f5f;
         }
 
         .register-btn {
-            background-color: #4acfbc;
+            background-color: #23527c;
             color: white;
             flex: 1;
         }
 
         .register-btn:hover {
-            background-color: #3ebf94;
+            background-color: #1a3f5f;
         }
 
         .button-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -79,12 +82,31 @@
         <div class="button-container">
             <!-- google logo -->
 
-            <button class="button google-btn">
-                Login with Google
+            <button class="button google-btn login-btn">
+                Login
             </button>
+            <!-- <img src="images/google.png" width="45px" height="45px" alt=""> -->
             <button class="button register-btn">Register</button>
         </div>
     </div>
+
+    <script type="module" defer>
+
+        import { clientUrl, serverUrl } from "./scripts/constants.js";
+
+        document.querySelector('.login-btn').addEventListener('click', async () => {
+            console.log('google clicked');
+
+            const homepage = encodeURIComponent(`${clientUrl}/`);
+            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=false`;
+        });
+
+        document.querySelector(".register-btn").addEventListener("click", async () => {
+
+            const homepage = encodeURIComponent(`${clientUrl}/finishAccountSetup.html`);
+            window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=true`;
+        });
+    </script>
 </body>
 
 </html>

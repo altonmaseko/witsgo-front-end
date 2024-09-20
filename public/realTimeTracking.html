@@ -15,7 +15,21 @@
 
     <script type="module" defer src="scripts/realTimeTracking.js"></script>
 
+    <script type="module" defer src="scripts/verifylogin.js"></script> <!-- This script should be put on everypage -->
 
+    <script type="module" defer>
+        import {
+            clientUrl,
+            serverUrl
+        } from "./scripts/constants.js";
+
+        const role = localStorage.getItem("role");
+
+        console.log("FINDING Role: ", role);
+        if (role != "student") {
+            window.location.href = `${clientUrl}/driverTracking.html`;
+        }
+    </script>
 
     <title>Real Time Tracking Page</title>
 </head>

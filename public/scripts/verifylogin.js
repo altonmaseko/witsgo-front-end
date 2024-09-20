@@ -3,28 +3,38 @@ import { clientUrl, serverUrl } from "./constants.js";
 console.log("verifylogin.js is connected");
 
 const checkLogin = async () => {
-    return;
     let response
     try {
         response = await axios.get(`${serverUrl}/verifylogin`, { withCredentials: true });
         console.log(response.data);
     } catch (error) {
         console.log(error.message);
-        window.location.href = `${clientUrl}/notLoggedIn.html`;
+        alert("Failed to authenticate your session. Please log in again to restore full functionality.");
+        return;
     }
 
     if (!response.data.isLoggedIn) {
         console.log("User is not logged in");
-        window.location.href = `${clientUrl}/notLoggedIn.html`;
+        window.location.href = `${clientUrl}/registerLogin.html`;
         return;
     }
 
-    // store an object in local storage, the object is in response.data.user
-    localStorage.setItem("user", JSON.stringify(response.data.user.user));
-
-    // get the user and get a property
-    const user = JSON.parse(localStorage.getItem("user"));
-    console.log("User from local storage", user);
-
+    // Set local storage
+    localStorage.removeItem("user");
+    localStorage.setItem("firstName", response.data.user.user.firstName);
+    localStorage.setItem("lastName", response.data.user.user.lastName);
+    localStorage.setItem("picture", response.data.user.user.picture);
+    localStorage.setItem("onWheelChair", response.data.user.user.onWheelChair);
+    localStorage.setItem("age", response.data.user.user.age);
+    localStorage.setItem("email", response.data.user.user.email);
+    localStorage.setItem("role", response.data.user.user.role);
 }
-checkLogin();
+// checkLogin();
+
+
+// PROFILE INTERACTIONS FOR ALL PAGES
+
+document.querySelector(".profile-img")?.setAttribute("src", localStorage.getItem("picture"));
+document.querySelector(".profile-img")?.addEventListener("click", () => {
+    window.location.href = `${clientUrl}/profile.html`;
+});

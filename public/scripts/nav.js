@@ -106,7 +106,7 @@ async function initMap(){
     userLocation = {lat:-26.1908692,lng:28.0271597};
 
     map = new Map(document.getElementById("map"), {
-        zoom: 18,
+        zoom: 17,
         center: userLocation,
         mapId: "DEMO_MAP_ID",
         style: 'mapbox://styles/mapbox/streets-v12',
@@ -329,31 +329,6 @@ navMeBtn.addEventListener("click", async function() {
         if (polylinePath) {
             polylinePath.setMap(null);
         }
-
-        // const email = localStorage.getItem("email");
-
-        // let duration =lastResponse.data.duration
-
-        // let dataToSend = {
-        //     "user_id": "test",
-        //     "start_location": {
-        //       "latitude": origin["latitude"],
-        //       "longitude": origin["longtitude"]
-        //     },
-        //     "end_location": {
-        //       "latitude": dest["latitude"],
-        //       "longitude": dest["longtitude"]
-        //     },
-        //     "duration":  duration.substring(0, duration.length - 1),
-        //     "route_data": lastResponse.data.polyline
-        // }   
-
-
-        // console.log(JSON.stringify(dataToSend));
-
-        // const response = await axios.post(baseURL+"v1/userRoutes/insertRoute",dataToSend);
-
-        // console.log(response);
         lastResponse = null;
         return;
     }
@@ -482,9 +457,3 @@ filter.addEventListener("change",(event)=>{
 })
 
 renderPage();
-
-
-
-
-
-

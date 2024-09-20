@@ -12,9 +12,20 @@
     <script type="module" src="scripts/finishAccountSetup.js" defer></script>
 
     <style>
-        #role-dropdown {
+        body {
+            font-family: cursive;
+        }
+
+        select {
             /* Style a drop down nicely */
             padding: 10px;
+        }
+
+        .error-message {
+            color: indianred;
+            font-size: 1rem;
+            text-align: center;
+            display: none;
         }
     </style>
 </head>
@@ -26,6 +37,8 @@
             <!-- create inputs for password with ids-->
             <input type="password" id="password-input" placeholder="password" required>
             <input type="password" id="verify-password-input" placeholder="verify password" required>
+            <input type="text" id="degree-input" placeholder="degree" required>
+            <input type="number" id="age-input" placeholder="age">
             <!-- add drop down menu where u can choose role between campus security, bus driver or student -->
             <select id="role-dropdown" required>
                 <option value="" disabled selected>Select your role</option>
@@ -34,9 +47,17 @@
                 <option value="campus-control">Campus Control</option>
                 <option value="student">Student</option>
             </select>
+            <!-- give wheel chair drop down with true or false options -->
+            <select id="wheel-chair-dropdown" required>
+                <option value="" disabled selected>Wheel Chair Access</option>
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select>
 
-            <button type="button" id="finish-account-setup-button">Finish Sign Up</button>
+            <button type="button" id="finish-account-setup-button">Sign Up</button>
         </form>
+
+        <p class="error-message"></p>
 
     </div>
 
