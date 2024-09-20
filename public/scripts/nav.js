@@ -6,7 +6,12 @@ const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
 const baseURL = "http://localhost:3000/"
+// const baseURL = "https://witsgobackend.azurewebsites.net/"
 
+
+let polylinePath = null;
+let lastResponse = null;
+let userLocation = null;
 
 inputField.addEventListener("click",function(){
     profileImg.style.display = "None"
@@ -30,8 +35,11 @@ cancelSearch.addEventListener("click",function(){
     profileImg.style.display = "flex";
     cancelSearch.style.display = "None";
     directionsTextArea.innerHTML="";
-})
 
+    if (polylinePath) {
+        polylinePath.setMap(null);
+    }
+})
 
 
 let map;
@@ -90,167 +98,27 @@ async function initMap(){
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
     const { PlacesService, SearchBox } = await google.maps.importLibrary("places");
 
-
-    let coords = await getLocation();
+    // let coords = await getLocation();
     // origin["latitude"] = coords.latitude;
     // origin["longitude"] = coords.longitude;
 
-    origin["latitude"] = -26.1908692;
-    origin["longitude"] = 28.0271597;
-
-    //TODO reset to coords
-    // var location = {lat: coords.latitude, lng: coords.longitude}; // default location
-    var location = {lat:-26.1908692,lng:28.0271597};
+    // userLocation = {lat:coords.latitude,lng:coords.longitude};
+    userLocation = {lat:-26.1908692,lng:28.0271597};
 
     map = new Map(document.getElementById("map"), {
-        zoom: 17,
-        center: location,
+        zoom: 18,
+        center: userLocation,
         mapId: "DEMO_MAP_ID",
         style: 'mapbox://styles/mapbox/streets-v12',
     });
 
-    //TODO might break, change back to let markers if necessary
-    markers = []; // Store marker instances
-
-    const content = document.createElement('div');
-    content.classList.add('custom-marker');
-
-    let userMarker = new AdvancedMarkerElement({
-        map: map,
-        position: location,
-        title: "User",
-        content: content,
-    });
-
-    markers.push(userMarker); // Add the user marker to the markers array
-
-    userMarker.addListener("click",()=>{
-        alert("This is you!");
-    })
-
-
-
-    //add all other markers
-    try{
-        const res = await axios.get(baseURL+"v1/map/getBuildings");
-
-        let successData = res.data.data;
-
-        if (successData.success==false || successData==undefined){
-            console.log("Unable to get markers");
-        }
-
-        const data = res.data.data.data;
-
-        data.forEach((element)=>{
-            let newMarker = {
-                id:element._id,
-                building_name:element.building_name,
-                campus:element.campus[0],
-                type:element.type[0],
-                code:element.code,
-                location:{ lat: element.latitude, lng: element.longitude},
-                building_id:element.building_id
-            };
-
-            APIMarkersInfo.push(newMarker);
-
-            let newContent = document.createElement('div');
-            newContent.classList.add(newMarker.type+'-marker');
-            
-            let newAdvancedMarker = new AdvancedMarkerElement({
-                map: map,
-                position: newMarker.location,
-                title: newMarker.building_name,
-                content:newContent
-            });
-
-            APIMarkers.push(newAdvancedMarker);
-
-            let newCodeInsert = newMarker.code==null?"None":newMarker.code;
-
-            let infoWindow = new google.maps.InfoWindow({
-                content: `<h3>${newMarker.building_name}</h3><p>Code:${newCodeInsert}</p>`, // HTML content
-              });
-
-            newAdvancedMarker.addListener("click",()=>{
-                infoWindow.open({
-                    anchor: newAdvancedMarker,   // Attach to the marker
-                    map,              // Open on the map
-                    shouldFocus: false, // Optional: prevent the window from stealing focus
-                  });
-            })
-        })
-    }catch(error){
-        //TODO make error shorter
-        console.log(error);
-    }
-
-
-    //wheelchairs
-    try{
-        const res = await axios.get(baseURL+"v1/accessibility/getWheelchairs");
-
-        let successData = res.data.data;
-
-        if (successData.success==false || successData==undefined){
-            console.log("Unable to get markers");
-        }
-
-        const data = res.data.data.data;
-
-        data.forEach((element)=>{
-            let newMarker = {
-                id:element._id,
-                name:element.name,
-                wheelchair_friendly:element.wheelchair_friendly,
-                ramp_available:element.ramp_available,
-                elevator_nearby:element.elevator_nearby,
-                type:"wheelchair",
-                location:{ lat: element.latitude, lng: element.longitude},
-            };
-
-            APIMarkersInfo.push(newMarker);
-
-            let newContent = document.createElement('div');
-            newContent.classList.add("wheelchair-marker");
-            
-            let newAdvancedMarker = new AdvancedMarkerElement({
-                map: map,
-                position: newMarker.location,
-                title: newMarker.building_name,
-                content:newContent
-            });
-
-            APIMarkers.push(newAdvancedMarker);
-
-            let infoWindow = new google.maps.InfoWindow({
-                content: `<h3>${newMarker.name}</h3><p>Wheelchair Friendly:${newMarker.wheelchair_friendly}</p>`, // HTML content
-              });
-
-            newAdvancedMarker.addListener("click",()=>{
-                infoWindow.open({
-                    anchor: newAdvancedMarker,   // Attach to the marker
-                    map,              // Open on the map
-                    shouldFocus: false, // Optional: prevent the window from stealing focus
-                  });
-            })
-        })
-    }catch(error){
-        //TODO make error shorter
-        console.log(error);
-    }
-
-
-
-
-
-    const searchBox = new SearchBox(inputField);
 
     // Updates the addresses when searching
     map.addListener('bounds_changed', function() {
         searchBox.setBounds(map.getBounds());
     });
+
+    const searchBox = new SearchBox(inputField);
 
     searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
@@ -299,8 +167,6 @@ async function initMap(){
             });
             markers.push(userMarker); // Add user marker to markers
 
-
-
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
                 bounds.union(place.geometry.viewport);
@@ -314,25 +180,203 @@ async function initMap(){
     });
 }
 
+async function addMarkers(){
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+    const content = document.createElement('div');
+    content.classList.add('custom-marker');
+    // content.classList.add('material-icons');
+    // content.innerHTML="person_pin";
+    // content.style="font-size:36px";
+
+    let userMarker = new AdvancedMarkerElement({
+        map: map,
+        position: userLocation,
+        title: "User",
+        content: content,
+    });
+
+    markers.push(userMarker); // Add the user marker to the markers array
+
+    try{
+        
+        const res = await axios.get(baseURL+"v1/map/getBuildings");
+
+        let successData = res.data.data;
+
+        if (successData.success==false || successData==undefined){
+            console.log("Unable to get markers");
+        }
+
+        const data = res.data.data.data;
+
+        data.forEach((element)=>{
+            let newMarker = {
+                id:element._id,
+                building_name:element.building_name,
+                campus:element.campus[0],
+                type:element.type[0],
+                code:element.code,
+                location:{ lat: element.latitude, lng: element.longitude},
+                building_id:element.building_id
+            };
+
+            APIMarkersInfo.push(newMarker);
+
+            let newContent = document.createElement('div');
+            newContent.classList.add(newMarker.type+'-marker');
+
+            
+            let newAdvancedMarker = new AdvancedMarkerElement({
+                map: map,
+                position: newMarker.location,
+                title: newMarker.building_name,
+                content:newContent
+            });
 
 
-navMeBtn.addEventListener("click", async function() {
+            APIMarkers.push(newAdvancedMarker);
+
+            let newCodeInsert = newMarker.code==null?"None":newMarker.code;
+
+            let infoWindow = new google.maps.InfoWindow({
+                content: `<h3>${newMarker.building_name}</h3><p>Code:${newCodeInsert}</p>`, // HTML content
+              });
+
+            newAdvancedMarker.addListener("click",()=>{
+                infoWindow.open({
+                    anchor: newAdvancedMarker,   // Attach to the marker
+                    map,              // Open on the map
+                    shouldFocus: false, // Optional: prevent the window from stealing focus
+                  });
+            })
+        })
+    }catch(error){
+        //TODO make error shorter
+        console.log(error);
+    }
+
+
+    //wheelchairs
+    try{
+        const res = await axios.get(baseURL+"v1/accessibility/getWheelchairs");
+
+        let successData = res.data.data;
+
+        if (successData.success==false || successData==undefined){
+            console.log("Unable to get markers");
+        }
+
+        const data = res.data.data.data;
+
+        data.forEach((element)=>{
+            let newMarker = {
+                id:element._id,
+                name:element.name,
+                wheelchair_friendly:element.wheelchair_friendly,
+                ramp_available:element.ramp_available,
+                elevator_nearby:element.elevator_nearby,
+                type:"wheelchair",
+                location:{ lat: element.latitude, lng: element.longitude},
+            };
+
+            APIMarkersInfo.push(newMarker);
+            
+            let newContent = document.createElement('div');
+            newContent.classList.add("wheelchair-marker");
+
+            let newAdvancedMarker = new AdvancedMarkerElement({
+                map: map,
+                position: newMarker.location,
+                title: newMarker.building_name,
+                content:newContent
+            });
+
+            APIMarkers.push(newAdvancedMarker);
+
+            let infoWindow = new google.maps.InfoWindow({
+                content: `<h3>${newMarker.name}</h3><p>Wheelchair Friendly:${newMarker.wheelchair_friendly}</p>`, // HTML content
+              });
+
+            newAdvancedMarker.addListener("click",()=>{
+                infoWindow.open({
+                    anchor: newAdvancedMarker,   // Attach to the marker
+                    map,              // Open on the map
+                    shouldFocus: false, // Optional: prevent the window from stealing focus
+                  });
+            })
+        })
+    }catch(error){
+        //TODO make error shorter
+        console.log(error);
+    }
+}
+
+
+async function renderPage(){
+    await initMap();
+    await addMarkers();
+}
+
+navMeBtn.addEventListener("click", async function() { 
+    if (navMeBtn.textContent=="Stop Navigation"){
+        if (lastResponse==null){
+            return;
+        }
+
+        navMeBtn.textContent = "Navigate Me";
+        directionsTextArea.innerHTML="";
+        if (polylinePath) {
+            polylinePath.setMap(null);
+        }
+
+        // const email = localStorage.getItem("email");
+
+        // let duration =lastResponse.data.duration
+
+        // let dataToSend = {
+        //     "user_id": "test",
+        //     "start_location": {
+        //       "latitude": origin["latitude"],
+        //       "longitude": origin["longtitude"]
+        //     },
+        //     "end_location": {
+        //       "latitude": dest["latitude"],
+        //       "longitude": dest["longtitude"]
+        //     },
+        //     "duration":  duration.substring(0, duration.length - 1),
+        //     "route_data": lastResponse.data.polyline
+        // }   
+
+
+        // console.log(JSON.stringify(dataToSend));
+
+        // const response = await axios.post(baseURL+"v1/userRoutes/insertRoute",dataToSend);
+
+        // console.log(response);
+        lastResponse = null;
+        return;
+    }
+
+
     if (dest.latitude==-1 || dest.longitude==-1){
         alert("Please search some place first");
         return;
     }
 
+    navMeBtn.textContent = "Stop Navigation";
+
     try {
         let coords = await getLocation();
-        const url = "http://192.168.0.85:3000/v1/route_optimize/route_optimize";
+        const url = baseURL+"v1/route_optimize/route_optimize";
 
         //TODO change back
-        // origin["latitude"]=coords.latitude;
-        // origin["longitude"]=coords.longitude;
+        origin["latitude"]=coords.latitude;
+        origin["longitude"]=coords.longitude;
 
 
-        origin["latitude"]=-26.1908692
-        origin["longitude"]=28.0271597
+        // origin["latitude"]=-26.1908692
+        // origin["longitude"]=28.0271597
 
 
         let data = {
@@ -341,10 +385,11 @@ navMeBtn.addEventListener("click", async function() {
             "travelMode":"WALK"
         }
 
-
         const response = await axios.post(url, data);
 
         let outputData = response.data;
+
+        lastResponse = outputData;
 
 
         const encodedPolyline = outputData.data["polyline"];
@@ -352,7 +397,11 @@ navMeBtn.addEventListener("click", async function() {
 
         var decodedPoints = polyline.decode(encodedPolyline);
 
-        const polylinePath = new google.maps.Polyline({
+        if (polylinePath) {
+            polylinePath.setMap(null);
+        }
+
+        polylinePath = new google.maps.Polyline({
             path: decodedPoints.map(point => ({ lat: point[0], lng: point[1] })),
             geodesic: true,
             strokeColor: '#FF0000',
@@ -379,7 +428,7 @@ navMeBtn.addEventListener("click", async function() {
             const distanceKM = distances["distance"]["text"];
             const time = distances["staticDuration"]["text"];
 
-            console.log(instrText,instrMove,distanceKM,time);
+            // console.log(instrText,instrMove,distanceKM,time);
 
 
             const row = document.createElement("section");
@@ -431,8 +480,8 @@ filter.addEventListener("change",(event)=>{
         }
     }
 })
-initMap();
 
+renderPage();
 
 
 
