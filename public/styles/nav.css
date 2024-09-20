@@ -23,22 +23,15 @@ body {
     font-size: 16px;
     box-sizing: border-box;
     white-space: nowrap;
-    /* Prevents wrapping */
     overflow: hidden;
-    /* Hides the overflow */
     text-overflow: ellipsis;
-    /* Adds the ellipsis */
 }
 
 .user-picture {
     height: 40px;
-    /* Adjust image size */
     margin-left: -40px;
-    /* Shift image left to overlap the input */
     margin-bottom: 15px;
     cursor: pointer;
-    background-image: url("../images/user1.png");
-
 }
 
 
@@ -202,81 +195,50 @@ button:active {
 
 .custom-marker {
     width: 50px;
-    /* Set width */
     height: 50px;
-    /* Set height */
     background-image: url("../images/person2.png");
-    /* Ensure the correct path */
     background-size: contain;
-    /* Fit the image within the container */
     background-position: center;
-    /* Center the image */
     background-repeat: no-repeat;
-    /* Prevent repeating */
 }
 
 .building-marker {
     width: 30px;
-    /* Set width */
     height: 30px;
-    /* Set height */
     background-image: url("../images/building.png");
-    /* Ensure the correct path */
     background-size: contain;
-    /* Fit the image within the container */
     background-position: center;
-    /* Center the image */
     background-repeat: no-repeat;
-    /* Prevent repeating */
 }
 
 
 .gatehouse-marker {
     width: 30px;
-    /* Set width */
     height: 30px;
-    /* Set height */
     background-image: url("../images/gatehouse.png");
-    /* Ensure the correct path */
     background-size: contain;
-    /* Fit the image within the container */
     background-position: center;
-    /* Center the image */
     background-repeat: no-repeat;
-    /* Prevent repeating */
 }
 
 
 .library-marker {
     width: 30px;
-    /* Set width */
     height: 30px;
-    /* Set height */
     background-image: url("../images/library.png");
-    /* Ensure the correct path */
     background-size: contain;
-    /* Fit the image within the container */
     background-position: center;
-    /* Center the image */
     background-repeat: no-repeat;
-    /* Prevent repeating */
 }
 
 
 /* Style for wheelchair accessible marker */
 .wheelchair-marker {
     width: 30px;
-    /* Width of the marker */
     height: 30px;
-    /* Height of the marker */
     border-radius: 50%;
-    /* Make the marker circular */
     background-image: url('../images/wheel.png');
-    /* Path to your icon */
     background-size: contain;
-    /* Ensure the image fits within the div */
     background-repeat: no-repeat;
-    /* Prevent image repetition */
     background-position: center;
-    /* Center the image */
 }
