@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navigate Screen</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="styles/nav.css">
     <link rel="stylesheet" href="styles/navBar.css">
-    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <script type="module" defer src="scripts/verifylogin.js"></script> <!-- This script should be put on everypage -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" rel="preconnect" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.2.1/polyline.js" rel="preconnect" defer></script>
+    <script rel="preconnect" defer>(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
+            ({ key: "AIzaSyCEbj6_WGhOUTbbDAVNw3BhOMnQ44yyXOo", v: "weekly", libraries: "places" });</script>
+    <script src="scripts/nav.js" defer></script>
 
-
+    <script type="module" defer src="scripts/verifylogin.js" defer></script> <!--This script should be put on everypage -->
 </head>
-
 <body>
-
     <div class="container">
         <section class="search-bar">
             <input type="text" id="search-input" placeholder="Search">
-            <img src="images/user1.png" alt="User" class="user-picture profile-img" id="profile-user">
-            <img src="images/X.png" alt="User" class="user-picture" id="cancel-search" style="display: none;">
+            <img src="images/user1.png" class="user-picture" id="profile-user">
+            <img src="images/X.png" class="user-picture" id="cancel-search" style="display: none;">
         </section>
-
         <div class="map-container">
-            <!-- Map will be displayed here -->
             <div id="map"></div>
         </div>
         <div class="filter">
@@ -39,12 +36,8 @@
                 <option value="none">None</option>
             </select>
         </div>
-
         <button type="button" id="nav-btn">Navigate Me</button>
-
         <section id="directions-text"></section>
-
-
         <section class="navbar">
             <a href="navigation.html">
                 <img src="icons/nav-purple.png" alt="Nav Icon">
@@ -64,16 +57,5 @@
             </a>
         </section>
     </div>
-
-    <!-- Move the script tag here -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.2.1/polyline.js"></script>
-    <script>(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
-            ({ key: "AIzaSyCEbj6_WGhOUTbbDAVNw3BhOMnQ44yyXOo", v: "weekly", libraries: "places" });</script>
-    <script src="scripts/nav.js" type="module"></script>
 </body>
-
 </html>
-
-
-<!-- the api key:AIzaSyAp3Gojowz7zZ5QxlOvjDdI0NPbryoM5Ds -->

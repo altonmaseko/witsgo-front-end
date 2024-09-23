@@ -175,6 +175,7 @@ const stations = [
   { id: 'station6', name: 'Station 6', lat: -26.192, lng: 28.032, icon: 'images/station.png' }
 ];
 
+
 const vehicleAvailability = {
   station1: {bicycle: 5, scooter: 3, skateboard: 7 },
   station2: {bicycle: 2, scooter: 6, skateboard: 1 },
@@ -183,6 +184,7 @@ const vehicleAvailability = {
   station5: {bicycle: 1, scooter: 4, skateboard: 2 },
   station6: {bicycle: 7, scooter: 3, skateboard: 6 }
 };
+
 
 let userMarker = null;
 let map;

@@ -16,7 +16,7 @@
         <section class="curved-header">
             <h1 class="full-name">Lucian Irsigler</h1>
         </section>
-        <div class="profile-image"> 
+        <div class="profile-image">
             <img src="../public/icons/profile.png" alt="profile">
         </div>
     </section>
@@ -69,8 +69,8 @@
 
             console.log("email from local storage", email);
             if (!email) {
-                alert("Error getting your details. Please login again.");
-                window.location.href = `${clientUrl}/registerLogin.html`;
+                alert("Error getting your details.");
+                // window.location.href = `${clientUrl}/registerLogin.html`;
                 return;
             }
 
@@ -86,8 +86,8 @@
             const user = response.data.user;
 
             if (!user) {
-                alert("Error getting your details. Please login again.");
-                window.location.href = `${clientUrl}/registerLogin.html`;
+                alert("Error getting your details.");
+                // window.location.href = `${clientUrl}/registerLogin.html`;
             }
 
             console.log(user);
@@ -106,7 +106,7 @@
         document.querySelector("#logout-button").addEventListener("click", async () => {
             localStorage.removeItem("user");
             try {
-                let response = await axios.post(`${serverUrl}/logout`, {});
+                let response = await axios.post(`${serverUrl}/logout`, {}, { withCredentials: true });
                 localStorage.removeItem("user");
                 window.location.href = `${clientUrl}`;
 
