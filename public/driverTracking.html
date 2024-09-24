@@ -23,27 +23,51 @@
             margin: 0;
         }
 
+        :root {
+            --loader-width: 12px;
+            --loader-center-color: red;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #23527c;
+            color: white;
+            padding: 1rem;
+            width: 100%;
+            font-size: 2rem;
+        }
+
         body {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 2rem;
-            padding: 2rem;
+        }
 
+        .main {
+            width: 100%;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 2rem;
         }
 
         .map-container {
-            height: 60vh;
+            height: 50vh;
             width: 90%;
             border-radius: 1rem;
             border: 2px solid black;
+            margin-inline: 1rem;
         }
 
         #track-me-button {
             font-size: 2rem;
             padding: 1rem;
-            background-color:#23527c;
+            background-color: #23527c;
             border-radius: 10px;
             color: white;
         }
@@ -52,13 +76,81 @@
             background-color: #1a3f5f;
         }
 
-    
+        .tracking-status-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .tracking-loader {
+            display: none;
+        }
+
+        /* Loading animation */
+        .loader {
+            width: var(--loader-width);
+            aspect-ratio: 1;
+            color: var(--loader-center-color);
+            position: relative;
+            background:
+                conic-gradient(from 134deg at top, currentColor 92deg, #0000 0) top,
+                conic-gradient(from -46deg at bottom, currentColor 92deg, #0000 0) bottom;
+            background-size: 100% 50%;
+            background-repeat: no-repeat;
+        }
+
+        .loader:before {
+            content: '';
+            position: absolute;
+            color: #23527c;
+            inset: 0;
+            --g: currentColor calc(var(--loader-width)/2), #0000 0 calc(100% - calc(var(--loader-width)/2)), currentColor 0;
+            background:
+                linear-gradient(45deg, var(--g)),
+                linear-gradient(-45deg, var(--g));
+            animation: l7 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+        }
+
+        @keyframes l7 {
+
+            33% {
+                inset: calc(var(--loader-width)/2 * -1);
+                transform: rotate(0deg);
+                --loader-center-color: #23527c;
+
+            }
+
+            66% {
+                inset: calc(var(--loader-width)/2 * -1);
+                transform: rotate(90deg)
+            }
+
+            100% {
+                inset: 0;
+                transform: rotate(90deg);
+                --loader-center-color: red;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="map-container"></div>
+    <header class="header">
+        <h3>Driver Page</h3>
+    </header>
+
+    <main class="main">
+        <div class="map-container"></div>
+
+        <div class="tracking-status-container">
+            <p class="tracking-status">Click below when you start your journey</p>
+            <div class="loader tracking-loader"></div>
+        </div>
+    </main>
+
+
 
     <button id="track-me-button">
         Start Journey

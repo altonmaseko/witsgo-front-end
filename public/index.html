@@ -11,23 +11,59 @@
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
-    <script type="module" defer src="scripts/verifylogin.js"></script> <!-- This script should be put on everypage -->
+    <!-- <script type="module" defer src="scripts/verifylogin.js"></script> This script should be put on everypage -->
 
 
 
     <script defer type="module">
         import { clientUrl, serverUrl } from "./scripts/constants.js";
 
-
-        //waits 2 seconds then navigates to next page
-        let currentUrl = clientUrl;
-
-        // Example: Redirect to the same URL with a different path after 2 seconds
-        currentUrl += "/navigation.html";
-
         // Wait 2 seconds then navigate to the new URL
-        setTimeout(function () {
-            window.location.href = currentUrl;
+        setTimeout(async () => {
+
+            // if server redirected us here after error, display servermessage query param
+            const urlParams = new URLSearchParams(window.location.search);
+            const serverMessage = urlParams.get('servermessage');
+            if (serverMessage) {
+                alert(serverMessage);
+            }
+
+            let response
+            try {
+                response = await axios.get(`${serverUrl}/verifylogin`, { withCredentials: true });
+                console.log("Login, 200 OK", response.data);
+            } catch (error) {
+                console.log("Error: ", error);
+                window.location.href = `${clientUrl}/registerLogin.html`;
+                return;
+            }
+
+            if (!response.data.isLoggedIn) {
+                console.log("User is not logged in");
+                window.location.href = `${clientUrl}/registerLogin.html`;
+                return;
+            }
+
+            // Set local storage
+            localStorage.clear();
+            localStorage.setItem("firstName", response.data.user.user.firstName);
+            localStorage.setItem("lastName", response.data.user.user.lastName);
+            localStorage.setItem("picture", response.data.user.user.picture);
+            localStorage.setItem("onWheelChair", response.data.user.user.onWheelChair);
+            localStorage.setItem("age", response.data.user.user.age);
+            localStorage.setItem("email", response.data.user.user.email);
+            localStorage.setItem("role", response.data.user.user.role);
+
+
+            let firstPage;
+            if (response.data.user.user.role === "student") {
+                firstPage = clientUrl + "/navigation.html";
+            } else {
+                firstPage = clientUrl + "/driverTracking.html";
+            }
+
+            window.location.href = firstPage;
+
         }, 2000); 
     </script>
 </head>

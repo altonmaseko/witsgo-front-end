@@ -4,7 +4,7 @@ import { clientUrl, serverUrl } from "./constants.js";
 const password = document.querySelector("#password-input");
 const confirmPassword = document.querySelector("#verify-password-input");
 const userRole = document.querySelector("#role-dropdown");
-const degree = document.querySelector("#degree-input");
+const faculty = document.querySelector("#faculty-dropdown");
 const onWheelChair = document.querySelector("#wheel-chair-dropdown");
 const errorMessage = document.querySelector(".error-message");
 const age = document.querySelector("#age-input");
@@ -12,7 +12,19 @@ const age = document.querySelector("#age-input");
 password.addEventListener("input", () => { errorMessage.style.display = "none"; });
 confirmPassword.addEventListener("input", () => { errorMessage.style.display = "none"; });
 userRole.addEventListener("input", () => { errorMessage.style.display = "none"; });
-degree.addEventListener("input", () => { errorMessage.style.display = "none"; });
+faculty.addEventListener("input", () => {
+    if (faculty.value != "wits-employee") {
+        userRole.value = "student";
+        userRole.disabled = true;
+    } else {
+        userRole.value = "bus-driver"; // most likely a bus driver, but they can change it
+        userRole.disabled = false;
+
+        userRole.querySelector("option[value='student']").disabled = true;
+    }
+    errorMessage.style.display = "none";
+
+});
 onWheelChair.addEventListener("input", () => { errorMessage.style.display = "none"; });
 age.addEventListener("input", () => { errorMessage.style.display = "none"; });
 
@@ -28,7 +40,7 @@ finishAccountSetupButton.addEventListener("click", async () => {
     }
 
     if (userRole.value === "" || password.value === "" ||
-        confirmPassword.value === "" || degree.value === "" ||
+        confirmPassword.value === "" || faculty.value === "" ||
         onWheelChair.value === "" || age.value === "") {
         errorMessage.style.display = "block";
         errorMessage.textContent = "Please fill in all fields.";
@@ -50,7 +62,7 @@ finishAccountSetupButton.addEventListener("click", async () => {
     const body = {
         password: password.value,
         role: userRole.value,
-        degree: degree.value,
+        faculty: faculty.value,
         onWheelChair: onWheelChair.value,
         age: age.value
     }
@@ -65,8 +77,6 @@ finishAccountSetupButton.addEventListener("click", async () => {
     }
 
     window.location.href = `${clientUrl}`;
-
-
 
 });
 
