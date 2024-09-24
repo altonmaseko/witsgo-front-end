@@ -20,6 +20,8 @@ const role = localStorage.getItem("role");
 console.log("Role from local storage", role);
 
 const mapContainer = document.querySelector('.map-container');
+const trackingStatus = document.querySelector('.tracking-status');
+const trackingLoader = document.querySelector('.tracking-loader');
 
 let map;
 let currentLocationMarker;
@@ -115,6 +117,10 @@ const trackMeButton = document.querySelector('#track-me-button');
 trackMeButton.addEventListener('click', async () => {
     if (allowTracking) {
         trackMeButton.textContent = "Track Me";
+
+        trackingStatus.textContent = "Click below when you start your journey";
+        trackingLoader.style.display = "none";
+
         allowTracking = false;
 
         // Stop tracking using the watchID
@@ -128,6 +134,8 @@ trackMeButton.addEventListener('click', async () => {
             return;
         };
         trackMeButton.textContent = "Stop Tracking";
+        trackingStatus.textContent = "you are currently being tracked...";
+        trackingLoader.style.display = "block";
         allowTracking = true;
 
         console.log("Tracking Started!")
@@ -173,6 +181,8 @@ trackMeButton.addEventListener('click', async () => {
             lastPositionUpdateTime = currentTime;
         }, (error) => {
             console.error("Error getting location:", error);
+            trackingStatus.textContent = "There was an error getting your location... Please try again later";
+            trackingLoader.style.display = "none";
         }, {
             enableHighAccuracy: true,
             timeout: 10000,

@@ -20,7 +20,7 @@ const checkLogin = async () => {
     }
 
     // Set local storage
-    localStorage.removeItem("user");
+    localStorage.clear();
     localStorage.setItem("firstName", response.data.user.user.firstName);
     localStorage.setItem("lastName", response.data.user.user.lastName);
     localStorage.setItem("picture", response.data.user.user.picture);
