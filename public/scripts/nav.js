@@ -1,3 +1,6 @@
+// import { clientUrl, serverUrl } from "./constants.js";
+
+
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
@@ -5,7 +8,8 @@ const inputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
-const baseURL = "http://localhost:3000/"
+const serverUrl = "http://localhost:3000/"
+
 // const baseURL = "https://witsgobackend.azurewebsites.net/"
 
 
@@ -48,7 +52,6 @@ let origin = {
     "latitude":-1,
     "longitude":-1
 }
-
 
 let dest = {
     "latitude":-1,
@@ -200,7 +203,7 @@ async function addMarkers(){
 
     try{
         
-        const res = await axios.get(baseURL+"v1/map/getBuildings");
+        const res = await axios.get(serverUrl+"v1/map/getBuildings");
 
         let successData = res.data.data;
 
@@ -259,7 +262,7 @@ async function addMarkers(){
 
     //wheelchairs
     try{
-        const res = await axios.get(baseURL+"v1/accessibility/getWheelchairs");
+        const res = await axios.get(serverUrl+"v1/accessibility/getWheelchairs");
 
         let successData = res.data.data;
 
@@ -343,9 +346,7 @@ navMeBtn.addEventListener("click", async function() {
 
     try {
         let coords = await getLocation();
-        const url = baseURL+"v1/route_optimize/route_optimize";
 
-        //TODO change back
         origin["latitude"]=coords.latitude;
         origin["longitude"]=coords.longitude;
 
@@ -353,6 +354,7 @@ navMeBtn.addEventListener("click", async function() {
         // origin["latitude"]=-26.1908692
         // origin["longitude"]=28.0271597
 
+        const url = serverUrl+"v1/route_optimize/route_optimize";
 
         let data = {
             "origin":origin,
@@ -455,5 +457,6 @@ filter.addEventListener("change",(event)=>{
         }
     }
 })
+
 
 renderPage();
