@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/witsGoLogo.png" type="image/x-icon">
+
     <title>Login & Register</title>
 
     <link rel="stylesheet" href="styles/navBar.css">
@@ -31,7 +33,7 @@
         }
 
         h1 {
-            color:black;
+            color: black;
             margin-bottom: 30px;
             font-family: cursive;
         }
@@ -93,6 +95,11 @@
     <script type="module" defer>
 
         import { clientUrl, serverUrl } from "./scripts/constants.js";
+
+
+
+        // clear all local storage
+        localStorage.clear();
 
         document.querySelector('.login-btn').addEventListener('click', async () => {
             console.log('google clicked');

@@ -60,7 +60,7 @@ async function initMap() {
     currentLocationMarker = new AdvancedMarkerElement({
         map: map,
         position: currentLocation,
-        title: "I am here",
+        title: "You are here",
         content: humanIconDiv.cloneNode(true)
     });
 

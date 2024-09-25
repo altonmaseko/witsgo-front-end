@@ -3,6 +3,8 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/witsGoLogo.png" type="image/x-icon">
+
     <link rel="stylesheet" href="styles/profile.css">
 
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -16,8 +18,7 @@
         <section class="curved-header">
             <h1 class="full-name">Lucian Irsigler</h1>
         </section>
-        <div class="profile-image"> 
-            <img src="../public/icons/profile.png" alt="profile">
+        <div class="profile-image">
         </div>
     </section>
     <section class="rows">
@@ -34,9 +35,9 @@
             </section>
         </section>
         <section>
-            <h2>Degree:</h2>
+            <h2>Faculty:</h2>
             <section class="sub-row">
-                <h3 class="degree">Computer Science</h2>
+                <h3 class="faculty">Science</h2>
             </section>
         </section>
         <section>
@@ -69,8 +70,8 @@
 
             console.log("email from local storage", email);
             if (!email) {
-                alert("Error getting your details. Please login again.");
-                window.location.href = `${clientUrl}/registerLogin.html`;
+                alert("Error getting your details.");
+                // window.location.href = `${clientUrl}/registerLogin.html`;
                 return;
             }
 
@@ -86,8 +87,8 @@
             const user = response.data.user;
 
             if (!user) {
-                alert("Error getting your details. Please login again.");
-                window.location.href = `${clientUrl}/registerLogin.html`;
+                alert("Error getting your details.");
+                // window.location.href = `${clientUrl}/registerLogin.html`;
             }
 
             console.log(user);
@@ -95,7 +96,7 @@
             document.querySelector(".full-name").textContent = user.firstName + " " + user.lastName;
             document.querySelector(".age").textContent = user.age;
             document.querySelector(".email").textContent = user.email;
-            document.querySelector(".degree").textContent = user.degree;
+            document.querySelector(".faculty").textContent = user.faculty;
             document.querySelector(".role").textContent = user.role;
             document.querySelector("#checkbox").checked = user.onWheelChair;
             document.querySelector(".profile-image").style.backgroundImage = `url(${user.picture})`;
@@ -104,10 +105,9 @@
         getUserAndUpdate();
 
         document.querySelector("#logout-button").addEventListener("click", async () => {
-            localStorage.removeItem("user");
             try {
-                let response = await axios.post(`${serverUrl}/logout`, {});
-                localStorage.removeItem("user");
+                let response = await axios.post(`${serverUrl}/logout`, {}, { withCredentials: true });
+                localStorage.clear();
                 window.location.href = `${clientUrl}`;
 
             } catch (error) {
@@ -121,15 +121,13 @@
                 return;
             }
 
-            localStorage.removeItem("user");
             try {
-                let response = await axios.delete(`${serverUrl}/user/${email}`);
-                localStorage.removeItem("user");
+                let response = await axios.delete(`${serverUrl}/user/${email}`, { withCredentials: true });
+                localStorage.clear();
                 window.location.href = `${clientUrl}`;
-
             } catch (error) {
                 alert("Error deleting account");
-                console.error("Error logging out", error);
+                console.error("Error deleting account", error);
             }
         });
 

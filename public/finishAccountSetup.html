@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/witsGoLogo.png" type="image/x-icon">
     <title>Finish Account Setup</title>
     <link rel="stylesheet" href="styles/createAcc.css">
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
@@ -23,7 +24,7 @@
 
         .error-message {
             color: indianred;
-            font-size: 1rem;
+            font-size: 1.4rem;
             text-align: center;
             display: none;
         }
@@ -37,17 +38,29 @@
             <!-- create inputs for password with ids-->
             <input type="password" id="password-input" placeholder="password" required>
             <input type="password" id="verify-password-input" placeholder="verify password" required>
-            <input type="text" id="degree-input" placeholder="degree" required>
+
+
+
             <input type="number" id="age-input" placeholder="age">
-            <!-- add drop down menu where u can choose role between campus security, bus driver or student -->
+
+            <select id="faculty-dropdown" required>
+                <option value="" disabled selected>Select your faculty</option>
+                <option value="engineering">Engineering</option>
+                <option value="health-sciences">Health Sciences</option>
+                <option value="humanities">Humanities</option>
+                <option value="science">Science</option>
+                <option value="commerce-law">Commerce, Law and Management</option>
+                <option value="wits-employee">Wits Employee</option>
+            </select>
+
             <select id="role-dropdown" required>
                 <option value="" disabled selected>Select your role</option>
-                <option value="campus-security">Campus Security</option>
+                <option value="student">Student</option>
                 <option value="bus-driver">Bus Driver</option>
                 <option value="campus-control">Campus Control</option>
-                <option value="student">Student</option>
+                <option value="campus-security">Campus Security</option>
             </select>
-            <!-- give wheel chair drop down with true or false options -->
+
             <select id="wheel-chair-dropdown" required>
                 <option value="" disabled selected>Wheel Chair Access</option>
                 <option value="true">True</option>

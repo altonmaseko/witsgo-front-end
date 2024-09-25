@@ -6,7 +6,7 @@ const checkLogin = async () => {
     let response
     try {
         response = await axios.get(`${serverUrl}/verifylogin`, { withCredentials: true });
-        console.log(response.data);
+        console.log("Login, 200 OK", response.data);
     } catch (error) {
         console.log(error.message);
         alert("Failed to authenticate your session. Please log in again to restore full functionality.");
@@ -20,7 +20,7 @@ const checkLogin = async () => {
     }
 
     // Set local storage
-    localStorage.removeItem("user");
+    localStorage.clear();
     localStorage.setItem("firstName", response.data.user.user.firstName);
     localStorage.setItem("lastName", response.data.user.user.lastName);
     localStorage.setItem("picture", response.data.user.user.picture);

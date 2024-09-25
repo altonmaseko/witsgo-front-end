@@ -1,4 +1,4 @@
-﻿# WitsGo
+# WitsGo
 
 WitsGo, the Campus Navigation and Transportation site, is designed to address critical mobility and accessibility challenges faced by students, faculty, and visitors on Wits Main Campus. Visitors, and students often encounter difficulties in efficiently navigating the extensive campus environment, optimizing travel routes, and accessing transportation services. The existing systems lack real-time updates, and accessibility features, resulting in inefficiencies, user frustration, and late arrivals.
 
