@@ -177,12 +177,12 @@ const stations = [
 
 
 const vehicleAvailability = {
-  station1: {bicycle: 5, scooter: 3, skateboard: 7 },
-  station2: {bicycle: 2, scooter: 6, skateboard: 1 },
-  station3: {bicycle: 4, scooter: 2, skateboard: 3 },
-  station4: {bicycle: 3, scooter: 1, skateboard: 5 },
-  station5: {bicycle: 1, scooter: 4, skateboard: 2 },
-  station6: {bicycle: 7, scooter: 3, skateboard: 6 }
+  station1: { bicycle: 5, scooter: 3, skateboard: 7 },
+  station2: { bicycle: 2, scooter: 6, skateboard: 1 },
+  station3: { bicycle: 4, scooter: 2, skateboard: 3 },
+  station4: { bicycle: 3, scooter: 1, skateboard: 5 },
+  station5: { bicycle: 1, scooter: 4, skateboard: 2 },
+  station6: { bicycle: 7, scooter: 3, skateboard: 6 }
 };
 
 
