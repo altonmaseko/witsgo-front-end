@@ -33,9 +33,42 @@ body {
   color: white;  
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 18px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+th {
+  background-color: #235273;
+  color: white;
+  text-align: left;
+}
+
+td {
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.hidden {
+  display: none;
+}
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+}
 
 
-.schedule-container {
+
+/* .schedule-container {
   flex: 1;
   padding: 30px;
   margin: 20px;
@@ -46,7 +79,6 @@ body {
   border-width: 2px;
   box-shadow: 2px 5px #E0DDDD;
   overflow-y: auto;
-  /* max-height: calc(100vh - 220px); */
   max-height: 50vh;
   font-size: 22px;
   transition: all 0.3s ease-in-out;
@@ -70,7 +102,7 @@ body {
   box-shadow: 2px 5px #E0DDDD;
   overflow-y: scroll;
   background-color: white;
-}
+} */
 
 /* Navbar */
 .navbar {
@@ -108,14 +140,14 @@ body {
 
 .dropdown-container {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: row; /* Ensure dropdowns are in a row */
+  align-items: center; /* Align items vertically centered */
   padding-inline: 1rem;
-  gap: 1rem;
-  margin-left: auto;
-  margin-right: 30px;
-  gap: 10px;
+  gap: 1rem; /* Adjust gap between items */
+  margin-left: auto; /* Push it to the right */
+  margin-right: 30px; /* Space from the right */
 }
+
 
 #destination,
 #days {
@@ -203,6 +235,7 @@ body {
     padding: 20px;
   }
 
+  
 
   .dropdown-container {
     flex-direction: row;
