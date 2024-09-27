@@ -5,25 +5,31 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
   min-height: 100vh;
 }
 
-.header {
+header {
+  background-color: #23527c;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
   display: flex;
-  justify-content: center;  
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: #23527c;  
-  color: white;               
-  height: 70px;
-  margin-bottom: 10px;
+  justify-content: center;
+  width: 100%; /* Make header span the full width */
+  box-sizing: border-box; /* Include padding in width */
+  font-size: 24px;
+  height: 110px;
 }
 
-.header h1 {
-  margin-left: 20px;
-  margin-top: 15px;
-  font-size: 24px;
+header img#profile-picture {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin-right: 15px;
 }
 
 .title {
@@ -185,7 +191,7 @@ tbody tr:nth-child(even) {
     flex-direction: row;
     align-items: center;
     padding: 20px;
-
+    font-size: small;
   }
 
   .profile-icon {

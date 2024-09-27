@@ -21,15 +21,19 @@
 </head>
 
 <body>
+
+    <header>
+        <img class="profile-img" src="images/pfp.jpg" alt="Profile Picture" id="profile-picture">
+        <h1>Navigation</h1>
+    </header>
+
     <div class="container">
         <section class="search-bar">
             <input type="text" id="search-input" placeholder="Search">
             <img src="images/user1.png" class="user-picture" id="profile-user">
             <img src="images/X.png" class="user-picture" id="cancel-search" style="display: none;">
         </section>
-        <div class="map-container">
-            <div id="map"></div>
-        </div>
+        <section id="map"></section>
         <div class="filter">
             <label for="filterType">Filter by type:</label>
             <select id="filterType">

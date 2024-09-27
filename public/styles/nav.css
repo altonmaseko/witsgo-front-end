@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     height: 100vh;
     margin: 0;
@@ -152,19 +153,14 @@ button:active {
     width: 100%;
 }
 
-.map-container {
-    width: 100%;
-    height: 70%;
-    margin-bottom: 10px;
-    overflow: visible;
-    border-radius: 1rem;
+section#map {
+    width: 90%;
+    max-width: 800px;
+    height: 50vh;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 15px;
     overflow: hidden;
-}
-
-
-#map {
-    height: 100%;
-    width: 100%;
 }
 
 
@@ -242,3 +238,26 @@ button:active {
     background-repeat: no-repeat;
     background-position: center;
 }
+
+header {
+    background-color: #23527c;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Make header span the full width */
+    box-sizing: border-box; /* Include padding in width */
+    font-size: 24px;
+    height: 110px;
+}
+
+header img#profile-picture {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+
