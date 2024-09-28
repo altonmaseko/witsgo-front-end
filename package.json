@@ -8,7 +8,8 @@
     "stylelint": " npx stylelint **/*.css",
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "httpserver": "http-server -c -1 -S -C server.cert -K server.key -p 5000"
+    "httpserver": "http-server -c -1 -S -C server.cert -K server.key -p 5000",
+    "cypress":"npx cypress open"
   },
   "repository": {
     "type": "git",
