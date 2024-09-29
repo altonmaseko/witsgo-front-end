@@ -8,7 +8,41 @@ body {
   min-height: 100vh;
 }
 
-.header {
+/* .header {
+  display: flex;
+  background-color: #23527c;
+  width: 100%;
+  padding: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+.title {
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+  font-family: Poppins, sans-serif;
+}
+
+.header img {
+  width: 58px;
+  height: 58px;
+  margin-right: 30px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header img:hover {
+  transform: scale(1.2); 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+} */
+
+/* .header {
   display: flex;
   justify-content: center;  
   align-items: center;
@@ -16,12 +50,12 @@ body {
   padding: 1rem;
   background-color: #23527c;  
   color: white;               
-  height: 70px;
+  height: 50px;
   margin-bottom: 10px;
 }
 
 .header h1 {
-  margin-left: 20px;
+  margin-left: 550px;
   margin-top: 15px;
   font-size: 24px;
 }
@@ -33,9 +67,75 @@ body {
   color: white;  
 }
 
+.header img {
+  width: 52px; 
+  height: 52px; 
+  margin-left: auto;  
+} */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+th {
+  background-color: #1f6f8b; 
+  color: white; 
+  text-align: left;
+}
+
+td {
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* table route collapising/expanding things  */
+.route-header {
+  cursor: pointer;
+  background-color: #f9f9f9;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.3s ease; 
+}
+
+/* roating arrow */
+.expanded .arrow {
+  transform: rotate(90deg); 
+}
 
 
-.schedule-container {
+.route-details {
+  display: none; 
+}
+
+.route-details td {
+  padding-left: 15px;
+  background-color: #f2f2f2;
+}   
+
+.hidden {
+  display: none;
+}
+
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+}
+
+
+
+/* .schedule-container {
   flex: 1;
   padding: 30px;
   margin: 20px;
@@ -46,7 +146,6 @@ body {
   border-width: 2px;
   box-shadow: 2px 5px #E0DDDD;
   overflow-y: auto;
-  /* max-height: calc(100vh - 220px); */
   max-height: 50vh;
   font-size: 22px;
   transition: all 0.3s ease-in-out;
@@ -70,52 +169,21 @@ body {
   box-shadow: 2px 5px #E0DDDD;
   overflow-y: scroll;
   background-color: white;
-}
+} */
 
 /* Navbar */
-.navbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  background-color: #E0DDDD;
-  padding: 10px 0;
-  z-index: 1000;
-}
 
-.navbar a {
-  color: #373434;
-  text-decoration: none;
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.navbar img {
-  width: 32px;
-  height: 32px;
-  margin-bottom: 5px;
-}
-
-.navbar a[href="#schedule"] {
-  color: #747BDC;
-}
 
 .dropdown-container {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: row; /* Ensure dropdowns are in a row */
+  align-items: center; /* Align items vertically centered */
   padding-inline: 1rem;
-  gap: 1rem;
-  margin-left: auto;
-  margin-right: 30px;
-  gap: 10px;
+  gap: 1rem; /* Adjust gap between items */
+  margin-left: auto; /* Push it to the right */
+  margin-right: 30px; /* Space from the right */
 }
+
 
 #destination,
 #days {
@@ -131,8 +199,14 @@ body {
 @media (width <=600px) {
   .header {
     flex-direction: row;
-    align-items: flex-start;
-    padding: 15px;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .header img{
+    width: 40px;
+    height: 40px;
+    margin-right: 30px;
   }
 
   /* .profile-icon {
@@ -142,8 +216,8 @@ body {
   } */
 
   .title {
-    font-size: 20px;
-    margin: 0;
+    font-size: 22px;
+    margin: 10px 0;
   }
 
   .schedule-container {
@@ -155,12 +229,20 @@ body {
 
   .dropdown-container {
     flex-direction: row;
+
     /* justify-content: space-between; */
     align-items: flex-start;
     margin-left: 10px;
+
     /* width: 400px; */
     gap: 1rem;
     margin-right: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
   }
 
   #destination,
@@ -203,6 +285,7 @@ body {
     padding: 20px;
   }
 
+  
 
   .dropdown-container {
     flex-direction: row;

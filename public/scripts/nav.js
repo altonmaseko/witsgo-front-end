@@ -1,3 +1,4 @@
+import { clientUrl, serverUrl } from "./constants.js";
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
@@ -5,13 +6,32 @@ const inputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
-const baseURL = "http://localhost:3000/"
+// const serverUrl = "http://localhost:3000/"
 // const baseURL = "https://witsgobackend.azurewebsites.net/"
-
 
 let polylinePath = null;
 let lastResponse = null;
 let userLocation = null;
+
+let map;
+
+let origin = {
+    "latitude":-1,
+    "longitude":-1
+}
+
+let dest = {
+    "latitude":-1,
+    "longitude":-1
+}
+
+let markers = []
+let APIMarkers = [];
+let APIMarkersInfo = [];
+let searchedMarkerIndex = -1;
+let userMarker = null;
+
+
 
 inputField.addEventListener("click",function(){
     profileImg.style.display = "None"
@@ -26,9 +46,9 @@ inputField.addEventListener("focusout",function(){
 })
 
 
-profileImg.addEventListener("click",function(){
-    window.location.assign("profile.html");
-})
+// profileImg.addEventListener("click",function(){
+//     window.location.assign("profile.html");
+// })
 
 cancelSearch.addEventListener("click",function(){
     inputField.value="";
@@ -42,22 +62,6 @@ cancelSearch.addEventListener("click",function(){
 })
 
 
-let map;
-
-let origin = {
-    "latitude":-1,
-    "longitude":-1
-}
-
-
-let dest = {
-    "latitude":-1,
-    "longitude":-1
-}
-
-let markers = []
-let APIMarkers = [];
-let APIMarkersInfo = [];
 
 async function getLocation() {
     return new Promise((resolve, reject) => {
@@ -134,6 +138,7 @@ async function initMap(){
         });
 
         markers = []; // Reset the markers array
+    
 
         var bounds = new google.maps.LatLngBounds(); // Move the map to the new locations
 
@@ -156,16 +161,20 @@ async function initMap(){
                 title: place.name,
             });
 
+            searchedMarkerIndex = markers.length;
             markers.push(placeMarker); // Add place marker to the markers array
 
+
+            const content = document.createElement('div');
+            content.classList.add('custom-marker');
+
             // Add the user's marker back to the array
-            let userMarker = new AdvancedMarkerElement({
+            userMarker = new AdvancedMarkerElement({
                 map: map,
                 position: {lat: origin["latitude"], lng: origin["longitude"]},
                 title: "User",
                 content: content,
             });
-            markers.push(userMarker); // Add user marker to markers
 
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
@@ -180,6 +189,12 @@ async function initMap(){
     });
 }
 
+function isNum(str) {
+    const regex = /^\d+,\d+$/;
+    return regex.test(str);
+  }
+
+
 async function addMarkers(){
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
@@ -189,18 +204,16 @@ async function addMarkers(){
     // content.innerHTML="person_pin";
     // content.style="font-size:36px";
 
-    let userMarker = new AdvancedMarkerElement({
+    userMarker = new AdvancedMarkerElement({
         map: map,
         position: userLocation,
         title: "User",
         content: content,
     });
 
-    markers.push(userMarker); // Add the user marker to the markers array
-
     try{
         
-        const res = await axios.get(baseURL+"v1/map/getBuildings");
+        const res = await axios.get(serverUrl+"/v1/map/getBuildings");
 
         let successData = res.data.data;
 
@@ -210,6 +223,7 @@ async function addMarkers(){
 
         const data = res.data.data.data;
 
+        console.log(data);
         data.forEach((element)=>{
             let newMarker = {
                 id:element._id,
@@ -245,21 +259,20 @@ async function addMarkers(){
 
             newAdvancedMarker.addListener("click",()=>{
                 infoWindow.open({
-                    anchor: newAdvancedMarker,   // Attach to the marker
-                    map,              // Open on the map
-                    shouldFocus: false, // Optional: prevent the window from stealing focus
+                    anchor: newAdvancedMarker,   
+                    map,              
+                    shouldFocus: false,
                   });
             })
         })
     }catch(error){
-        //TODO make error shorter
         console.log(error);
     }
 
 
     //wheelchairs
     try{
-        const res = await axios.get(baseURL+"v1/accessibility/getWheelchairs");
+        const res = await axios.get(serverUrl+"/v1/accessibility/getWheelchairs");
 
         let successData = res.data.data;
 
@@ -307,8 +320,46 @@ async function addMarkers(){
             })
         })
     }catch(error){
-        //TODO make error shorter
         console.log(error);
+    }
+
+
+    //dining hall stuff
+    try{
+        const res = await axios.get("https://virtserver.swaggerhub.com/O-n-Site/CampusBites/1.0.0/restaurants");
+        res.data.forEach((restaurant)=>{
+            let location = restaurant.location;
+
+
+            if (isNum(location)==false){
+                throw Error("Invalid format")
+            }
+
+
+            let id = restaurant.id;
+            let name = restaurant.name;
+            let opening_time = restaurant.opening_time;
+            let closing_time = restaurant.closing_time;
+            let categories = restaurant.categories;
+
+            categories.forEach((item)=>{
+                let itemName = item.name;
+                let menuItems = item.menu_items
+
+                menuItems.forEach((menuItem)=>{
+                    console.log(menuItem);
+                    let menuItemName = menuItem.name;
+                    let description = menuItem.description;
+                    let price = menuItem.price;
+                    let is_available = menuItem.is_available;
+
+                })
+            })
+
+            console.log(location);
+        })
+    }catch(error){
+        //TODO make error shorter
     }
 }
 
@@ -330,6 +381,16 @@ navMeBtn.addEventListener("click", async function() {
             polylinePath.setMap(null);
         }
         lastResponse = null;
+
+        for (let i=0;i<APIMarkers.length;i++){
+            let marker = APIMarkers[i];
+            marker.map=map;
+        }
+
+        filter.value = "all"
+        markers[searchedMarkerIndex].map = null;
+        markers.slice(searchedMarkerIndex,searchedMarkerIndex);
+        searchedMarkerIndex = -1
         return;
     }
 
@@ -342,17 +403,23 @@ navMeBtn.addEventListener("click", async function() {
     navMeBtn.textContent = "Stop Navigation";
 
     try {
-        let coords = await getLocation();
-        const url = baseURL+"v1/route_optimize/route_optimize";
 
-        //TODO change back
+        for (let i=0;i<APIMarkers.length;i++){
+            let marker = APIMarkers[i];
+            marker.map=null;
+        }
+        filter.value = "none"        
+
+        let coords = await getLocation();
+
         origin["latitude"]=coords.latitude;
         origin["longitude"]=coords.longitude;
 
 
-        // origin["latitude"]=-26.1908692
-        // origin["longitude"]=28.0271597
+        origin["latitude"]=-26.1908692
+        origin["longitude"]=28.0271597
 
+        const url = serverUrl+"/v1/route_optimize/route_optimize";
 
         let data = {
             "origin":origin,
@@ -388,45 +455,45 @@ navMeBtn.addEventListener("click", async function() {
 
         //add directions
 
-        while (directionsTextArea.firstChild) {
-            directionsTextArea.removeChild(directionsTextArea.firstChild);
-        }
+        // while (directionsTextArea.firstChild) {
+        //     directionsTextArea.removeChild(directionsTextArea.firstChild);
+        // }
 
         
-        legs[0]["steps"].forEach((leg)=>{
-            const instructions = leg["navigationInstruction"];
-            const distances = leg["localizedValues"];
+        // legs[0]["steps"].forEach((leg)=>{
+            // const instructions = leg["navigationInstruction"];
+            // const distances = leg["localizedValues"];
 
-            const instrText = instructions["instructions"];
-            const instrMove = instructions["maneuver"];
+            // const instrText = instructions["instructions"];
+            // const instrMove = instructions["maneuver"];
 
-            const distanceKM = distances["distance"]["text"];
-            const time = distances["staticDuration"]["text"];
+            // const distanceKM = distances["distance"]["text"];
+            // const time = distances["staticDuration"]["text"];
 
-            // console.log(instrText,instrMove,distanceKM,time);
-
-
-            const row = document.createElement("section");
-            row.classList.add("directions-row")
+            // // console.log(instrText,instrMove,distanceKM,time);
 
 
-            const instructionRow = document.createElement("section");
-            instructionRow.classList.add("directions-row-instruction");
-            instructionRow.innerHTML = "<p>"+instrText+"</p>"
-            row.appendChild(instructionRow);
+            // const row = document.createElement("section");
+            // row.classList.add("directions-row")
 
-            const instructionDist = document.createElement("section");
-            instructionDist.classList.add("directions-row-distance");
-            instructionDist.innerHTML = "<p>"+distanceKM+"</p>"
-            row.appendChild(instructionDist);
+
+            // const instructionRow = document.createElement("section");
+            // instructionRow.classList.add("directions-row-instruction");
+            // instructionRow.innerHTML = "<p>"+instrText+"</p>"
+            // row.appendChild(instructionRow);
+
+            // const instructionDist = document.createElement("section");
+            // instructionDist.classList.add("directions-row-distance");
+            // instructionDist.innerHTML = "<p>"+distanceKM+"</p>"
+            // row.appendChild(instructionDist);
             
-            const instructionTime = document.createElement("section");
-            instructionTime.classList.add("directions-row-time");
-            instructionTime.innerHTML = "<p>"+time+"</p>"
-            row.appendChild(instructionTime);
+            // const instructionTime = document.createElement("section");
+            // instructionTime.classList.add("directions-row-time");
+            // instructionTime.innerHTML = "<p>"+time+"</p>"
+            // row.appendChild(instructionTime);
 
-            directionsTextArea.appendChild(row);
-        })
+            // directionsTextArea.appendChild(row);
+        // })
 
 
     } catch (error) {
@@ -455,5 +522,6 @@ filter.addEventListener("change",(event)=>{
         }
     }
 })
+
 
 renderPage();

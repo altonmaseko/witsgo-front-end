@@ -1,5 +1,4 @@
 describe('Navigation Page Test (Mobile View)', () => {
-
     // Set the viewport size to 360x800 before each test
     beforeEach(() => {
       cy.viewport(360, 800);
@@ -30,7 +29,7 @@ describe('Navigation Page Test (Mobile View)', () => {
     });
   
     it('should toggle profile picture and cancel button in the search bar (mobile)', () => {
-      cy.get('#search-input').should('be.enabled').type('Test Search');
+      cy.get('#search-input').should('be.enabled').type('wits biology building');
     });
   
 });
