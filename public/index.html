@@ -21,13 +21,13 @@
 
         // Wait 2 seconds then navigate to the new URL
         setTimeout(async () => {
-            window.location.href = "navigation.html"
-            return;
+            // return;
 
             // if server redirected us here after error, display servermessage query param
             const urlParams = new URLSearchParams(window.location.search);
             const serverMessage = urlParams.get('servermessage');
             if (serverMessage) {
+                console.log("Server message: ", serverMessage);
                 alert(serverMessage);
             }
 
@@ -67,7 +67,8 @@
 
             window.location.href = firstPage;
 
-        }, 2000); 
+        }, 2000);
+
     </script>
 </head>
 
