@@ -14,7 +14,7 @@
 
     <style>
         body {
-            font-family: cursive;
+            font-family: Poppins, sans-serif;
         }
 
         select {
@@ -64,9 +64,10 @@
             <input type="password" id="verify-password-input" placeholder="Verify Password" required>
             <img src="icons/invisible-icon.png" class="toggle-password" onclick="togglePasswordVisibility(this, 'verify-password-input')" alt="Show Password">
         </div>
-
-
-            <input type="number" id="age-input" placeholder="Age">
+        
+            <div class="input-container">
+                <input type="number" id="age-input" placeholder="Age">
+            </div>
 
             <select id="faculty-dropdown" required>
                 <option value="" disabled selected>Select your faculty</option>

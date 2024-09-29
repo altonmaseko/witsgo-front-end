@@ -42,7 +42,7 @@ input {
 }
 
 .input-container input {
-    padding-right: 40px; 
+    padding-right: 30px; 
     margin-top: 15px;
 }
 
@@ -155,4 +155,12 @@ input,
 button,
 select {
     width: 90%;
+}
+
+@media (width <=600px) {
+    .container {
+        padding: 20px; /* Padding inside the container */
+        margin: 0 15px; /* Space on the sides */
+    }
+
 }
