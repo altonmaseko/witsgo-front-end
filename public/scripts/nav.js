@@ -1,6 +1,4 @@
-// import { clientUrl, serverUrl } from "./constants.js";
-
-
+import { clientUrl, serverUrl } from "./constants.js";
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
@@ -8,14 +6,32 @@ const inputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
-const serverUrl = "http://localhost:3000/"
-
+// const serverUrl = "http://localhost:3000/"
 // const baseURL = "https://witsgobackend.azurewebsites.net/"
-
 
 let polylinePath = null;
 let lastResponse = null;
 let userLocation = null;
+
+let map;
+
+let origin = {
+    "latitude":-1,
+    "longitude":-1
+}
+
+let dest = {
+    "latitude":-1,
+    "longitude":-1
+}
+
+let markers = []
+let APIMarkers = [];
+let APIMarkersInfo = [];
+let searchedMarkerIndex = -1;
+let userMarker = null;
+
+
 
 inputField.addEventListener("click",function(){
     profileImg.style.display = "None"
@@ -45,23 +61,6 @@ cancelSearch.addEventListener("click",function(){
     }
 })
 
-
-let map;
-
-let origin = {
-    "latitude":-1,
-    "longitude":-1
-}
-
-let dest = {
-    "latitude":-1,
-    "longitude":-1
-}
-
-let markers = []
-let APIMarkers = [];
-let APIMarkersInfo = [];
-let searchedMarkerIndex = -1;
 
 
 async function getLocation() {
@@ -170,13 +169,12 @@ async function initMap(){
             content.classList.add('custom-marker');
 
             // Add the user's marker back to the array
-            let userMarker = new AdvancedMarkerElement({
+            userMarker = new AdvancedMarkerElement({
                 map: map,
                 position: {lat: origin["latitude"], lng: origin["longitude"]},
                 title: "User",
                 content: content,
             });
-            markers.push(userMarker); // Add user marker to markers
 
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
@@ -206,18 +204,16 @@ async function addMarkers(){
     // content.innerHTML="person_pin";
     // content.style="font-size:36px";
 
-    let userMarker = new AdvancedMarkerElement({
+    userMarker = new AdvancedMarkerElement({
         map: map,
         position: userLocation,
         title: "User",
         content: content,
     });
 
-    markers.push(userMarker); // Add the user marker to the markers array
-
     try{
         
-        const res = await axios.get(serverUrl+"v1/map/getBuildings");
+        const res = await axios.get(serverUrl+"/v1/map/getBuildings");
 
         let successData = res.data.data;
 
@@ -270,14 +266,13 @@ async function addMarkers(){
             })
         })
     }catch(error){
-        //TODO make error shorter
         console.log(error);
     }
 
 
     //wheelchairs
     try{
-        const res = await axios.get(serverUrl+"v1/accessibility/getWheelchairs");
+        const res = await axios.get(serverUrl+"/v1/accessibility/getWheelchairs");
 
         let successData = res.data.data;
 
@@ -325,7 +320,6 @@ async function addMarkers(){
             })
         })
     }catch(error){
-        //TODO make error shorter
         console.log(error);
     }
 
@@ -414,9 +408,7 @@ navMeBtn.addEventListener("click", async function() {
             let marker = APIMarkers[i];
             marker.map=null;
         }
-
-        filter.value = "none"
-        
+        filter.value = "none"        
 
         let coords = await getLocation();
 
@@ -424,10 +416,10 @@ navMeBtn.addEventListener("click", async function() {
         origin["longitude"]=coords.longitude;
 
 
-        // origin["latitude"]=-26.1908692
-        // origin["longitude"]=28.0271597
+        origin["latitude"]=-26.1908692
+        origin["longitude"]=28.0271597
 
-        const url = serverUrl+"v1/route_optimize/route_optimize";
+        const url = serverUrl+"/v1/route_optimize/route_optimize";
 
         let data = {
             "origin":origin,
