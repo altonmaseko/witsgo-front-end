@@ -8,6 +8,7 @@
     <title>Navigate Screen</title>
     <link rel="stylesheet" href="styles/nav.css">
     <link rel="stylesheet" href="styles/navBar.css">
+    <link rel="stylesheet" href="styles/header.css">
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" rel="preconnect" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.2.1/polyline.js" rel="preconnect"
@@ -22,9 +23,15 @@
 
 <body>
     <div class="container">
+        <section class="header">
+            <h1 class="title">Navigation</h1>
+            <a href="profile.html">
+            <img src="icons/profile-icon.png" alt="user-profile">
+        </a>
+        </section>
         <section class="search-bar">
             <input type="text" id="search-input" placeholder="Search">
-            <img src="images/user1.png" class="user-picture" id="profile-user">
+            <img src="icons/search-icon.png" class="user-picture" id="profile-user">
             <img src="images/X.png" class="user-picture" id="cancel-search" style="display: none;">
         </section>
         <div class="map-container">
