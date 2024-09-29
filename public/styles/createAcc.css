@@ -36,6 +36,26 @@ input {
     font-size: 16px;
 }
 
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input-container input {
+    padding-right: 30px; 
+    margin-top: 15px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
 button {
     display: flex;
     justify-content: center;
@@ -135,4 +155,12 @@ input,
 button,
 select {
     width: 90%;
+}
+
+@media (width <=600px) {
+    .container {
+        padding: 20px; /* Padding inside the container */
+        margin: 0 15px; /* Space on the sides */
+    }
+
 }
