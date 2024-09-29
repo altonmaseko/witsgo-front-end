@@ -21,6 +21,8 @@
 
         // Wait 2 seconds then navigate to the new URL
         setTimeout(async () => {
+            window.location.href = "navigation.html"
+            return;
 
             // if server redirected us here after error, display servermessage query param
             const urlParams = new URLSearchParams(window.location.search);
