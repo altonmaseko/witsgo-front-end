@@ -7,6 +7,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+
 .header {
   display: flex;
   background-color: #23527c;
@@ -33,13 +34,14 @@ body {
   margin-right: 30px;
   cursor: pointer;
   border-radius: 50%;
+
   /* transition: transform 0.3s ease-in-out; */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .header img:hover {
   transform: scale(1.2); 
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 10px 20px rgb(0 0 0 / 20%); 
 }
 
 /* .header {
@@ -83,6 +85,7 @@ table, th, td {
   border: 1px solid #ddd;
   padding: 10px;
 }
+
 th {
   background-color: #1f6f8b; /* Muted teal */
   color: white; /* White text for contrast */
@@ -100,6 +103,7 @@ tbody tr:nth-child(even) {
 .hidden {
   display: none;
 }
+
 .highlight {
   background-color: yellow;
   font-weight: bold;
@@ -195,9 +199,11 @@ tbody tr:nth-child(even) {
 
   .dropdown-container {
     flex-direction: row;
+
     /* justify-content: space-between; */
     align-items: flex-start;
     margin-left: 10px;
+
     /* width: 400px; */
     gap: 1rem;
     margin-right: 10px;

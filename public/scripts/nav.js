@@ -139,6 +139,7 @@ async function initMap(){
         });
 
         markers = []; // Reset the markers array
+    
 
         var bounds = new google.maps.LatLngBounds(); // Move the map to the new locations
 
@@ -190,7 +191,7 @@ async function initMap(){
     });
 }
 
-function isNumCommaNum(str) {
+function isNum(str) {
     const regex = /^\d+,\d+$/;
     return regex.test(str);
   }
@@ -336,7 +337,7 @@ async function addMarkers(){
             let location = restaurant.location;
 
 
-            if (isNumCommaNum(location)==false){
+            if (isNum(location)==false){
                 throw Error("Invalid format")
             }
 

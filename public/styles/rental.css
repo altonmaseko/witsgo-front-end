@@ -63,7 +63,7 @@ section#controls {
 
 button#rent-button,
 button#return-button,
-button#cancelButton {
+button#cancel-button {
     font-size: 18px;
     padding: 10px 20px;
 }
@@ -84,7 +84,7 @@ button#cancelButton {
     margin-right: 10px;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
     header {
         text-align: center;
     }
@@ -103,7 +103,7 @@ button#cancelButton {
     }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
     header h1 {
         font-size: 1.5rem;
     }
