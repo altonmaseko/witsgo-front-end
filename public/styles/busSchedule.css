@@ -7,7 +7,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
-.header {
+/* .header {
   display: flex;
   background-color: #23527c;
   width: 100%;
@@ -33,14 +33,13 @@ body {
   margin-right: 30px;
   cursor: pointer;
   border-radius: 50%;
-  /* transition: transform 0.3s ease-in-out; */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .header img:hover {
   transform: scale(1.2); 
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
-}
+} */
 
 /* .header {
   display: flex;
@@ -84,8 +83,8 @@ table, th, td {
   padding: 10px;
 }
 th {
-  background-color: #1f6f8b; /* Muted teal */
-  color: white; /* White text for contrast */
+  background-color: #1f6f8b; 
+  color: white; 
   text-align: left;
 }
 
@@ -97,7 +96,6 @@ tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-
 /* table route collapising/expanding things  */
 .route-header {
   cursor: pointer;
@@ -105,22 +103,20 @@ tbody tr:nth-child(even) {
 }
 
 .arrow {
-  cursor: pointer;
-  margin-right: 10px;
-  font-size: 14px;
+  display: inline-block;
+  transition: transform 0.3s ease; 
 }
 
-/* Arrow rotation when expanded */
+/* roating arrow */
 .expanded .arrow {
-  transform: rotate(90deg);
+  transform: rotate(90deg); 
 }
 
-/* Hide details by default */
+
 .route-details {
-  display: none; /* Hidden by default */
+  display: none; 
 }
 
-/* Route details should align with the previous row when expanded */
 .route-details td {
   padding-left: 30px;
   background-color: #f2f2f2;

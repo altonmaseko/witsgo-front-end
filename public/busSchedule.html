@@ -10,6 +10,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="styles/busSchedule.css">
     <link rel="stylesheet" href="styles/navBar.css">
+    <link rel="stylesheet" href="styles/header.css">
 
     <script type="module" defer src="scripts/verifylogin.js"></script> <!-- This script should be put on everypage -->
 
@@ -78,7 +79,6 @@
                     <td>Normal circuit on the hour</td>
                 </tr>
 
-                 <!-- Route 2B -->
                 <tr class="route-header" onclick="toggleDetails(this)">
                 <td><span class="arrow">&#9654;</span> Route 2B</td>
                 <td>NSW > WEC > AMIC > NSW > WEC</td>
@@ -188,7 +188,6 @@
             <td>Continuous shuttle, “drop & go”</td>
         </tr>
 
-        <!-- Route 5 -->
         <tr class="route-header" onclick="toggleDetails(this)">
             <td><span class="arrow">&#9654;</span> Route 5</td>
             <td>EOH > KNK > AMIC</td>
@@ -222,7 +221,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Route 1 - Full Circuit -->
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 1 - Full Circuit</td>
                     <td>AMIC > NSW > WJ (PARKLANE) > WEC > EOH > KNK > AMIC</td>
@@ -248,7 +246,6 @@
                     <td>Normal circuit on the hour</td>
                 </tr>
         
-                <!-- Route 3C -->
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 3C</td>
                     <td>WJ > WEC > AMIC > WEC > WJ</td>
@@ -262,7 +259,6 @@
                     <td>Hourly on the hour from WJ</td>
                 </tr>
         
-                <!-- Route 6A -->
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 6A</td>
                     <td>AMIC > KNK > ROSEBANK > KNK > AMIC</td>
@@ -276,7 +272,6 @@
                     <td>Hourly (Last dep. from Rosebank at 15:00)</td>
                 </tr>
         
-                <!-- Route 6B -->
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 6B</td>
                     <td>AMIC > NSW > ROSEBANK > NSW > AMIC</td>
@@ -290,7 +285,6 @@
                     <td>Hourly (Last dep. from Rosebank at 15:00)</td>
                 </tr>
         
-                <!-- Route 6C -->
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 6C</td>
                     <td>WEC > EOH > ROSEBANK > EOH > WEC</td>
@@ -304,7 +298,6 @@
                     <td>Hourly (Last dep. from Rosebank at 15:00)</td>
                 </tr>
         
-                <!-- Route 6D -->
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 6D</td>
                     <td>WJ > ROSEBANK > WJ</td>
@@ -341,110 +334,18 @@
         </a>
     </section>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    <script type="module">
-
-        import { serverUrl, clientUrl } from './scripts/constants.js';
-
-        document.querySelector('.schedule-container').addEventListener('click', function () {
-            this.classList.toggle('expanded');
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const scheduleContainer = document.querySelector('.schedule-container');
-            let fullText = '';
-
-            fetch(`${serverUrl}/v1/schedule/pdf-text`)
-                .then(response => response.text())
-                .then(data => {
-                    fullText = data;
-                    updateSchedule();
-                })
-                .catch(err => {
-                    console.error('Error fetching the PDF text:', err);
-                });
-
-            const updateSchedule = () => {
-                const dayValue = document.getElementById('days').value;
-                const destinationValue = document.getElementById('destination').value;
-
-                let displayText = '';
-
-                if (dayValue === 'Week') {
-                    displayText = extractText(fullText, 'MONDAY TO FRIDAY', 'CONTACT US');
-                    //Remove Rosebank option if not Weekend 
-                    document.getElementById('rosebank-option').style.display = 'none';
-                } else if (dayValue === 'Weekend') {
-                    displayText = extractText(fullText, 'SATURDAY AND SUNDAY', '•');
-                    document.getElementById('rosebank-option').style.display = 'block';
-                } else {
-                    displayText = fullText;
-                    document.getElementById('rosebank-option').style.display = 'block';
-                }
-
-                if (destinationValue) {
-                    displayText = filterByDestination(displayText, destinationValue);
-                }
-
-                scheduleContainer.innerHTML = displayText || fullText;
-            };
-
-            const extractText = (text, startKeyword, endKeyword) => {
-                const startIndex = text.indexOf(startKeyword);
-                const endIndex = text.indexOf(endKeyword);
-
-                if (startIndex === -1 || endIndex === -1 || startIndex >= endIndex) {
-                    return '';
-                }
-
-                return text.substring(startIndex, endIndex).trim();
-            };
-
-            const filterByDestination = (text, destination) => {
-                const routeStartKeyword = 'Route';
-                const destinationKeyword = destination;
-                let filteredText = '';
-                let index = 0;
-
-                while (index < text.length) {
-                    const routeStartIndex = text.indexOf(routeStartKeyword, index);
-                    if (routeStartIndex === -1) break;
-
-                    const routeEndIndex = text.indexOf(routeStartKeyword, routeStartIndex + routeStartKeyword.length);
-                    const routeText = text.substring(routeStartIndex, routeEndIndex !== -1 ? routeEndIndex : undefined);
-
-                    if (routeText.includes(destinationKeyword)) {
-                        filteredText += routeText + '<br><br>';
-                    }
-
-                    index = routeEndIndex !== -1 ? routeEndIndex : text.length;
-                }
-
-                return filteredText;
-            };
-
-            document.getElementById('days').addEventListener('change', updateSchedule);
-            document.getElementById('destination').addEventListener('change', updateSchedule);
-        });
-    </script> -->
-
     <script>
-
+        // Function to toggle route details 
         function toggleDetails(row) {
-            // Find all the next rows (route details) until a new header is encountered
             let nextRow = row.nextElementSibling;
             while (nextRow && nextRow.classList.contains('route-details')) {
-                // Toggle visibility of the details
                 nextRow.style.display = (nextRow.style.display === 'table-row') ? 'none' : 'table-row';
                 nextRow = nextRow.nextElementSibling;
             }
-            
-            // Toggle the arrow direction
             row.classList.toggle('expanded');
         }
-
-        // Function to toggle between weekday and weekend schedules
+    
+        // Toggle between weekday and weekend 
         function toggleSchedule() {
             const daysDropdown = document.getElementById('days');
             const weekdaySchedule = document.getElementById('weekday-schedule');
@@ -456,28 +357,26 @@
             if (daysDropdown.value === 'Week') {
                 weekdaySchedule.classList.remove('hidden');
                 weekendSchedule.classList.add('hidden');
-                rosebankOption.disabled = true; // Disable Rosebank for weekdays
+                rosebankOption.disabled = true; // Rosebank disabled for weekdaysb 
             } else {
                 weekdaySchedule.classList.add('hidden');
                 weekendSchedule.classList.remove('hidden');
-                rosebankOption.disabled = false; // Enable Rosebank for weekends
+                rosebankOption.disabled = false; 
             }
     
             // Reset destination to the disabled option
-            destinationDropdown.selectedIndex = 0; // Set to the first option ("Destinations:")
-            
-            // Filter routes based on the new destination selection
-            filterRoutesByDestination(); 
+            destinationDropdown.selectedIndex = 0; 
+    
+            collapseAllDetails();
         }
     
-        // Function to filter routes based on selected destination
+        // Filter routes based on destination 
         function filterRoutesByDestination() {
             const destinationDropdown = document.getElementById('destination');
             const selectedDestination = destinationDropdown.value;
             const weekdaySchedule = document.getElementById('weekday-schedule');
             const weekendSchedule = document.getElementById('weekend-schedule');
-    
-            // Get all table rows from the visible schedule
+
             const visibleSchedule = weekdaySchedule.classList.contains('hidden') ? weekendSchedule : weekdaySchedule;
             const rows = visibleSchedule.querySelectorAll('tbody tr');
     
@@ -488,25 +387,60 @@
     
                     if (routeDetails.includes(selectedDestination)) {
                         row.classList.remove('hidden');
+                        row.style.display = 'table-row';
+    
+                        if (row.classList.contains('route-header')) {
+                            expandDetails(row);
+                        }
+    
                         highlightDestination(routeDetailsCell, selectedDestination);
                     } else {
                         row.classList.add('hidden');
+                        row.style.display = 'none';
                     }
                 }
             });
         }
     
-        // Function to highlight the selected destination within the route details
+        function expandDetails(row) {
+            let nextRow = row.nextElementSibling;
+            while (nextRow && nextRow.classList.contains('route-details')) {
+                nextRow.classList.remove('hidden');
+                nextRow.style.display = 'table-row'; 
+                nextRow = nextRow.nextElementSibling;
+            }
+            row.classList.add('expanded');
+        }
+    
+        function collapseAllDetails() {
+            const allDetails = document.querySelectorAll('.route-details');
+            allDetails.forEach(detailRow => {
+                detailRow.classList.add('hidden');
+                detailRow.style.display = 'none'; 
+            });
+    
+            const allHeaders = document.querySelectorAll('.route-header');
+            allHeaders.forEach(headerRow => {
+                headerRow.classList.remove('expanded');
+            });
+        }
+    
+        // Highlight users selected destination 
         function highlightDestination(cell, destination) {
-            const regex = new RegExp(destination, 'gi'); // Case-insensitive search
+            const regex = new RegExp(destination, 'gi'); 
             const originalText = cell.textContent;
             const highlightedText = originalText.replace(regex, match => `<span class="highlight">${match}</span>`);
             cell.innerHTML = highlightedText;
         }
     
-        // Initial call to set the correct schedule on page load
-        toggleSchedule();
-    </script>
-</body>
+        function onDestinationChange() {
+            filterRoutesByDestination();
+        }
 
+        document.addEventListener('DOMContentLoaded', () => {
+            collapseAllDetails();
+            toggleSchedule();
+        });
+    </script>    
+</body>
 </html>

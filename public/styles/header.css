@@ -32,3 +32,12 @@
     transform: scale(1.2); 
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
   }
+
+
+  @media (width <=600px) {
+    .header img {
+      width: 42px;
+      height: 42px;
+      margin-right: 25px;
+    }
+  }  
