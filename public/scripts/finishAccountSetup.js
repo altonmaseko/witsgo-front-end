@@ -1,5 +1,9 @@
 const finishAccountSetupButton = document.querySelector("#finish-account-setup-button");
 
+//access email from ...url/?email=...
+const urlParams = new URLSearchParams(window.location.search);
+const email = urlParams.get('email');
+
 import { clientUrl, serverUrl } from "./constants.js";
 const password = document.querySelector("#password-input");
 const confirmPassword = document.querySelector("#verify-password-input");
@@ -54,11 +58,6 @@ finishAccountSetupButton.addEventListener("click", async () => {
     }
     // End Validation ========================================
 
-    //access email from ...url/?email=...
-    const urlParams = new URLSearchParams(window.location.search);
-    const email = urlParams.get('email');
-
-
     const body = {
         password: password.value,
         role: userRole.value,
@@ -76,6 +75,21 @@ finishAccountSetupButton.addEventListener("click", async () => {
         window.location.href = `${clientUrl}`;
     }
 
+    // // log out
+    // try {
+    //     let response = await axios.post(`${serverUrl}/logout`, {}, { withCredentials: true });
+    //     localStorage.clear();
+    //     window.location.href = `${clientUrl}`;
+    // } catch (error) {
+    //     alert("Error Finishing Account Setup. Please try again later");
+    //     console.error("Error", error);
+    //     window.location.href = `${clientUrl}`;
+
+    // }
+
+
+
+    localStorage.clear();
     window.location.href = `${clientUrl}`;
 
 });
@@ -98,3 +112,27 @@ const isStrongPassword = (password) => {
 
     return true;
 }
+
+// //on page fully loaded
+// document.addEventListener("DOMContentLoaded", async () => {
+//     // Get user to update local storage
+//     let response
+//     try {
+//         response = await axios.get(`${serverUrl}/user/${email}`);
+//         console.log(response.data);
+//     } catch (error) {
+//         console.log(error.message);
+//         alert("An error occurred. Please try again later");
+//         window.location.href = `${clientUrl}`;
+//     }
+
+//     // Set local storage
+//     localStorage.clear();
+//     localStorage.setItem("firstName", response.data.firstName);
+//     localStorage.setItem("lastName", response.data.lastName);
+//     localStorage.setItem("picture", response.data.picture);
+//     localStorage.setItem("onWheelChair", response.data.onWheelChair);
+//     localStorage.setItem("age", response.data.age);
+//     localStorage.setItem("email", response.data.email);
+//     localStorage.setItem("role", response.data.role);
+// });

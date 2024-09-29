@@ -10,6 +10,8 @@
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 
     <link rel="stylesheet" href="styles/navBar.css">
+    <link rel="stylesheet" href="styles/header.css">
+
 
     <!-- The below script is a self-executing anonymous function that dynamically loads 
     the Google Maps JavaScript API into the page -->
@@ -19,7 +21,7 @@
 
     <style>
         * {
-            box-sizing: border-box;
+            /* box-sizing: border-box; */
             padding: 0;
             margin: 0;
         }
@@ -138,9 +140,12 @@
 
 <body>
 
-    <header class="header">
-        <h3>Driver Page</h3>
-    </header>
+    <section class="header">
+        <h1 class="title">Welcome, Driver</h1>
+        <a href="profile.html">
+            <img src="icons/profile-icon.png" alt="user-profile">
+        </a>
+    </section>
 
     <main class="main">
         <div class="map-container"></div>

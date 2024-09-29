@@ -179,9 +179,12 @@ trackMeButton.addEventListener('click', async () => {
             map.setCenter(newPosition);
 
             lastPositionUpdateTime = currentTime;
+
+            trackingStatus.textContent = "you are currently being tracked...";
+            trackingLoader.style.display = "block";
         }, (error) => {
             console.error("Error getting location:", error);
-            trackingStatus.textContent = "There was an error getting your location... Please try again later";
+            trackingStatus.textContent = "There was an error getting your location... resolving...";
             trackingLoader.style.display = "none";
         }, {
             enableHighAccuracy: true,

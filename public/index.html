@@ -21,13 +21,13 @@
 
         // Wait 2 seconds then navigate to the new URL
         setTimeout(async () => {
-            window.location.href = "navigation.html"
-            return;
+            // return;
 
             // if server redirected us here after error, display servermessage query param
             const urlParams = new URLSearchParams(window.location.search);
             const serverMessage = urlParams.get('servermessage');
             if (serverMessage) {
+                console.log("Server message: ", serverMessage);
                 alert(serverMessage);
             }
 
@@ -47,27 +47,43 @@
                 return;
             }
 
+            // get latest user from database
+            let userResponse
+            try {
+                userResponse = await axios.get(`${serverUrl}/user/${response.data.user.user.email}`, { withCredentials: true });
+                console.log("User, 200 OK", userResponse.data);
+            } catch (error) {
+                console.log("Error: ", error);
+                window.location.href = `${clientUrl}/registerLogin.html`;
+                return;
+            }
+
             // Set local storage
             localStorage.clear();
-            localStorage.setItem("firstName", response.data.user.user.firstName);
-            localStorage.setItem("lastName", response.data.user.user.lastName);
-            localStorage.setItem("picture", response.data.user.user.picture);
-            localStorage.setItem("onWheelChair", response.data.user.user.onWheelChair);
-            localStorage.setItem("age", response.data.user.user.age);
-            localStorage.setItem("email", response.data.user.user.email);
-            localStorage.setItem("role", response.data.user.user.role);
+            localStorage.setItem("firstName", userResponse.data.user.firstName);
+            localStorage.setItem("lastName", userResponse.data.user.lastName);
+            localStorage.setItem("picture", userResponse.data.user.picture);
+            localStorage.setItem("onWheelChair", userResponse.data.user.onWheelChair);
+            localStorage.setItem("age", userResponse.data.user.age);
+            localStorage.setItem("email", userResponse.data.user.email);
+            localStorage.setItem("role", userResponse.data.user.role);
 
 
             let firstPage;
-            if (response.data.user.user.role === "student") {
+            if (userResponse.data.user.role === "student") {
                 firstPage = clientUrl + "/navigation.html";
             } else {
                 firstPage = clientUrl + "/driverTracking.html";
             }
 
-            window.location.href = firstPage;
+            console.log("FROM index.html, userResponse.data.user.rol", userResponse.data.user.rol);
 
-        }, 2000); 
+            setTimeout(() => {
+                window.location.href = firstPage;
+            }, 1000);
+
+        }, 1000);
+
     </script>
 </head>
 

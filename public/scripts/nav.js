@@ -46,9 +46,9 @@ inputField.addEventListener("focusout",function(){
 })
 
 
-profileImg.addEventListener("click",function(){
-    window.location.assign("profile.html");
-})
+// profileImg.addEventListener("click",function(){
+//     window.location.assign("profile.html");
+// })
 
 cancelSearch.addEventListener("click",function(){
     inputField.value="";
