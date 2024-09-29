@@ -10,13 +10,13 @@ const checkLogin = async () => {
         console.log("Login, 200 OK", response.data);
     } catch (error) {
         console.log("Error: ", error);
-        window.location.href = `${clientUrl}/registerLogin.html`;
+        window.location.href = `${clientUrl}/authorize`;
         return;
     }
 
     if (!response.data.isLoggedIn) {
         console.log("User is not logged in");
-        window.location.href = `${clientUrl}/registerLogin.html`;
+        window.location.href = `${clientUrl}/authorize`;
         return;
     }
 
@@ -38,5 +38,5 @@ checkLogin();
 
 document.querySelector(".profile-img")?.setAttribute("src", localStorage.getItem("picture"));
 document.querySelector(".profile-img")?.addEventListener("click", () => {
-    window.location.href = `${clientUrl}/profile.html`;
+    window.location.href = `${clientUrl}/profile`;
 });

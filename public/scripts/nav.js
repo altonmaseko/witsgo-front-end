@@ -16,13 +16,13 @@ let userLocation = null;
 let map;
 
 let origin = {
-    "latitude":-1,
-    "longitude":-1
+    "latitude": -1,
+    "longitude": -1
 }
 
 let dest = {
-    "latitude":-1,
-    "longitude":-1
+    "latitude": -1,
+    "longitude": -1
 }
 
 let markers = []
@@ -33,13 +33,13 @@ let userMarker = null;
 
 
 
-inputField.addEventListener("click",function(){
+inputField.addEventListener("click", function () {
     profileImg.style.display = "None"
     cancelSearch.style.display = "flex"
 })
 
-inputField.addEventListener("focusout",function(){
-    if (inputField.value==""){
+inputField.addEventListener("focusout", function () {
+    if (inputField.value == "") {
         profileImg.style.display = "flex";
         cancelSearch.style.display = "None"
     }
@@ -47,14 +47,14 @@ inputField.addEventListener("focusout",function(){
 
 
 // profileImg.addEventListener("click",function(){
-//     window.location.assign("profile.html");
+//     window.location.assign("profile");
 // })
 
-cancelSearch.addEventListener("click",function(){
-    inputField.value="";
+cancelSearch.addEventListener("click", function () {
+    inputField.value = "";
     profileImg.style.display = "flex";
     cancelSearch.style.display = "None";
-    directionsTextArea.innerHTML="";
+    directionsTextArea.innerHTML = "";
 
     if (polylinePath) {
         polylinePath.setMap(null);
@@ -66,10 +66,10 @@ cancelSearch.addEventListener("click",function(){
 async function getLocation() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
+            navigator.geolocation.getCurrentPosition(function (position) {
                 const coords = position.coords;
                 resolve(coords);  // Resolve the Promise with the coordinates
-            }, function(error) {
+            }, function (error) {
                 reject(error);  // Reject the Promise if there's an error
             });
         } else {
@@ -97,7 +97,7 @@ async function getLocation() {
  * @function initMap
  * @returns {Promise<void>} A promise that resolves when the map is fully initialized.
  */
-async function initMap(){
+async function initMap() {
     const { Map } = await google.maps.importLibrary("maps");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
     const { PlacesService, SearchBox } = await google.maps.importLibrary("places");
@@ -107,7 +107,7 @@ async function initMap(){
     // origin["longitude"] = coords.longitude;
 
     // userLocation = {lat:coords.latitude,lng:coords.longitude};
-    userLocation = {lat:-26.1908692,lng:28.0271597};
+    userLocation = { lat: -26.1908692, lng: 28.0271597 };
 
     map = new Map(document.getElementById("map"), {
         zoom: 17,
@@ -118,13 +118,13 @@ async function initMap(){
 
 
     // Updates the addresses when searching
-    map.addListener('bounds_changed', function() {
+    map.addListener('bounds_changed', function () {
         searchBox.setBounds(map.getBounds());
     });
 
     const searchBox = new SearchBox(inputField);
 
-    searchBox.addListener('places_changed', function() {
+    searchBox.addListener('places_changed', function () {
         var places = searchBox.getPlaces();
 
         if (places.length === 0) {
@@ -138,11 +138,11 @@ async function initMap(){
         });
 
         markers = []; // Reset the markers array
-    
+
 
         var bounds = new google.maps.LatLngBounds(); // Move the map to the new locations
 
-        places.forEach(function(place) {
+        places.forEach(function (place) {
             if (!place.geometry || !place.geometry.location) {
                 console.log("Returned place contains no geometry");
                 return;
@@ -171,7 +171,7 @@ async function initMap(){
             // Add the user's marker back to the array
             userMarker = new AdvancedMarkerElement({
                 map: map,
-                position: {lat: origin["latitude"], lng: origin["longitude"]},
+                position: { lat: origin["latitude"], lng: origin["longitude"] },
                 title: "User",
                 content: content,
             });
@@ -185,17 +185,17 @@ async function initMap(){
         });
 
         map.fitBounds(bounds);
-       
+
     });
 }
 
 function isNum(str) {
     const regex = /^\d+,\d+$/;
     return regex.test(str);
-  }
+}
 
 
-async function addMarkers(){
+async function addMarkers() {
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
     const content = document.createElement('div');
@@ -211,90 +211,90 @@ async function addMarkers(){
         content: content,
     });
 
-    try{
-        
-        const res = await axios.get(serverUrl+"/v1/map/getBuildings");
+    try {
+
+        const res = await axios.get(serverUrl + "/v1/map/getBuildings");
 
         let successData = res.data.data;
 
-        if (successData.success==false || successData==undefined){
+        if (successData.success == false || successData == undefined) {
             console.log("Unable to get markers");
         }
 
         const data = res.data.data.data;
 
         console.log(data);
-        data.forEach((element)=>{
+        data.forEach((element) => {
             let newMarker = {
-                id:element._id,
-                building_name:element.building_name,
-                campus:element.campus[0],
-                type:element.type[0],
-                code:element.code,
-                location:{ lat: element.latitude, lng: element.longitude},
-                building_id:element.building_id
+                id: element._id,
+                building_name: element.building_name,
+                campus: element.campus[0],
+                type: element.type[0],
+                code: element.code,
+                location: { lat: element.latitude, lng: element.longitude },
+                building_id: element.building_id
             };
 
             APIMarkersInfo.push(newMarker);
 
             let newContent = document.createElement('div');
-            newContent.classList.add(newMarker.type+'-marker');
+            newContent.classList.add(newMarker.type + '-marker');
 
-            
+
             let newAdvancedMarker = new AdvancedMarkerElement({
                 map: map,
                 position: newMarker.location,
                 title: newMarker.building_name,
-                content:newContent
+                content: newContent
             });
 
 
             APIMarkers.push(newAdvancedMarker);
 
-            let newCodeInsert = newMarker.code==null?"None":newMarker.code;
+            let newCodeInsert = newMarker.code == null ? "None" : newMarker.code;
 
             let infoWindow = new google.maps.InfoWindow({
                 content: `<h3>${newMarker.building_name}</h3><p>Code:${newCodeInsert}</p>`, // HTML content
-              });
+            });
 
-            newAdvancedMarker.addListener("click",()=>{
+            newAdvancedMarker.addListener("click", () => {
                 infoWindow.open({
-                    anchor: newAdvancedMarker,   
-                    map,              
+                    anchor: newAdvancedMarker,
+                    map,
                     shouldFocus: false,
-                  });
+                });
             })
         })
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 
 
     //wheelchairs
-    try{
-        const res = await axios.get(serverUrl+"/v1/accessibility/getWheelchairs");
+    try {
+        const res = await axios.get(serverUrl + "/v1/accessibility/getWheelchairs");
 
         let successData = res.data.data;
 
-        if (successData.success==false || successData==undefined){
+        if (successData.success == false || successData == undefined) {
             console.log("Unable to get markers");
         }
 
         const data = res.data.data.data;
 
-        data.forEach((element)=>{
+        data.forEach((element) => {
             let newMarker = {
-                id:element._id,
-                name:element.name,
-                wheelchair_friendly:element.wheelchair_friendly,
-                ramp_available:element.ramp_available,
-                elevator_nearby:element.elevator_nearby,
-                type:"wheelchair",
-                location:{ lat: element.latitude, lng: element.longitude},
+                id: element._id,
+                name: element.name,
+                wheelchair_friendly: element.wheelchair_friendly,
+                ramp_available: element.ramp_available,
+                elevator_nearby: element.elevator_nearby,
+                type: "wheelchair",
+                location: { lat: element.latitude, lng: element.longitude },
             };
 
             APIMarkersInfo.push(newMarker);
-            
+
             let newContent = document.createElement('div');
             newContent.classList.add("wheelchair-marker");
 
@@ -302,36 +302,36 @@ async function addMarkers(){
                 map: map,
                 position: newMarker.location,
                 title: newMarker.building_name,
-                content:newContent
+                content: newContent
             });
 
             APIMarkers.push(newAdvancedMarker);
 
             let infoWindow = new google.maps.InfoWindow({
                 content: `<h3>${newMarker.name}</h3><p>Wheelchair Friendly:${newMarker.wheelchair_friendly}</p>`, // HTML content
-              });
+            });
 
-            newAdvancedMarker.addListener("click",()=>{
+            newAdvancedMarker.addListener("click", () => {
                 infoWindow.open({
                     anchor: newAdvancedMarker,   // Attach to the marker
                     map,              // Open on the map
                     shouldFocus: false, // Optional: prevent the window from stealing focus
-                  });
+                });
             })
         })
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 
 
     //dining hall stuff
-    try{
+    try {
         const res = await axios.get("https://virtserver.swaggerhub.com/O-n-Site/CampusBites/1.0.0/restaurants");
-        res.data.forEach((restaurant)=>{
+        res.data.forEach((restaurant) => {
             let location = restaurant.location;
 
 
-            if (isNum(location)==false){
+            if (isNum(location) == false) {
                 throw Error("Invalid format")
             }
 
@@ -342,11 +342,11 @@ async function addMarkers(){
             let closing_time = restaurant.closing_time;
             let categories = restaurant.categories;
 
-            categories.forEach((item)=>{
+            categories.forEach((item) => {
                 let itemName = item.name;
                 let menuItems = item.menu_items
 
-                menuItems.forEach((menuItem)=>{
+                menuItems.forEach((menuItem) => {
                     console.log(menuItem);
                     let menuItemName = menuItem.name;
                     let description = menuItem.description;
@@ -358,44 +358,44 @@ async function addMarkers(){
 
             console.log(location);
         })
-    }catch(error){
+    } catch (error) {
         //TODO make error shorter
     }
 }
 
 
-async function renderPage(){
+async function renderPage() {
     await initMap();
     await addMarkers();
 }
 
-navMeBtn.addEventListener("click", async function() { 
-    if (navMeBtn.textContent=="Stop Navigation"){
-        if (lastResponse==null){
+navMeBtn.addEventListener("click", async function () {
+    if (navMeBtn.textContent == "Stop Navigation") {
+        if (lastResponse == null) {
             return;
         }
 
         navMeBtn.textContent = "Navigate Me";
-        directionsTextArea.innerHTML="";
+        directionsTextArea.innerHTML = "";
         if (polylinePath) {
             polylinePath.setMap(null);
         }
         lastResponse = null;
 
-        for (let i=0;i<APIMarkers.length;i++){
+        for (let i = 0; i < APIMarkers.length; i++) {
             let marker = APIMarkers[i];
-            marker.map=map;
+            marker.map = map;
         }
 
         filter.value = "all"
         markers[searchedMarkerIndex].map = null;
-        markers.slice(searchedMarkerIndex,searchedMarkerIndex);
+        markers.slice(searchedMarkerIndex, searchedMarkerIndex);
         searchedMarkerIndex = -1
         return;
     }
 
 
-    if (dest.latitude==-1 || dest.longitude==-1){
+    if (dest.latitude == -1 || dest.longitude == -1) {
         alert("Please search some place first");
         return;
     }
@@ -404,27 +404,27 @@ navMeBtn.addEventListener("click", async function() {
 
     try {
 
-        for (let i=0;i<APIMarkers.length;i++){
+        for (let i = 0; i < APIMarkers.length; i++) {
             let marker = APIMarkers[i];
-            marker.map=null;
+            marker.map = null;
         }
-        filter.value = "none"        
+        filter.value = "none"
 
         let coords = await getLocation();
 
-        origin["latitude"]=coords.latitude;
-        origin["longitude"]=coords.longitude;
+        origin["latitude"] = coords.latitude;
+        origin["longitude"] = coords.longitude;
 
 
-        origin["latitude"]=-26.1908692
-        origin["longitude"]=28.0271597
+        origin["latitude"] = -26.1908692
+        origin["longitude"] = 28.0271597
 
-        const url = serverUrl+"/v1/route_optimize/route_optimize";
+        const url = serverUrl + "/v1/route_optimize/route_optimize";
 
         let data = {
-            "origin":origin,
-            "destination":dest,
-            "travelMode":"WALK"
+            "origin": origin,
+            "destination": dest,
+            "travelMode": "WALK"
         }
 
         const response = await axios.post(url, data);
@@ -459,40 +459,40 @@ navMeBtn.addEventListener("click", async function() {
         //     directionsTextArea.removeChild(directionsTextArea.firstChild);
         // }
 
-        
+
         // legs[0]["steps"].forEach((leg)=>{
-            // const instructions = leg["navigationInstruction"];
-            // const distances = leg["localizedValues"];
+        // const instructions = leg["navigationInstruction"];
+        // const distances = leg["localizedValues"];
 
-            // const instrText = instructions["instructions"];
-            // const instrMove = instructions["maneuver"];
+        // const instrText = instructions["instructions"];
+        // const instrMove = instructions["maneuver"];
 
-            // const distanceKM = distances["distance"]["text"];
-            // const time = distances["staticDuration"]["text"];
+        // const distanceKM = distances["distance"]["text"];
+        // const time = distances["staticDuration"]["text"];
 
-            // // console.log(instrText,instrMove,distanceKM,time);
-
-
-            // const row = document.createElement("section");
-            // row.classList.add("directions-row")
+        // // console.log(instrText,instrMove,distanceKM,time);
 
 
-            // const instructionRow = document.createElement("section");
-            // instructionRow.classList.add("directions-row-instruction");
-            // instructionRow.innerHTML = "<p>"+instrText+"</p>"
-            // row.appendChild(instructionRow);
+        // const row = document.createElement("section");
+        // row.classList.add("directions-row")
 
-            // const instructionDist = document.createElement("section");
-            // instructionDist.classList.add("directions-row-distance");
-            // instructionDist.innerHTML = "<p>"+distanceKM+"</p>"
-            // row.appendChild(instructionDist);
-            
-            // const instructionTime = document.createElement("section");
-            // instructionTime.classList.add("directions-row-time");
-            // instructionTime.innerHTML = "<p>"+time+"</p>"
-            // row.appendChild(instructionTime);
 
-            // directionsTextArea.appendChild(row);
+        // const instructionRow = document.createElement("section");
+        // instructionRow.classList.add("directions-row-instruction");
+        // instructionRow.innerHTML = "<p>"+instrText+"</p>"
+        // row.appendChild(instructionRow);
+
+        // const instructionDist = document.createElement("section");
+        // instructionDist.classList.add("directions-row-distance");
+        // instructionDist.innerHTML = "<p>"+distanceKM+"</p>"
+        // row.appendChild(instructionDist);
+
+        // const instructionTime = document.createElement("section");
+        // instructionTime.classList.add("directions-row-time");
+        // instructionTime.innerHTML = "<p>"+time+"</p>"
+        // row.appendChild(instructionTime);
+
+        // directionsTextArea.appendChild(row);
         // })
 
 
@@ -502,22 +502,22 @@ navMeBtn.addEventListener("click", async function() {
 });
 
 
-filter.addEventListener("change",(event)=>{
+filter.addEventListener("change", (event) => {
     let filterBy = filter.value;
 
-    if (filterBy=="all"){
-        APIMarkers.forEach((element)=>{
+    if (filterBy == "all") {
+        APIMarkers.forEach((element) => {
             element.map = map;
         })
-    }else{
-        for (let i=0;i<APIMarkers.length;i++){
+    } else {
+        for (let i = 0; i < APIMarkers.length; i++) {
             let info = APIMarkersInfo[i];
             let marker = APIMarkers[i];
-    
-            if (info.type==filterBy){
-                marker.map=map;
-            }else{
-                marker.map=null;
+
+            if (info.type == filterBy) {
+                marker.map = map;
+            } else {
+                marker.map = null;
             }
         }
     }
