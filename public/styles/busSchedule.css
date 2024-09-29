@@ -76,7 +76,7 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 table, th, td {
@@ -96,6 +96,35 @@ td {
 tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
+
+
+/* table route collapising/expanding things  */
+.route-header {
+  cursor: pointer;
+  background-color: #f9f9f9;
+}
+
+.arrow {
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+/* Arrow rotation when expanded */
+.expanded .arrow {
+  transform: rotate(90deg);
+}
+
+/* Hide details by default */
+.route-details {
+  display: none; /* Hidden by default */
+}
+
+/* Route details should align with the previous row when expanded */
+.route-details td {
+  padding-left: 30px;
+  background-color: #f2f2f2;
+}   
 
 .hidden {
   display: none;
@@ -171,10 +200,15 @@ tbody tr:nth-child(even) {
 @media (width <=600px) {
   .header {
     flex-direction: row;
-    align-items: flex-start;
-    padding: 15px;
+    align-items: center;
+    padding: 10px;
   }
 
+  .header img{
+    width: 40px;
+    height: 40px;
+    margin-right: 30px;
+  }
   /* .profile-icon {
     width: 35px;
     height: 35px;
@@ -182,8 +216,8 @@ tbody tr:nth-child(even) {
   } */
 
   .title {
-    font-size: 20px;
-    margin: 0;
+    font-size: 22px;
+    margin: 10px 0;
   }
 
   .schedule-container {
@@ -201,6 +235,12 @@ tbody tr:nth-child(even) {
     /* width: 400px; */
     gap: 1rem;
     margin-right: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
   }
 
   #destination,

@@ -53,162 +53,161 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Route 1-Full Circuit</td>
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 1-Full Circuit</td>
                     <td>AMIC > NSW > WJ > WEC > EOH > KNK > AMIC</td>
                     <td>06:30 to 17:00</td>
                     <td>Every 15 – 20 minutes, “drop & go”</td>
                 </tr>
-                <tr>
+                <tr class="route-details">
                     <td></td>
                     <td>AMIC > KNK > EOH > WEC > WJ > NSW > AMIC</td>
                     <td>06:30 to 18:00</td>
                     <td>Every 15 – 20 minutes, “drop & go” (Reverse Circuit)</td>
                 </tr>
-                <tr>
+                <tr class="route-details">
                     <td></td>
                     <td>AMIC > KNK > EOH > WEC > WJ > NSW > AMIC</td>
                     <td>18:30 to 23:30</td>
                     <td>Reverse circuit on the half hour</td>
                 </tr>
-                <tr>
+                <tr class="route-details">
                     <td></td>
                     <td>AMIC > KNK > EOH > WEC > WJ > NSW > AMIC</td>
                     <td>18:00 to 00:00</td>
                     <td>Normal circuit on the hour</td>
                 </tr>
-                <tr>
-                    <td>Route 2B</td>
-                    <td>NSW > WEC > AMIC > NSW > WEC</td>
-                    <td>06:45 to 08:45</td>
-                    <td>Every 30 minutes (Shuttle)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>NSW > WEC > AMIC > NSW > WEC</td>
-                    <td>09:00 to 18:00</td>
-                    <td>Hourly on the hour from WEC</td>
-                </tr>
-                <tr>
-                    <td>Route 3A</td>
-                    <td>WJ > AMIC > WJ</td>
-                    <td>07:00 to 09:00</td>
-                    <td>Every 15 – 20 minutes (Shuttle)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>WJ > AMIC > WJ</td>
-                    <td>09:00 to 17:00</td>
-                    <td>Hourly on the hour from WJ</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>WJ > AMIC > WJ</td>
-                    <td>12:00 to 14:00</td>
-                    <td>Every 20 minutes (Shuttle)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>WJ > AMIC > WJ</td>
-                    <td>16:00 to 18:00</td>
-                    <td>Every 20 minutes (Shuttle)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>WJ > AMIC > WJ</td>
-                    <td>09:30 to 17:30</td>
-                    <td>Hourly on the half hour from AMIC</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>WJ > AMIC > WJ</td>
-                    <td>18:30 to 23:30</td>
-                    <td>Hourly (Departs WJ)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>WJ > AMIC > WJ</td>
-                    <td>18:00 to 00:00</td>
-                    <td>Hourly (Departs AMIC)</td>
-                </tr>
-                <tr>
-                    <td>Route 3B</td>
-                    <td>WJ > WEC > WJ</td>
-                    <td>06:45 to 09:15</td>
-                    <td>Every 15 – 20 minutes (Shuttle)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>WJ > WEC > WJ</td>
-                    <td>09:30 to 15:00</td>
-                    <td>Every 30 minutes (Departs WJ)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>WJ > WEC > WJ</td>
-                    <td>15:20 to 17:40</td>
-                    <td>Every 20 minutes (Departs WEC)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>WJ > WEC > WJ</td>
-                    <td>18:30 to 23:30</td>
-                    <td>Hourly (Departs WJ)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>WJ > WEC > WJ</td>
-                    <td>18:00 to 00:00</td>
-                    <td>Hourly (Departs WEC)</td>
-                </tr>
-                <tr>
+
+                 <!-- Route 2B -->
+                <tr class="route-header" onclick="toggleDetails(this)">
+                <td><span class="arrow">&#9654;</span> Route 2B</td>
+                <td>NSW > WEC > AMIC > NSW > WEC</td>
+                <td>06:45 to 08:45</td>
+                <td>Every 30 minutes (Shuttle)</td>
+             </tr>
+            <tr class="route-details">
+                <td></td>
+                <td>NSW > WEC > AMIC > NSW > WEC</td>
+                <td>09:00 to 18:00</td>
+                <td>Hourly on the hour from WEC</td>
+            </tr>
+
+    
+            <tr class="route-header" onclick="toggleDetails(this)">
+                <td><span class="arrow">&#9654;</span> Route 3A</td>
+                <td>WJ > AMIC > WJ</td>
+                <td>07:00 to 09:00</td>
+                <td>Every 15 – 20 minutes (Shuttle)</td>
+            </tr>
+            <tr class="route-details">
+                <td></td>
+                <td>WJ > AMIC > WJ</td>
+                <td>09:00 to 17:00</td>
+                <td>Hourly on the hour from WJ</td>
+            </tr>
+            <tr class="route-details">
+                <td></td>
+                <td>WJ > AMIC > WJ</td>
+                <td>12:00 to 14:00</td>
+                <td>Every 20 minutes (Shuttle)</td>
+            </tr>
+            <tr class="route-details">
+                <td></td>
+                <td>WJ > AMIC > WJ</td>
+                <td>16:00 to 18:00</td>
+                <td>Every 20 minutes (Shuttle)</td>
+            </tr>
+            <tr class="route-details">
+                <td></td>
+                <td>WJ > AMIC > WJ</td>
+                <td>09:30 to 17:30</td>
+                <td>Hourly on the half hour from AMIC</td>
+            </tr>
+            <tr class="route-details">
+                <td></td>
+                <td>WJ > AMIC > WJ</td>
+                <td>18:30 to 23:30</td>
+                <td>Hourly (Departs WJ)</td>
+            </tr>
+
+                 <!-- Route 3B -->
+            <tr class="route-header" onclick="toggleDetails(this)">
+                <td><span class="arrow">&#9654;</span> Route 3B</td>
+                <td>WJ > WEC > WJ</td>
+                <td>06:45 to 09:15</td>
+                <td>Every 15 – 20 minutes (Shuttle)</td>
+            </tr>
+            <tr class="route-details">
+                <td></td>
+                <td>WJ > WEC > WJ</td>
+                <td>09:30 to 15:00</td>
+                <td>Every 30 minutes (Departs WJ)</td>
+            </tr>
+            <tr class="route-details">
+                <td></td>
+                <td>WJ > WEC > WJ</td>
+                <td>15:20 to 17:40</td>
+                <td>Every 20 minutes (Departs WEC)</td>
+            </tr>
+            <tr class="route-details">
+                <td></td>
+                <td>WJ > WEC > WJ</td>
+                <td>18:30 to 23:30</td>
+                <td>Hourly (Departs WJ)</td>
+            </tr>
+
                     <td>Route 4A</td>
                     <td>AMIC > NSW > WEC</td>
                     <td>06:40 to 17:40</td>
                     <td>Every 15 – 20 minutes (Shuttle)</td>
                 </tr>
-                <tr>
-                    <td>Route 4</td>
-                    <td>WEC > NSW > AMIC</td>
-                    <td>07:00 to 18:00</td>
-                    <td>Every 15 – 20 minutes (Shuttle)</td>
-                </tr>
-                <tr>
-                    <td>Route 4B</td>
-                    <td>NSW > WEC > AMIC</td>
-                    <td>07:00 to 09:00</td>
-                    <td>Every 20 minutes (Shuttle)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>NSW > WEC > AMIC</td>
-                    <td>10:00 to 14:00</td>
-                    <td>Hourly on the half hour from WEC</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>NSW > WEC > AMIC</td>
-                    <td>16:30 to 18:00</td>
-                    <td>Continuous shuttle, “drop & go”</td>
-                </tr>
-                <tr>
-                    <td>Route 5</td>
-                    <td>EOH > KNK > AMIC</td>
-                    <td>06:40 to 08:30</td>
-                    <td>Every 15 minutes (Shuttle from Rock Ridge Rd)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>AMIC > EOH > KNK (Rock Ridge Rd) > AMIC</td>
-                    <td>08:30 to 14:30</td>
-                    <td>Every 30 minutes</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>AMIC > EOH > KNK (Rock Ridge Rd) > AMIC</td>
-                    <td>16:30 to 18:00</td>
-                    <td>Continuous shuttle, “drop & go”</td>
-                </tr>
+
+        <!-- <tr class="route-header" onclick="toggleDetails(this)"> -->
+            <td> Route 4A1</td>
+            <td>WEC > NSW > AMIC</td>
+            <td>07:00 to 18:00</td>
+            <td>Every 15 – 20 minutes (Shuttle)</td>
+        </tr>
+
+        <tr class="route-header" onclick="toggleDetails(this)">
+            <td><span class="arrow">&#9654;</span> Route 4B</td>
+            <td>NSW > WEC > AMIC</td>
+            <td>07:00 to 09:00</td>
+            <td>Every 20 minutes (Shuttle)</td>
+        </tr>
+        <tr class="route-details">
+            <td></td>
+            <td>NSW > WEC > AMIC</td>
+            <td>10:00 to 14:00</td>
+            <td>Hourly on the half hour from WEC</td>
+        </tr>
+        <tr class="route-details">
+            <td></td>
+            <td>NSW > WEC > AMIC</td>
+            <td>16:30 to 18:00</td>
+            <td>Continuous shuttle, “drop & go”</td>
+        </tr>
+
+        <!-- Route 5 -->
+        <tr class="route-header" onclick="toggleDetails(this)">
+            <td><span class="arrow">&#9654;</span> Route 5</td>
+            <td>EOH > KNK > AMIC</td>
+            <td>06:40 to 08:30</td>
+            <td>Every 15 minutes (Shuttle from Rock Ridge Rd)</td>
+        </tr>
+        <tr class="route-details">
+            <td></td>
+            <td>AMIC > EOH > KNK (Rock Ridge Rd) > AMIC</td>
+            <td>08:30 to 14:30</td>
+            <td>Every 30 minutes</td>
+        </tr>
+        <tr class="route-details">
+            <td></td>
+            <td>AMIC > EOH > KNK (Rock Ridge Rd) > AMIC</td>
+            <td>16:30 to 18:00</td>
+            <td>Continuous shuttle, “drop & go”</td>
+        </tr>
+
             </tbody>
         </table>
 
@@ -223,67 +222,96 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Route 1 - Full Circuit</td>
+                <!-- Route 1 - Full Circuit -->
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 1 - Full Circuit</td>
                     <td>AMIC > NSW > WJ (PARKLANE) > WEC > EOH > KNK > AMIC</td>
                     <td>09:00 to 20:00</td>
                     <td>Normal circuit on the hour</td>
                 </tr>
-                <tr>
-                    <td>Route 3C</td>
+                <tr class="route-details hidden">
+                    <td></td>
+                    <td>AMIC > KNK > EOH > WEC > WJ > NSW > AMIC</td>
+                    <td>06:30 to 18:00</td>
+                    <td>Every 15 – 20 minutes, “drop & go” (Reverse Circuit)</td>
+                </tr>
+                <tr class="route-details hidden">
+                    <td></td>
+                    <td>AMIC > KNK > EOH > WEC > WJ > NSW > AMIC</td>
+                    <td>18:30 to 23:30</td>
+                    <td>Reverse circuit on the half hour</td>
+                </tr>
+                <tr class="route-details hidden">
+                    <td></td>
+                    <td>AMIC > KNK > EOH > WEC > WJ > NSW > AMIC</td>
+                    <td>18:00 to 00:00</td>
+                    <td>Normal circuit on the hour</td>
+                </tr>
+        
+                <!-- Route 3C -->
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 3C</td>
                     <td>WJ > WEC > AMIC > WEC > WJ</td>
                     <td>09:00 to 10:00</td>
                     <td>Continuous shuttle, “drop & go”</td>
                 </tr>
-                <tr>
+                <tr class="route-details hidden">
                     <td></td>
                     <td>WJ > WEC > AMIC > WEC > WJ</td>
                     <td>10:00 to 20:00</td>
                     <td>Hourly on the hour from WJ</td>
                 </tr>
-                <tr>
-                    <td>Route 6A</td>
+        
+                <!-- Route 6A -->
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 6A</td>
                     <td>AMIC > KNK > ROSEBANK > KNK > AMIC</td>
                     <td>Saturdays: 09:00 to 17:00</td>
                     <td>Every hour from AMIC (Last dep. from Rosebank at 17:00)</td>
                 </tr>
-                <tr>
+                <tr class="route-details hidden">
                     <td></td>
                     <td>AMIC > KNK > ROSEBANK > KNK > AMIC</td>
                     <td>Sundays: 09:00 to 15:00</td>
                     <td>Hourly (Last dep. from Rosebank at 15:00)</td>
                 </tr>
-                <tr>
-                    <td>Route 6B</td>
+        
+                <!-- Route 6B -->
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 6B</td>
                     <td>AMIC > NSW > ROSEBANK > NSW > AMIC</td>
                     <td>Saturdays: 09:00 to 17:00</td>
                     <td>Every hour from AMIC (Last dep. from Rosebank at 17:00)</td>
                 </tr>
-                <tr>
+                <tr class="route-details hidden">
                     <td></td>
                     <td>AMIC > NSW > ROSEBANK > NSW > AMIC</td>
                     <td>Sundays: 09:00 to 15:00</td>
                     <td>Hourly (Last dep. from Rosebank at 15:00)</td>
                 </tr>
-                <tr>
-                    <td>Route 6C</td>
+        
+                <!-- Route 6C -->
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 6C</td>
                     <td>WEC > EOH > ROSEBANK > EOH > WEC</td>
                     <td>Saturdays: 09:00 to 17:00</td>
                     <td>Every hour from WEC (Last dep. from Rosebank at 17:00)</td>
                 </tr>
-                <tr>
+                <tr class="route-details hidden">
                     <td></td>
                     <td>WEC > EOH > ROSEBANK > EOH > WEC</td>
                     <td>Sundays: 09:00 to 15:00</td>
                     <td>Hourly (Last dep. from Rosebank at 15:00)</td>
                 </tr>
-                <tr>
-                    <td>Route 6D</td>
+        
+                <!-- Route 6D -->
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 6D</td>
                     <td>WJ > ROSEBANK > WJ</td>
                     <td>Saturdays: 09:00 to 17:00</td>
                     <td>Every hour from WJ (Last dep. from Rosebank at 17:00)</td>
                 </tr>
-                <tr>
+                <tr class="route-details hidden">
                     <td></td>
                     <td>WJ > ROSEBANK > WJ</td>
                     <td>Sundays: 09:00 to 15:00</td>
@@ -291,6 +319,7 @@
                 </tr>
             </tbody>
         </table>
+        
     </section>
 
     <section class="navbar">
@@ -401,6 +430,20 @@
     </script> -->
 
     <script>
+
+        function toggleDetails(row) {
+            // Find all the next rows (route details) until a new header is encountered
+            let nextRow = row.nextElementSibling;
+            while (nextRow && nextRow.classList.contains('route-details')) {
+                // Toggle visibility of the details
+                nextRow.style.display = (nextRow.style.display === 'table-row') ? 'none' : 'table-row';
+                nextRow = nextRow.nextElementSibling;
+            }
+            
+            // Toggle the arrow direction
+            row.classList.toggle('expanded');
+        }
+
         // Function to toggle between weekday and weekend schedules
         function toggleSchedule() {
             const daysDropdown = document.getElementById('days');
