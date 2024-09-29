@@ -37,13 +37,13 @@
                 console.log("Login, 200 OK", response.data);
             } catch (error) {
                 console.log("Error: ", error);
-                window.location.href = `${clientUrl}/registerLogin.html`;
+                window.location.href = `${clientUrl}/authorize`;
                 return;
             }
 
             if (!response.data.isLoggedIn) {
                 console.log("User is not logged in");
-                window.location.href = `${clientUrl}/registerLogin.html`;
+                window.location.href = `${clientUrl}/authorize`;
                 return;
             }
 
@@ -54,7 +54,7 @@
                 console.log("User, 200 OK", userResponse.data);
             } catch (error) {
                 console.log("Error: ", error);
-                window.location.href = `${clientUrl}/registerLogin.html`;
+                window.location.href = `${clientUrl}/authorize`;
                 return;
             }
 
@@ -71,9 +71,9 @@
 
             let firstPage;
             if (userResponse.data.user.role === "student") {
-                firstPage = clientUrl + "/navigation.html";
+                firstPage = clientUrl + "/navigation";
             } else {
-                firstPage = clientUrl + "/driverTracking.html";
+                firstPage = clientUrl + "/driverpage";
             }
 
             console.log("FROM index.html, userResponse.data.user.rol", userResponse.data.user.rol);

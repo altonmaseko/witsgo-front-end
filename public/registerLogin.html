@@ -108,7 +108,7 @@
         });
 
         document.querySelector(".register-btn").addEventListener("click", async () => {
-            const homepage = encodeURIComponent(`${clientUrl}/finishAccountSetup.html`);
+            const homepage = encodeURIComponent(`${clientUrl}/finishsetup`);
             window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=true`;
         });
     </script>

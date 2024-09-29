@@ -16,12 +16,13 @@
     <!-- This script should be put on everypage -->
 
 </head>
+
 <body>
     <section class="header">
         <h1 class="title">Bus Schedule</h1>
-        <a href="profile.html">
-        <img src="icons/profile-icon.png" alt="user-profile">
-    </a>
+        <a href="profile">
+            <img src="icons/profile-icon.png" alt="user-profile">
+        </a>
     </section>
 
 
@@ -30,8 +31,8 @@
             <option value="Week">Monday-Friday</option>
             <option value="Weekend">Saturday-Sunday and Public Holidays</option>
         </select>
-        
-        <select name="destination" id="destination"  onchange="filterRoutesByDestination()">
+
+        <select name="destination" id="destination" onchange="filterRoutesByDestination()">
             <option value="" disabled selected>Destinations:</option>
             <option value="AMIC">AMIC DECK- AMIC</option>
             <option value="EOH">ERNST OPPENHEIMER HALL OF RESIDENCE- EOH</option>
@@ -81,132 +82,132 @@
                 </tr>
 
                 <tr class="route-header" onclick="toggleDetails(this)">
-                <td><span class="arrow">&#9654;</span> Route 2B</td>
-                <td>NSW > WEC > AMIC > NSW > WEC</td>
-                <td>06:45 to 08:45</td>
-                <td>Every 30 minutes (Shuttle)</td>
-             </tr>
-            <tr class="route-details">
-                <td></td>
-                <td>NSW > WEC > AMIC > NSW > WEC</td>
-                <td>09:00 to 18:00</td>
-                <td>Hourly on the hour from WEC</td>
-            </tr>
-
-    
-            <tr class="route-header" onclick="toggleDetails(this)">
-                <td><span class="arrow">&#9654;</span> Route 3A</td>
-                <td>WJ > AMIC > WJ</td>
-                <td>07:00 to 09:00</td>
-                <td>Every 15 – 20 minutes (Shuttle)</td>
-            </tr>
-            <tr class="route-details">
-                <td></td>
-                <td>WJ > AMIC > WJ</td>
-                <td>09:00 to 17:00</td>
-                <td>Hourly on the hour from WJ</td>
-            </tr>
-            <tr class="route-details">
-                <td></td>
-                <td>WJ > AMIC > WJ</td>
-                <td>12:00 to 14:00</td>
-                <td>Every 20 minutes (Shuttle)</td>
-            </tr>
-            <tr class="route-details">
-                <td></td>
-                <td>WJ > AMIC > WJ</td>
-                <td>16:00 to 18:00</td>
-                <td>Every 20 minutes (Shuttle)</td>
-            </tr>
-            <tr class="route-details">
-                <td></td>
-                <td>WJ > AMIC > WJ</td>
-                <td>09:30 to 17:30</td>
-                <td>Hourly on the half hour from AMIC</td>
-            </tr>
-            <tr class="route-details">
-                <td></td>
-                <td>WJ > AMIC > WJ</td>
-                <td>18:30 to 23:30</td>
-                <td>Hourly (Departs WJ)</td>
-            </tr>
-
-                 <!-- Route 3B -->
-            <tr class="route-header" onclick="toggleDetails(this)">
-                <td><span class="arrow">&#9654;</span> Route 3B</td>
-                <td>WJ > WEC > WJ</td>
-                <td>06:45 to 09:15</td>
-                <td>Every 15 – 20 minutes (Shuttle)</td>
-            </tr>
-            <tr class="route-details">
-                <td></td>
-                <td>WJ > WEC > WJ</td>
-                <td>09:30 to 15:00</td>
-                <td>Every 30 minutes (Departs WJ)</td>
-            </tr>
-            <tr class="route-details">
-                <td></td>
-                <td>WJ > WEC > WJ</td>
-                <td>15:20 to 17:40</td>
-                <td>Every 20 minutes (Departs WEC)</td>
-            </tr>
-            <tr class="route-details">
-                <td></td>
-                <td>WJ > WEC > WJ</td>
-                <td>18:30 to 23:30</td>
-                <td>Hourly (Departs WJ)</td>
-            </tr>
-
-                    <td>Route 4A</td>
-                    <td>AMIC > NSW > WEC</td>
-                    <td>06:40 to 17:40</td>
-                    <td>Every 15 – 20 minutes (Shuttle)</td>
+                    <td><span class="arrow">&#9654;</span> Route 2B</td>
+                    <td>NSW > WEC > AMIC > NSW > WEC</td>
+                    <td>06:45 to 08:45</td>
+                    <td>Every 30 minutes (Shuttle)</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>NSW > WEC > AMIC > NSW > WEC</td>
+                    <td>09:00 to 18:00</td>
+                    <td>Hourly on the hour from WEC</td>
                 </tr>
 
-        <!-- <tr class="route-header" onclick="toggleDetails(this)"> -->
-            <td> Route 4A1</td>
-            <td>WEC > NSW > AMIC</td>
-            <td>07:00 to 18:00</td>
-            <td>Every 15 – 20 minutes (Shuttle)</td>
-        </tr>
 
-        <tr class="route-header" onclick="toggleDetails(this)">
-            <td><span class="arrow">&#9654;</span> Route 4B</td>
-            <td>NSW > WEC > AMIC</td>
-            <td>07:00 to 09:00</td>
-            <td>Every 20 minutes (Shuttle)</td>
-        </tr>
-        <tr class="route-details">
-            <td></td>
-            <td>NSW > WEC > AMIC</td>
-            <td>10:00 to 14:00</td>
-            <td>Hourly on the half hour from WEC</td>
-        </tr>
-        <tr class="route-details">
-            <td></td>
-            <td>NSW > WEC > AMIC</td>
-            <td>16:30 to 18:00</td>
-            <td>Continuous shuttle, “drop & go”</td>
-        </tr>
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 3A</td>
+                    <td>WJ > AMIC > WJ</td>
+                    <td>07:00 to 09:00</td>
+                    <td>Every 15 – 20 minutes (Shuttle)</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>WJ > AMIC > WJ</td>
+                    <td>09:00 to 17:00</td>
+                    <td>Hourly on the hour from WJ</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>WJ > AMIC > WJ</td>
+                    <td>12:00 to 14:00</td>
+                    <td>Every 20 minutes (Shuttle)</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>WJ > AMIC > WJ</td>
+                    <td>16:00 to 18:00</td>
+                    <td>Every 20 minutes (Shuttle)</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>WJ > AMIC > WJ</td>
+                    <td>09:30 to 17:30</td>
+                    <td>Hourly on the half hour from AMIC</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>WJ > AMIC > WJ</td>
+                    <td>18:30 to 23:30</td>
+                    <td>Hourly (Departs WJ)</td>
+                </tr>
 
-        <tr class="route-header" onclick="toggleDetails(this)">
-            <td><span class="arrow">&#9654;</span> Route 5</td>
-            <td>EOH > KNK > AMIC</td>
-            <td>06:40 to 08:30</td>
-            <td>Every 15 minutes (Shuttle from Rock Ridge Rd)</td>
-        </tr>
-        <tr class="route-details">
-            <td></td>
-            <td>AMIC > EOH > KNK (Rock Ridge Rd) > AMIC</td>
-            <td>08:30 to 14:30</td>
-            <td>Every 30 minutes</td>
-        </tr>
-        <tr class="route-details">
-            <td></td>
-            <td>AMIC > EOH > KNK (Rock Ridge Rd) > AMIC</td>
-            <td>16:30 to 18:00</td>
-            <td>Continuous shuttle, “drop & go”</td>
-        </tr>
+                <!-- Route 3B -->
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 3B</td>
+                    <td>WJ > WEC > WJ</td>
+                    <td>06:45 to 09:15</td>
+                    <td>Every 15 – 20 minutes (Shuttle)</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>WJ > WEC > WJ</td>
+                    <td>09:30 to 15:00</td>
+                    <td>Every 30 minutes (Departs WJ)</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>WJ > WEC > WJ</td>
+                    <td>15:20 to 17:40</td>
+                    <td>Every 20 minutes (Departs WEC)</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>WJ > WEC > WJ</td>
+                    <td>18:30 to 23:30</td>
+                    <td>Hourly (Departs WJ)</td>
+                </tr>
+
+                <td>Route 4A</td>
+                <td>AMIC > NSW > WEC</td>
+                <td>06:40 to 17:40</td>
+                <td>Every 15 – 20 minutes (Shuttle)</td>
+                </tr>
+
+                <!-- <tr class="route-header" onclick="toggleDetails(this)"> -->
+                <td> Route 4A1</td>
+                <td>WEC > NSW > AMIC</td>
+                <td>07:00 to 18:00</td>
+                <td>Every 15 – 20 minutes (Shuttle)</td>
+                </tr>
+
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 4B</td>
+                    <td>NSW > WEC > AMIC</td>
+                    <td>07:00 to 09:00</td>
+                    <td>Every 20 minutes (Shuttle)</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>NSW > WEC > AMIC</td>
+                    <td>10:00 to 14:00</td>
+                    <td>Hourly on the half hour from WEC</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>NSW > WEC > AMIC</td>
+                    <td>16:30 to 18:00</td>
+                    <td>Continuous shuttle, “drop & go”</td>
+                </tr>
+
+                <tr class="route-header" onclick="toggleDetails(this)">
+                    <td><span class="arrow">&#9654;</span> Route 5</td>
+                    <td>EOH > KNK > AMIC</td>
+                    <td>06:40 to 08:30</td>
+                    <td>Every 15 minutes (Shuttle from Rock Ridge Rd)</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>AMIC > EOH > KNK (Rock Ridge Rd) > AMIC</td>
+                    <td>08:30 to 14:30</td>
+                    <td>Every 30 minutes</td>
+                </tr>
+                <tr class="route-details">
+                    <td></td>
+                    <td>AMIC > EOH > KNK (Rock Ridge Rd) > AMIC</td>
+                    <td>16:30 to 18:00</td>
+                    <td>Continuous shuttle, “drop & go”</td>
+                </tr>
 
             </tbody>
         </table>
@@ -246,7 +247,7 @@
                     <td>18:00 to 00:00</td>
                     <td>Normal circuit on the hour</td>
                 </tr>
-        
+
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 3C</td>
                     <td>WJ > WEC > AMIC > WEC > WJ</td>
@@ -259,7 +260,7 @@
                     <td>10:00 to 20:00</td>
                     <td>Hourly on the hour from WJ</td>
                 </tr>
-        
+
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 6A</td>
                     <td>AMIC > KNK > ROSEBANK > KNK > AMIC</td>
@@ -272,7 +273,7 @@
                     <td>Sundays: 09:00 to 15:00</td>
                     <td>Hourly (Last dep. from Rosebank at 15:00)</td>
                 </tr>
-        
+
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 6B</td>
                     <td>AMIC > NSW > ROSEBANK > NSW > AMIC</td>
@@ -285,7 +286,7 @@
                     <td>Sundays: 09:00 to 15:00</td>
                     <td>Hourly (Last dep. from Rosebank at 15:00)</td>
                 </tr>
-        
+
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 6C</td>
                     <td>WEC > EOH > ROSEBANK > EOH > WEC</td>
@@ -298,7 +299,7 @@
                     <td>Sundays: 09:00 to 15:00</td>
                     <td>Hourly (Last dep. from Rosebank at 15:00)</td>
                 </tr>
-        
+
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 6D</td>
                     <td>WJ > ROSEBANK > WJ</td>
@@ -313,23 +314,23 @@
                 </tr>
             </tbody>
         </table>
-        
+
     </section>
 
     <section class="navbar">
-        <a href="navigation.html">
+        <a href="navigation">
             <img src="icons/nav-grey.png" alt="Nav Icon">
             <section class="text">Navigation</section>
         </a>
-        <a href="rental.html">
+        <a href="rental">
             <img src="icons/rent-grey.png" alt="Rent Icon">
             <section class="text">Renting</section>
         </a>
-        <a href="busSchedule.html">
+        <a href="buses">
             <img src="icons/schedule-purple.png" alt="Schedule Icon">
             <section class="text">Schedule</section>
         </a>
-        <a href="realTimeTracking.html">
+        <a href="tracktransport">
             <img src="icons/tracking-grey.png" alt="Tracking Icon">
             <section class="text">Tracking</section>
         </a>
@@ -345,7 +346,7 @@
             }
             row.classList.toggle('expanded');
         }
-    
+
         // Toggle between weekday and weekend 
         function toggleSchedule() {
             const daysDropdown = document.getElementById('days');
@@ -353,7 +354,7 @@
             const weekendSchedule = document.getElementById('weekend-schedule');
             const rosebankOption = document.getElementById('rosebank-option');
             const destinationDropdown = document.getElementById('destination');
-    
+
             // Show or hide schedules based on selected days
             if (daysDropdown.value === 'Week') {
                 weekdaySchedule.classList.remove('hidden');
@@ -362,15 +363,15 @@
             } else {
                 weekdaySchedule.classList.add('hidden');
                 weekendSchedule.classList.remove('hidden');
-                rosebankOption.disabled = false; 
+                rosebankOption.disabled = false;
             }
-    
+
             // Reset destination to the disabled option
-            destinationDropdown.selectedIndex = 0; 
-    
+            destinationDropdown.selectedIndex = 0;
+
             collapseAllDetails();
         }
-    
+
         // Filter routes based on destination 
         function filterRoutesByDestination() {
             const destinationDropdown = document.getElementById('destination');
@@ -380,20 +381,20 @@
 
             const visibleSchedule = weekdaySchedule.classList.contains('hidden') ? weekendSchedule : weekdaySchedule;
             const rows = visibleSchedule.querySelectorAll('tbody tr');
-    
+
             rows.forEach(row => {
                 const routeDetailsCell = row.cells[1];
                 if (routeDetailsCell) {
                     const routeDetails = routeDetailsCell.textContent;
-    
+
                     if (routeDetails.includes(selectedDestination)) {
                         row.classList.remove('hidden');
                         row.style.display = 'table-row';
-    
+
                         if (row.classList.contains('route-header')) {
                             expandDetails(row);
                         }
-    
+
                         highlightDestination(routeDetailsCell, selectedDestination);
                     } else {
                         row.classList.add('hidden');
@@ -402,38 +403,38 @@
                 }
             });
         }
-    
+
         function expandDetails(row) {
             let nextRow = row.nextElementSibling;
             while (nextRow && nextRow.classList.contains('route-details')) {
                 nextRow.classList.remove('hidden');
-                nextRow.style.display = 'table-row'; 
+                nextRow.style.display = 'table-row';
                 nextRow = nextRow.nextElementSibling;
             }
             row.classList.add('expanded');
         }
-    
+
         function collapseAllDetails() {
             const allDetails = document.querySelectorAll('.route-details');
             allDetails.forEach(detailRow => {
                 detailRow.classList.add('hidden');
-                detailRow.style.display = 'none'; 
+                detailRow.style.display = 'none';
             });
-    
+
             const allHeaders = document.querySelectorAll('.route-header');
             allHeaders.forEach(headerRow => {
                 headerRow.classList.remove('expanded');
             });
         }
-    
+
         // Highlight users selected destination 
         function highlightDestination(cell, destination) {
-            const regex = new RegExp(destination, 'gi'); 
+            const regex = new RegExp(destination, 'gi');
             const originalText = cell.textContent;
             const highlightedText = originalText.replace(regex, match => `<span class="highlight">${match}</span>`);
             cell.innerHTML = highlightedText;
         }
-    
+
         function onDestinationChange() {
             filterRoutesByDestination();
         }
@@ -442,6 +443,7 @@
             collapseAllDetails();
             toggleSchedule();
         });
-    </script>    
+    </script>
 </body>
+
 </html>

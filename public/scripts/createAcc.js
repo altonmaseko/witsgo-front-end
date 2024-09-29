@@ -9,7 +9,7 @@ goToSignInPageButton.addEventListener("click", () => {
 });
 
 signUpButton.addEventListener("click", () => {
-    const finishAccountSetup = encodeURIComponent(`${clientUrl}/Register Page/finishAccountSetup.html`);
+    const finishAccountSetup = encodeURIComponent(`${clientUrl}/Register Page/finishsetup`);
     window.location.href = `${serverUrl}/auth/google?redirect=${finishAccountSetup}`;
 
 });
