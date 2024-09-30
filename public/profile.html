@@ -105,13 +105,14 @@
         getUserAndUpdate();
 
         document.querySelector("#logout-button").addEventListener("click", async () => {
+            localStorage.clear();
+
             try {
                 let response = await axios.post(`${serverUrl}/logout`, {}, { withCredentials: true });
-                localStorage.clear();
                 window.location.href = `${clientUrl}`;
-
             } catch (error) {
-                alert("Error logging out");
+                alert("Something went wrong while trying to logout. You may still be logged in.");
+                window.location.href = `${clientUrl}`;
                 console.error("Error logging out", error);
             }
         });
