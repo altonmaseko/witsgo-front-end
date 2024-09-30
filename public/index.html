@@ -60,7 +60,7 @@
 
             // Set local storage
             localStorage.clear();
-            if (userResponse) {
+            if (userResponse.data.user) {
                 console.log("userResponse.data.user", userResponse.data.user);
 
                 localStorage.setItem("firstName", userResponse.data.user.firstName);
