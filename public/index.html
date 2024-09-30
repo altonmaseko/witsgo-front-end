@@ -70,24 +70,29 @@
                 localStorage.setItem("age", userResponse.data.user.age);
                 localStorage.setItem("email", userResponse.data.user.email);
                 localStorage.setItem("role", userResponse.data.user.role);
+
+                let firstPage;
+                if (userResponse.data.user.role === "student") {
+                    firstPage = clientUrl + "/navigation";
+                } else {
+                    firstPage = clientUrl + "/driverpage";
+                }
+
+                console.log("FROM index.html, userResponse.data.user.rol", userResponse.data.user.rol);
+
+                setTimeout(() => {
+                    window.location.href = firstPage;
+                }, 1000);
             } else {
                 console.log("userResponse is null");
+                setTimeout(() => {
+                    window.location.href = clientUrl + "/navigation";
+                }, 1000);
             }
 
 
 
-            let firstPage;
-            if (userResponse.data.user.role === "student") {
-                firstPage = clientUrl + "/navigation";
-            } else {
-                firstPage = clientUrl + "/driverpage";
-            }
 
-            console.log("FROM index.html, userResponse.data.user.rol", userResponse.data.user.rol);
-
-            setTimeout(() => {
-                window.location.href = firstPage;
-            }, 1000);
 
         }, 1000);
 
