@@ -368,159 +368,159 @@ async function renderPage() {
     await addMarkers();
 }
 
-navMeBtn.addEventListener("click", async function () {
-    if (navMeBtn.textContent == "Stop Navigation") {
-        if (lastResponse == null) {
-            return;
-        }
+// navMeBtn.addEventListener("click", async function () {
+//     if (navMeBtn.textContent == "Stop Navigation") {
+//         if (lastResponse == null) {
+//             return;
+//         }
 
-        navMeBtn.textContent = "Navigate Me";
-        directionsTextArea.innerHTML = "";
-        if (polylinePath) {
-            polylinePath.setMap(null);
-        }
-        lastResponse = null;
+//         navMeBtn.textContent = "Navigate Me";
+//         directionsTextArea.innerHTML = "";
+//         if (polylinePath) {
+//             polylinePath.setMap(null);
+//         }
+//         lastResponse = null;
 
-        for (let i = 0; i < APIMarkers.length; i++) {
-            let marker = APIMarkers[i];
-            marker.map = map;
-        }
+//         for (let i = 0; i < APIMarkers.length; i++) {
+//             let marker = APIMarkers[i];
+//             marker.map = map;
+//         }
 
-        filter.value = "all"
-        markers[searchedMarkerIndex].map = null;
-        markers.slice(searchedMarkerIndex, searchedMarkerIndex);
-        searchedMarkerIndex = -1
-        return;
-    }
-
-
-    if (dest.latitude == -1 || dest.longitude == -1) {
-        alert("Please search some place first");
-        return;
-    }
-
-    navMeBtn.textContent = "Stop Navigation";
-
-    try {
-
-        for (let i = 0; i < APIMarkers.length; i++) {
-            let marker = APIMarkers[i];
-            marker.map = null;
-        }
-        filter.value = "none"
-
-        let coords = await getLocation();
-
-        origin["latitude"] = coords.latitude;
-        origin["longitude"] = coords.longitude;
+//         filter.value = "all"
+//         markers[searchedMarkerIndex].map = null;
+//         markers.slice(searchedMarkerIndex, searchedMarkerIndex);
+//         searchedMarkerIndex = -1
+//         return;
+//     }
 
 
-        origin["latitude"] = -26.1908692
-        origin["longitude"] = 28.0271597
+//     if (dest.latitude == -1 || dest.longitude == -1) {
+//         alert("Please search some place first");
+//         return;
+//     }
 
-        const url = serverUrl + "/v1/route_optimize/route_optimize";
+//     navMeBtn.textContent = "Stop Navigation";
 
-        let data = {
-            "origin": origin,
-            "destination": dest,
-            "travelMode": "WALK"
-        }
+//     try {
 
-        const response = await axios.post(url, data);
+//         for (let i = 0; i < APIMarkers.length; i++) {
+//             let marker = APIMarkers[i];
+//             marker.map = null;
+//         }
+//         filter.value = "none"
 
-        let outputData = response.data;
+//         let coords = await getLocation();
 
-        lastResponse = outputData;
-
-
-        const encodedPolyline = outputData.data["polyline"];
-        const legs = outputData.data["legs"];
-
-        var decodedPoints = polyline.decode(encodedPolyline);
-
-        if (polylinePath) {
-            polylinePath.setMap(null);
-        }
-
-        polylinePath = new google.maps.Polyline({
-            path: decodedPoints.map(point => ({ lat: point[0], lng: point[1] })),
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-        });
-
-        polylinePath.setMap(map);
-
-        //add directions
-
-        // while (directionsTextArea.firstChild) {
-        //     directionsTextArea.removeChild(directionsTextArea.firstChild);
-        // }
+//         origin["latitude"] = coords.latitude;
+//         origin["longitude"] = coords.longitude;
 
 
-        // legs[0]["steps"].forEach((leg)=>{
-        // const instructions = leg["navigationInstruction"];
-        // const distances = leg["localizedValues"];
+//         origin["latitude"] = -26.1908692
+//         origin["longitude"] = 28.0271597
 
-        // const instrText = instructions["instructions"];
-        // const instrMove = instructions["maneuver"];
+//         const url = serverUrl + "/v1/route_optimize/route_optimize";
 
-        // const distanceKM = distances["distance"]["text"];
-        // const time = distances["staticDuration"]["text"];
+//         let data = {
+//             "origin": origin,
+//             "destination": dest,
+//             "travelMode": "WALK"
+//         }
 
-        // // console.log(instrText,instrMove,distanceKM,time);
+//         const response = await axios.post(url, data);
 
+//         let outputData = response.data;
 
-        // const row = document.createElement("section");
-        // row.classList.add("directions-row")
-
-
-        // const instructionRow = document.createElement("section");
-        // instructionRow.classList.add("directions-row-instruction");
-        // instructionRow.innerHTML = "<p>"+instrText+"</p>"
-        // row.appendChild(instructionRow);
-
-        // const instructionDist = document.createElement("section");
-        // instructionDist.classList.add("directions-row-distance");
-        // instructionDist.innerHTML = "<p>"+distanceKM+"</p>"
-        // row.appendChild(instructionDist);
-
-        // const instructionTime = document.createElement("section");
-        // instructionTime.classList.add("directions-row-time");
-        // instructionTime.innerHTML = "<p>"+time+"</p>"
-        // row.appendChild(instructionTime);
-
-        // directionsTextArea.appendChild(row);
-        // })
+//         lastResponse = outputData;
 
 
-    } catch (error) {
-        console.error("Error getting location:", error);
-    }
-});
+//         const encodedPolyline = outputData.data["polyline"];
+//         const legs = outputData.data["legs"];
+
+//         var decodedPoints = polyline.decode(encodedPolyline);
+
+//         if (polylinePath) {
+//             polylinePath.setMap(null);
+//         }
+
+//         polylinePath = new google.maps.Polyline({
+//             path: decodedPoints.map(point => ({ lat: point[0], lng: point[1] })),
+//             geodesic: true,
+//             strokeColor: '#FF0000',
+//             strokeOpacity: 1.0,
+//             strokeWeight: 2
+//         });
+
+//         polylinePath.setMap(map);
+
+//         //add directions
+
+//         // while (directionsTextArea.firstChild) {
+//         //     directionsTextArea.removeChild(directionsTextArea.firstChild);
+//         // }
 
 
-filter.addEventListener("change", (event) => {
-    let filterBy = filter.value;
+//         // legs[0]["steps"].forEach((leg)=>{
+//         // const instructions = leg["navigationInstruction"];
+//         // const distances = leg["localizedValues"];
 
-    if (filterBy == "all") {
-        APIMarkers.forEach((element) => {
-            element.map = map;
-        })
-    } else {
-        for (let i = 0; i < APIMarkers.length; i++) {
-            let info = APIMarkersInfo[i];
-            let marker = APIMarkers[i];
+//         // const instrText = instructions["instructions"];
+//         // const instrMove = instructions["maneuver"];
 
-            if (info.type == filterBy) {
-                marker.map = map;
-            } else {
-                marker.map = null;
-            }
-        }
-    }
-})
+//         // const distanceKM = distances["distance"]["text"];
+//         // const time = distances["staticDuration"]["text"];
+
+//         // // console.log(instrText,instrMove,distanceKM,time);
+
+
+//         // const row = document.createElement("section");
+//         // row.classList.add("directions-row")
+
+
+//         // const instructionRow = document.createElement("section");
+//         // instructionRow.classList.add("directions-row-instruction");
+//         // instructionRow.innerHTML = "<p>"+instrText+"</p>"
+//         // row.appendChild(instructionRow);
+
+//         // const instructionDist = document.createElement("section");
+//         // instructionDist.classList.add("directions-row-distance");
+//         // instructionDist.innerHTML = "<p>"+distanceKM+"</p>"
+//         // row.appendChild(instructionDist);
+
+//         // const instructionTime = document.createElement("section");
+//         // instructionTime.classList.add("directions-row-time");
+//         // instructionTime.innerHTML = "<p>"+time+"</p>"
+//         // row.appendChild(instructionTime);
+
+//         // directionsTextArea.appendChild(row);
+//         // })
+
+
+//     } catch (error) {
+//         console.error("Error getting location:", error);
+//     }
+// });
+
+
+// filter.addEventListener("change", (event) => {
+//     let filterBy = filter.value;
+
+//     if (filterBy == "all") {
+//         APIMarkers.forEach((element) => {
+//             element.map = map;
+//         })
+//     } else {
+//         for (let i = 0; i < APIMarkers.length; i++) {
+//             let info = APIMarkersInfo[i];
+//             let marker = APIMarkers[i];
+
+//             if (info.type == filterBy) {
+//                 marker.map = map;
+//             } else {
+//                 marker.map = null;
+//             }
+//         }
+//     }
+// })
 
 
 renderPage();
