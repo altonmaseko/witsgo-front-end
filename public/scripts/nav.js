@@ -2,12 +2,12 @@
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
-const inputField = document.getElementById('search-input');
+const searchInputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
-// const serverUrl = "http://localhost:3000/"
-const serverUrl = "https://witsgobackend.azurewebsites.net"
+// const serverUrl = "https://witsgobackend.azurewebsites.net"
+const serverUrl = "http://localhost:3000"
 
 let polylinePath = null;
 let lastResponse = null;
@@ -25,33 +25,29 @@ let dest = {
     "longitude": -1
 }
 
-let markers = []
 let APIMarkers = [];
 let APIMarkersInfo = [];
-let searchedMarkerIndex = -1;
 let userMarker = null;
+let searchedMarker = null;
+let zoomedOut = false;
+let navigationStarted = false;
+let searchedPlace = false;
 
 
-
-inputField.addEventListener("click", function () {
+searchInputField.addEventListener("click", function () {
     profileImg.style.display = "None"
     cancelSearch.style.display = "flex"
 })
 
-inputField.addEventListener("focusout", function () {
-    if (inputField.value == "") {
+searchInputField.addEventListener("focusout", function () {
+    if (searchInputField.value == "") {
         profileImg.style.display = "flex";
         cancelSearch.style.display = "None"
     }
 })
 
-
-// profileImg.addEventListener("click",function(){
-//     window.location.assign("profile");
-// })
-
 cancelSearch.addEventListener("click", function () {
-    inputField.value = "";
+    searchInputField.value = "";
     profileImg.style.display = "flex";
     cancelSearch.style.display = "None";
     directionsTextArea.innerHTML = "";
@@ -61,7 +57,93 @@ cancelSearch.addEventListener("click", function () {
     }
 })
 
+navMeBtn.addEventListener("click", async function () {
+    if (navMeBtn.textContent == "Stop Navigation") {
+        if (lastResponse == null) {
+            return;
+        }
+        lastResponse = null;
+        showMarkersOnMap()
+        resetNavigationState();
+        return;
+    }else{
+        if (!searchedPlace){
+            return;
+        }
 
+        if (dest.latitude == -1 || dest.longitude == -1) {
+            alert("Please search some place first");
+            return;
+        }
+        navMeBtn.textContent = "Stop Navigation";
+
+        if (searchedMarker!=null){
+            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+            let placeMarker = new AdvancedMarkerElement({
+                map: map,
+                position: searchedMarker.location,
+                title: searchedMarker.name,
+            });
+
+            searchedMarker = placeMarker;
+        }
+
+
+    try {
+        hideMarkersOnmap()
+        filter.value = "none"
+
+        const response = await getOptimizedRoute();
+
+        let outputData = response.data;
+        lastResponse = outputData;
+
+        const encodedPolyline = outputData.data["polyline"];
+        // const legs = outputData.data["legs"];
+        var decodedPoints = polyline.decode(encodedPolyline);
+        drawPolyline(decodedPoints);
+
+        navigationStarted = true;
+    } catch (error) {
+        console.error("Error getting location:", error);
+    }
+}})
+
+filter.addEventListener("change", () => {
+    let filterBy = filter.value;
+
+    if (filterBy == "all") {
+        APIMarkers.forEach((element) => {
+            element.map = map;
+        })
+    } else {
+        for (let i = 0; i < APIMarkers.length; i++) {
+            let info = APIMarkersInfo[i];
+            let marker = APIMarkers[i];
+
+            if (info.type == filterBy) {
+                marker.map = map;
+            } else {
+                marker.map = null;
+            }
+        }
+    }
+})
+
+function showMarkersOnMap(){
+    for (let i = 0; i < APIMarkers.length; i++) {
+        let marker = APIMarkers[i];
+        marker.map = map;
+    }
+}
+
+function hideMarkersOnmap(){
+    for (let i = 0; i < APIMarkers.length; i++) {
+        let marker = APIMarkers[i];
+        marker.map = null;
+    }
+}
 
 async function getLocation() {
     return new Promise((resolve, reject) => {
@@ -80,23 +162,166 @@ async function getLocation() {
 }
 
 
-// initialize map
-/**
- * Initializes the Google Map with user location, markers, and search functionality.
- * 
- * This function performs the following tasks:
- * - Imports necessary libraries from Google Maps API.
- * - Retrieves the user's current location.
- * - Initializes the map centered on the user's location.
- * - Adds a user marker to the map.
- * - Fetches building data from an API and adds markers for each building.
- * - Sets up a search box to allow users to search for places and update markers accordingly.
- * - Adds predefined wheelchair-accessible markers to the map.
- * 
- * @async
- * @function initMap
- * @returns {Promise<void>} A promise that resolves when the map is fully initialized.
- */
+function addWheelchairMarker(element, AdvancedMarkerElement) {
+    let newMarker = {
+        id: element._id,
+        name: element.name,
+        wheelchair_friendly: element.wheelchair_friendly,
+        ramp_available: element.ramp_available,
+        elevator_nearby: element.elevator_nearby,
+        type: "wheelchair",
+        location: { lat: element.latitude, lng: element.longitude },
+    };
+
+    APIMarkersInfo.push(newMarker);
+
+    let newContent = document.createElement('div');
+    newContent.classList.add("wheelchair-marker");
+
+    let newAdvancedMarker = new AdvancedMarkerElement({
+        map: map,
+        position: newMarker.location,
+        title: newMarker.building_name,
+        content: newContent
+    });
+
+    APIMarkers.push(newAdvancedMarker);
+
+    let infoWindow = new google.maps.InfoWindow({
+        content: `<h3>${newMarker.name}</h3><p>Wheelchair Friendly:${newMarker.wheelchair_friendly}</p>`, // HTML content
+    });
+
+    newAdvancedMarker.addListener("click", () => {
+        infoWindow.open({
+            anchor: newAdvancedMarker, // Attach to the marker
+            map, // Open on the map
+            shouldFocus: false,
+        });
+    });
+}
+
+function addMarkerToMap(element, AdvancedMarkerElement) {
+    let newMarker = {
+        id: element._id,
+        building_name: element.building_name,
+        campus: element.campus[0],
+        type: element.type[0],
+        code: element.code,
+        location: { lat: element.latitude, lng: element.longitude },
+        building_id: element.building_id
+    };
+
+    APIMarkersInfo.push(newMarker);
+
+    let newContent = document.createElement('div');
+    newContent.classList.add(newMarker.type + '-marker');
+
+
+    let newAdvancedMarker = new AdvancedMarkerElement({
+        map: map,
+        position: newMarker.location,
+        title: newMarker.building_name,
+        content: newContent
+    });
+
+
+    APIMarkers.push(newAdvancedMarker);
+
+    let newCodeInsert = "None";
+    if (newMarker.code != null) {
+        if (newMarker.code.length != 0) {
+            newCodeInsert = newMarker.code;
+        }
+    }
+
+    let infoWindow = new google.maps.InfoWindow({
+        content: `
+                    <div style="font-family: Arial, sans-serif; text-align: center; position: relative; padding-bottom:30px">
+                        <h3 style="margin: 0; font-size: 16px; color: #333; letter-spacing: 1px; padding:5px">
+                            ${newMarker.building_name}
+                        </h3>
+                        <p style="margin: 5px 0 0; font-size: 14px; font-weight: bold; color: #777;">
+                            Code: <span> ${newCodeInsert}</span>
+                        </p>
+                    </div>
+                `,
+    });
+
+
+    newAdvancedMarker.addListener("click", () => {
+        infoWindow.open({
+            anchor: newAdvancedMarker,
+            map: map,
+            shouldFocus: true,
+        });
+        dest["latitude"] = newMarker.location.lat;
+        dest["longitude"] = newMarker.location.lng;
+        searchedPlace = true;
+        searchedMarker = newMarker
+        setTimeout(function () {
+            infoWindow.close();
+        }, 2500);
+
+    });
+}
+
+function resetNavigationState() {
+    navMeBtn.textContent = "Navigate Me";
+    searchInputField.value="";
+    directionsTextArea.innerHTML = "";
+    if (polylinePath) {
+        polylinePath.setMap(null);
+    }
+    filter.value = "all";
+    searchedMarker.map = null;
+    navigationStarted = false;
+    searchedPlace = false;
+    dest["latitude"]=-1;
+    dest["longitude"]=-1;
+}
+
+async function getOptimizedRoute() {
+    let coords = await getLocation();
+
+    origin["latitude"] = coords.latitude;
+    origin["longitude"] = coords.longitude;
+
+    origin["latitude"] = -26.1908692;
+    origin["longitude"] = 28.0271597;
+
+    const url = serverUrl + "/v1/route_optimize/route_optimize";
+
+    let data = {
+        "origin": origin,
+        "destination": dest,
+        "travelMode": "WALK"
+    };
+
+    const response = await axios.post(url, data);
+    return response;
+}
+
+function drawPolyline(decodedPoints) {
+    if (polylinePath) {
+        polylinePath.setMap(null);
+    }
+
+    polylinePath = new google.maps.Polyline({
+        path: decodedPoints.map(point => ({ lat: point[0], lng: point[1] })),
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+    });
+
+    polylinePath.setMap(map);
+}
+
+function isNum(str) {
+    const regex = /^\d+,\d+$/;
+    return regex.test(str);
+}
+
 async function initMap() {
     const { Map } = await google.maps.importLibrary("maps");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -118,10 +343,19 @@ async function initMap() {
 
     // Updates the addresses when searching
     map.addListener('bounds_changed', function () {
+        if (map.getZoom()<=15 && !navigationStarted){
+            zoomedOut = true;
+            hideMarkersOnmap()
+        }else{
+            if (zoomedOut && !navigationStarted){
+                showMarkersOnMap()
+                zoomedOut=false;
+            }
+        }
         searchBox.setBounds(map.getBounds());
     });
 
-    const searchBox = new SearchBox(inputField);
+    const searchBox = new SearchBox(searchInputField);
 
     searchBox.addListener('places_changed', function () {
         var places = searchBox.getPlaces();
@@ -132,12 +366,9 @@ async function initMap() {
         }
 
         // Clear out the old markers by setting their map to null
-        markers.forEach((marker) => {
-            marker.map = null;
-        });
-
-        markers = []; // Reset the markers array
-
+        if (searchedMarker!=null && searchedMarker.map!=null){
+            searchedMarker.map=null;
+        }
 
         var bounds = new google.maps.LatLngBounds(); // Move the map to the new locations
 
@@ -160,9 +391,7 @@ async function initMap() {
                 title: place.name,
             });
 
-            searchedMarkerIndex = markers.length;
-            markers.push(placeMarker); // Add place marker to the markers array
-
+            searchedMarker = placeMarker// Add place marker to the markers array
 
             const content = document.createElement('div');
             content.classList.add('custom-marker');
@@ -182,17 +411,11 @@ async function initMap() {
                 bounds.extend(place.geometry.location);
             }
         });
-
         map.fitBounds(bounds);
+        searchedPlace=true;
 
     });
 }
-
-function isNum(str) {
-    const regex = /^\d+,\d+$/;
-    return regex.test(str);
-}
-
 
 async function addMarkers() {
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -211,59 +434,16 @@ async function addMarkers() {
     });
 
     try {
-
         const res = await axios.get(serverUrl + "/v1/map/getBuildings");
-
         let successData = res.data.data;
-
         if (successData.success == false || successData == undefined) {
             console.log("Unable to get markers");
         }
-
         const data = res.data.data.data;
-
-        console.log(data);
         data.forEach((element) => {
-            let newMarker = {
-                id: element._id,
-                building_name: element.building_name,
-                campus: element.campus[0],
-                type: element.type[0],
-                code: element.code,
-                location: { lat: element.latitude, lng: element.longitude },
-                building_id: element.building_id
-            };
-
-            APIMarkersInfo.push(newMarker);
-
-            let newContent = document.createElement('div');
-            newContent.classList.add(newMarker.type + '-marker');
-
-
-            let newAdvancedMarker = new AdvancedMarkerElement({
-                map: map,
-                position: newMarker.location,
-                title: newMarker.building_name,
-                content: newContent
-            });
-
-
-            APIMarkers.push(newAdvancedMarker);
-
-            let newCodeInsert = newMarker.code == null ? "None" : newMarker.code;
-
-            let infoWindow = new google.maps.InfoWindow({
-                content: `<h3>${newMarker.building_name}</h3><p>Code:${newCodeInsert}</p>`, // HTML content
-            });
-
-            newAdvancedMarker.addListener("click", () => {
-                infoWindow.open({
-                    anchor: newAdvancedMarker,
-                    map,
-                    shouldFocus: false,
-                });
-            })
-        })
+            addMarkerToMap(element, AdvancedMarkerElement);
+        }
+    )
     } catch (error) {
         console.log(error);
     }
@@ -272,52 +452,15 @@ async function addMarkers() {
     //wheelchairs
     try {
         const res = await axios.get(serverUrl + "/v1/accessibility/getWheelchairs");
-
         let successData = res.data.data;
-
         if (successData.success == false || successData == undefined) {
             console.log("Unable to get markers");
         }
-
         const data = res.data.data.data;
-
         data.forEach((element) => {
-            let newMarker = {
-                id: element._id,
-                name: element.name,
-                wheelchair_friendly: element.wheelchair_friendly,
-                ramp_available: element.ramp_available,
-                elevator_nearby: element.elevator_nearby,
-                type: "wheelchair",
-                location: { lat: element.latitude, lng: element.longitude },
-            };
-
-            APIMarkersInfo.push(newMarker);
-
-            let newContent = document.createElement('div');
-            newContent.classList.add("wheelchair-marker");
-
-            let newAdvancedMarker = new AdvancedMarkerElement({
-                map: map,
-                position: newMarker.location,
-                title: newMarker.building_name,
-                content: newContent
-            });
-
-            APIMarkers.push(newAdvancedMarker);
-
-            let infoWindow = new google.maps.InfoWindow({
-                content: `<h3>${newMarker.name}</h3><p>Wheelchair Friendly:${newMarker.wheelchair_friendly}</p>`, // HTML content
-            });
-
-            newAdvancedMarker.addListener("click", () => {
-                infoWindow.open({
-                    anchor: newAdvancedMarker,   // Attach to the marker
-                    map,              // Open on the map
-                    shouldFocus: false, // Optional: prevent the window from stealing focus
-                });
-            })
-        })
+            addWheelchairMarker(element, AdvancedMarkerElement);
+        }
+    )
     } catch (error) {
         console.log(error);
     }
@@ -358,169 +501,15 @@ async function addMarkers() {
             console.log(location);
         })
     } catch (error) {
+        console.log(error);
         //TODO make error shorter
     }
 }
-
 
 async function renderPage() {
     await initMap();
     await addMarkers();
 }
-
-navMeBtn.addEventListener("click", async function () {
-    if (navMeBtn.textContent == "Stop Navigation") {
-        if (lastResponse == null) {
-            return;
-        }
-
-        navMeBtn.textContent = "Navigate Me";
-        directionsTextArea.innerHTML = "";
-        if (polylinePath) {
-            polylinePath.setMap(null);
-        }
-        lastResponse = null;
-
-        for (let i = 0; i < APIMarkers.length; i++) {
-            let marker = APIMarkers[i];
-            marker.map = map;
-        }
-
-        filter.value = "all"
-        markers[searchedMarkerIndex].map = null;
-        markers.slice(searchedMarkerIndex, searchedMarkerIndex);
-        searchedMarkerIndex = -1
-        return;
-    }
-
-
-    if (dest.latitude == -1 || dest.longitude == -1) {
-        alert("Please search some place first");
-        return;
-    }
-
-    navMeBtn.textContent = "Stop Navigation";
-
-    try {
-
-        for (let i = 0; i < APIMarkers.length; i++) {
-            let marker = APIMarkers[i];
-            marker.map = null;
-        }
-        filter.value = "none"
-
-        let coords = await getLocation();
-
-        origin["latitude"] = coords.latitude;
-        origin["longitude"] = coords.longitude;
-
-
-        origin["latitude"] = -26.1908692
-        origin["longitude"] = 28.0271597
-
-        const url = serverUrl + "/v1/route_optimize/route_optimize";
-
-        let data = {
-            "origin": origin,
-            "destination": dest,
-            "travelMode": "WALK"
-        }
-
-        const response = await axios.post(url, data);
-
-        let outputData = response.data;
-
-        lastResponse = outputData;
-
-
-        const encodedPolyline = outputData.data["polyline"];
-        const legs = outputData.data["legs"];
-
-        var decodedPoints = polyline.decode(encodedPolyline);
-
-        if (polylinePath) {
-            polylinePath.setMap(null);
-        }
-
-        polylinePath = new google.maps.Polyline({
-            path: decodedPoints.map(point => ({ lat: point[0], lng: point[1] })),
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-        });
-
-        polylinePath.setMap(map);
-
-        //add directions
-
-        // while (directionsTextArea.firstChild) {
-        //     directionsTextArea.removeChild(directionsTextArea.firstChild);
-        // }
-
-
-        // legs[0]["steps"].forEach((leg)=>{
-        // const instructions = leg["navigationInstruction"];
-        // const distances = leg["localizedValues"];
-
-        // const instrText = instructions["instructions"];
-        // const instrMove = instructions["maneuver"];
-
-        // const distanceKM = distances["distance"]["text"];
-        // const time = distances["staticDuration"]["text"];
-
-        // // console.log(instrText,instrMove,distanceKM,time);
-
-
-        // const row = document.createElement("section");
-        // row.classList.add("directions-row")
-
-
-        // const instructionRow = document.createElement("section");
-        // instructionRow.classList.add("directions-row-instruction");
-        // instructionRow.innerHTML = "<p>"+instrText+"</p>"
-        // row.appendChild(instructionRow);
-
-        // const instructionDist = document.createElement("section");
-        // instructionDist.classList.add("directions-row-distance");
-        // instructionDist.innerHTML = "<p>"+distanceKM+"</p>"
-        // row.appendChild(instructionDist);
-
-        // const instructionTime = document.createElement("section");
-        // instructionTime.classList.add("directions-row-time");
-        // instructionTime.innerHTML = "<p>"+time+"</p>"
-        // row.appendChild(instructionTime);
-
-        // directionsTextArea.appendChild(row);
-        // })
-
-
-    } catch (error) {
-        console.error("Error getting location:", error);
-    }
-});
-
-
-filter.addEventListener("change", (event) => {
-    let filterBy = filter.value;
-
-    if (filterBy == "all") {
-        APIMarkers.forEach((element) => {
-            element.map = map;
-        })
-    } else {
-        for (let i = 0; i < APIMarkers.length; i++) {
-            let info = APIMarkersInfo[i];
-            let marker = APIMarkers[i];
-
-            if (info.type == filterBy) {
-                marker.map = map;
-            } else {
-                marker.map = null;
-            }
-        }
-    }
-})
 
 
 renderPage();
