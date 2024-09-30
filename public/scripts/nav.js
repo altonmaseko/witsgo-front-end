@@ -6,8 +6,8 @@ const searchInputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
-// const serverUrl = "https://witsgobackend.azurewebsites.net"
-const serverUrl = "http://localhost:3000"
+const serverUrl = "https://witsgobackend.azurewebsites.net"
+// const serverUrl = "http://localhost:3000"
 
 let polylinePath = null;
 let lastResponse = null;
@@ -505,6 +505,27 @@ async function addMarkers() {
         //TODO make error shorter
     }
 }
+
+
+navigator.geolocation.watchPosition((position) => {
+    console.log("Current Location:", position.coords.latitude, position.coords.longitude);
+
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+
+    origin["latitude"] = lat;
+    origin["longitude"] = lng;
+
+    userMarker.position = { lat: origin["latitude"], lng: origin["longitude"] }
+
+}, (error) => {
+    console.log("Could not get location:", error);
+}, {
+    enableHighAccuracy: true,
+    timeout: 10000, // if cant get location within 5 seconds, return an error
+    maximumAge: 10000
+});
+
 
 async function renderPage() {
     await initMap();

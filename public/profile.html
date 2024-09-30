@@ -104,11 +104,37 @@
 
         getUserAndUpdate();
 
-        document.querySelector("#logout-button").addEventListener("click", async () => {
+        const clearSiteData = () => {
+
+            console.log("clearSiteData()")
+
+            // Clear localStorage
             localStorage.clear();
+
+            // Clear sessionStorage
+            sessionStorage.clear();
+
+            // Clear cookies
+            document.cookie.split(";").forEach(function (c) {
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+            });
+
+            // Clear cache and reload (works in some browsers)
+            if (window.caches) {
+                caches.keys().then(function (names) {
+                    for (let name of names)
+                        caches.delete(name);
+                });
+            }
+
+
+        }
+
+        document.querySelector("#logout-button").addEventListener("click", async () => {
 
             try {
                 let response = await axios.post(`${serverUrl}/logout`, {}, { withCredentials: true });
+                clearSiteData();
                 window.location.href = `${clientUrl}`;
             } catch (error) {
                 alert("Something went wrong while trying to logout. You may still be logged in.");
@@ -124,7 +150,7 @@
 
             try {
                 let response = await axios.delete(`${serverUrl}/user/${email}`, { withCredentials: true });
-                localStorage.clear();
+                clearSiteData();
                 window.location.href = `${clientUrl}`;
             } catch (error) {
                 alert("Error deleting account");
