@@ -6,8 +6,8 @@ const searchInputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
-const serverUrl = "https://witsgobackend.azurewebsites.net"
-// const serverUrl = "http://localhost:3000"
+// const serverUrl = "https://witsgobackend.azurewebsites.net"
+const serverUrl = "http://localhost:3000"
 
 let polylinePath = null;
 let lastResponse = null;
@@ -100,7 +100,8 @@ navMeBtn.addEventListener("click", async function () {
         lastResponse = outputData;
 
         const encodedPolyline = outputData.data["polyline"];
-        // const legs = outputData.data["legs"];
+        const legs = outputData.data["legs"];
+        console.log(legs);
         var decodedPoints = polyline.decode(encodedPolyline);
         drawPolyline(decodedPoints);
 
@@ -508,14 +509,14 @@ async function addMarkers() {
 
 
 navigator.geolocation.watchPosition((position) => {
-    console.log("Current Location:", position.coords.latitude, position.coords.longitude);
-
+    // console.log("Current Location:", position.coords.latitude, position.coords.longitude);
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
-
     origin["latitude"] = lat;
     origin["longitude"] = lng;
-
+    if (userMarker==null){
+        return;
+    }
     userMarker.position = { lat: origin["latitude"], lng: origin["longitude"] }
 
 }, (error) => {
