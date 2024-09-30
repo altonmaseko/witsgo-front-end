@@ -60,27 +60,39 @@
 
             // Set local storage
             localStorage.clear();
-            localStorage.setItem("firstName", userResponse.data.user.firstName);
-            localStorage.setItem("lastName", userResponse.data.user.lastName);
-            localStorage.setItem("picture", userResponse.data.user.picture);
-            localStorage.setItem("onWheelChair", userResponse.data.user.onWheelChair);
-            localStorage.setItem("age", userResponse.data.user.age);
-            localStorage.setItem("email", userResponse.data.user.email);
-            localStorage.setItem("role", userResponse.data.user.role);
+            if (userResponse.data.user) {
+                console.log("userResponse.data.user", userResponse.data.user);
 
+                localStorage.setItem("firstName", userResponse.data.user.firstName);
+                localStorage.setItem("lastName", userResponse.data.user.lastName);
+                localStorage.setItem("picture", userResponse.data.user.picture);
+                localStorage.setItem("onWheelChair", userResponse.data.user.onWheelChair);
+                localStorage.setItem("age", userResponse.data.user.age);
+                localStorage.setItem("email", userResponse.data.user.email);
+                localStorage.setItem("role", userResponse.data.user.role);
 
-            let firstPage;
-            if (userResponse.data.user.role === "student") {
-                firstPage = clientUrl + "/navigation";
+                let firstPage;
+                if (userResponse.data.user.role === "student") {
+                    firstPage = clientUrl + "/navigation";
+                } else {
+                    firstPage = clientUrl + "/driverpage";
+                }
+
+                console.log("FROM index.html, userResponse.data.user.rol", userResponse.data.user.rol);
+
+                setTimeout(() => {
+                    window.location.href = firstPage;
+                }, 1000);
             } else {
-                firstPage = clientUrl + "/driverpage";
+                console.log("userResponse is null");
+                setTimeout(() => {
+                    window.location.href = clientUrl + "/authorize";
+                }, 1000);
             }
 
-            console.log("FROM index.html, userResponse.data.user.rol", userResponse.data.user.rol);
 
-            setTimeout(() => {
-                window.location.href = firstPage;
-            }, 1000);
+
+
 
         }, 1000);
 
