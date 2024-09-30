@@ -27,13 +27,11 @@ let dest = {
 
 let APIMarkers = [];
 let APIMarkersInfo = [];
-let searchedMarkerIndex = -1;
 let userMarker = null;
 let searchedMarker = null;
 let zoomedOut = false;
 let navigationStarted = false;
 let searchedPlace = false;
-let selectedMarker = null;
 
 
 searchInputField.addEventListener("click", function () {
@@ -112,7 +110,7 @@ navMeBtn.addEventListener("click", async function () {
     }
 }})
 
-filter.addEventListener("change", (event) => {
+filter.addEventListener("change", () => {
     let filterBy = filter.value;
 
     if (filterBy == "all") {
@@ -503,6 +501,7 @@ async function addMarkers() {
             console.log(location);
         })
     } catch (error) {
+        console.log(error);
         //TODO make error shorter
     }
 }
