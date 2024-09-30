@@ -1,4 +1,4 @@
-import { clientUrl, serverUrl } from "./constants.js";
+// import { clientUrl, serverUrl } from "./constants.js";
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
@@ -7,7 +7,7 @@ const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
 // const serverUrl = "http://localhost:3000/"
-// const baseURL = "https://witsgobackend.azurewebsites.net/"
+const serverUrl = "https://witsgobackend.azurewebsites.net"
 
 let polylinePath = null;
 let lastResponse = null;
@@ -112,8 +112,7 @@ async function initMap() {
     map = new Map(document.getElementById("map"), {
         zoom: 17,
         center: userLocation,
-        mapId: "DEMO_MAP_ID",
-        style: 'mapbox://styles/mapbox/streets-v12',
+        mapId: "DEMO_MAP_ID"
     });
 
 
