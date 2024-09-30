@@ -1,4 +1,4 @@
-// import { clientUrl, serverUrl } from "./constants.js";
+import { clientUrl, serverUrl } from "./constants.js";
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
@@ -6,8 +6,10 @@ const searchInputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
+
+// DONT HARD CODE SERVER URL OR CLIENT URL!
 // const serverUrl = "https://witsgobackend.azurewebsites.net"
-const serverUrl = "http://localhost:3000"
+// // const serverUrl = "http://localhost:3000"
 
 let polylinePath = null;
 let lastResponse = null;
@@ -66,8 +68,8 @@ navMeBtn.addEventListener("click", async function () {
         showMarkersOnMap()
         resetNavigationState();
         return;
-    }else{
-        if (!searchedPlace){
+    } else {
+        if (!searchedPlace) {
             return;
         }
 
@@ -77,7 +79,7 @@ navMeBtn.addEventListener("click", async function () {
         }
         navMeBtn.textContent = "Stop Navigation";
 
-        if (searchedMarker!=null){
+        if (searchedMarker != null) {
             const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
             let placeMarker = new AdvancedMarkerElement({
@@ -90,25 +92,26 @@ navMeBtn.addEventListener("click", async function () {
         }
 
 
-    try {
-        hideMarkersOnmap()
-        filter.value = "none"
+        try {
+            hideMarkersOnmap()
+            filter.value = "none"
 
-        const response = await getOptimizedRoute();
+            const response = await getOptimizedRoute();
 
-        let outputData = response.data;
-        lastResponse = outputData;
+            let outputData = response.data;
+            lastResponse = outputData;
 
-        const encodedPolyline = outputData.data["polyline"];
-        // const legs = outputData.data["legs"];
-        var decodedPoints = polyline.decode(encodedPolyline);
-        drawPolyline(decodedPoints);
+            const encodedPolyline = outputData.data["polyline"];
+            // const legs = outputData.data["legs"];
+            var decodedPoints = polyline.decode(encodedPolyline);
+            drawPolyline(decodedPoints);
 
-        navigationStarted = true;
-    } catch (error) {
-        console.error("Error getting location:", error);
+            navigationStarted = true;
+        } catch (error) {
+            console.error("Error getting location:", error);
+        }
     }
-}})
+})
 
 filter.addEventListener("change", () => {
     let filterBy = filter.value;
@@ -131,14 +134,14 @@ filter.addEventListener("change", () => {
     }
 })
 
-function showMarkersOnMap(){
+function showMarkersOnMap() {
     for (let i = 0; i < APIMarkers.length; i++) {
         let marker = APIMarkers[i];
         marker.map = map;
     }
 }
 
-function hideMarkersOnmap(){
+function hideMarkersOnmap() {
     for (let i = 0; i < APIMarkers.length; i++) {
         let marker = APIMarkers[i];
         marker.map = null;
@@ -267,7 +270,7 @@ function addMarkerToMap(element, AdvancedMarkerElement) {
 
 function resetNavigationState() {
     navMeBtn.textContent = "Navigate Me";
-    searchInputField.value="";
+    searchInputField.value = "";
     directionsTextArea.innerHTML = "";
     if (polylinePath) {
         polylinePath.setMap(null);
@@ -276,8 +279,8 @@ function resetNavigationState() {
     searchedMarker.map = null;
     navigationStarted = false;
     searchedPlace = false;
-    dest["latitude"]=-1;
-    dest["longitude"]=-1;
+    dest["latitude"] = -1;
+    dest["longitude"] = -1;
 }
 
 async function getOptimizedRoute() {
@@ -343,13 +346,13 @@ async function initMap() {
 
     // Updates the addresses when searching
     map.addListener('bounds_changed', function () {
-        if (map.getZoom()<=15 && !navigationStarted){
+        if (map.getZoom() <= 15 && !navigationStarted) {
             zoomedOut = true;
             hideMarkersOnmap()
-        }else{
-            if (zoomedOut && !navigationStarted){
+        } else {
+            if (zoomedOut && !navigationStarted) {
                 showMarkersOnMap()
-                zoomedOut=false;
+                zoomedOut = false;
             }
         }
         searchBox.setBounds(map.getBounds());
@@ -366,8 +369,8 @@ async function initMap() {
         }
 
         // Clear out the old markers by setting their map to null
-        if (searchedMarker!=null && searchedMarker.map!=null){
-            searchedMarker.map=null;
+        if (searchedMarker != null && searchedMarker.map != null) {
+            searchedMarker.map = null;
         }
 
         var bounds = new google.maps.LatLngBounds(); // Move the map to the new locations
@@ -412,7 +415,7 @@ async function initMap() {
             }
         });
         map.fitBounds(bounds);
-        searchedPlace=true;
+        searchedPlace = true;
 
     });
 }
@@ -443,7 +446,7 @@ async function addMarkers() {
         data.forEach((element) => {
             addMarkerToMap(element, AdvancedMarkerElement);
         }
-    )
+        )
     } catch (error) {
         console.log(error);
     }
@@ -460,7 +463,7 @@ async function addMarkers() {
         data.forEach((element) => {
             addWheelchairMarker(element, AdvancedMarkerElement);
         }
-    )
+        )
     } catch (error) {
         console.log(error);
     }
