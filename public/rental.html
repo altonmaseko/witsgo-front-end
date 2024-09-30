@@ -18,10 +18,6 @@
 </head>
 
 <body>
-    <!-- <header>
-        <img class="profile-img" src="images/pfp.jpg" alt="Profile Picture" id="profile-picture">
-        <h1>Rent a ride!</h1>
-    </header> -->
     <section class="header">
         <h1 class="title">Rent a Ride</h1>
         <a href="profile">
@@ -34,11 +30,9 @@
 
     <section id="controls">
         <select id="stationSelect" style="display: none;" onchange="showVehicleDropdown()">
-            <!-- Options will be added dynamically -->
         </select>
         <select id="vehicleSelect" style="display: none;" onchange="updateControls()">
             <option value="">Please select a vehicle</option>
-            <!-- Options will be added dynamically -->
         </select>
 
         <!-- Container for buttons -->
@@ -51,7 +45,7 @@
 
         <p id="availability">Select a vehicle to see availability</p>
         <div id="rental-status-container">
-            <p id="timerDisplay">
+            <p id="retnal-status">
                 Rental Time Remaining: <a id="timer">20:00</a>
                 <!-- <button id="return-button" onclick="returnVehicle()">Return</button> -->
             </p>

@@ -189,3 +189,6 @@ function cancelSelection() {
     document.getElementById('vehicleSelect').style.display = "none";
     document.getElementById('stationSelect').style.display = "none";
 }
+
+// Call initMap to initialize the map
+initMap();

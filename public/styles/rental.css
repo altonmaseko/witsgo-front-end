@@ -84,7 +84,7 @@ button#cancel-button {
     margin-right: 10px;
 }
 
-@media (width <= 768px) {
+@media (max-width: 768px) {
     header {
         text-align: center;
     }
@@ -103,7 +103,7 @@ button#cancel-button {
     }
 }
 
-@media (width <= 480px) {
+@media (max-width: 480px) {
     header h1 {
         font-size: 1.5rem;
     }
@@ -112,3 +112,4 @@ button#cancel-button {
         font-size: 10px;
     }
 }
+
