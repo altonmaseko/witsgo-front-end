@@ -103,14 +103,12 @@
 
         document.querySelector('.login-btn').addEventListener('click', async () => {
             console.log('google clicked');
-
             const homepage = encodeURIComponent(`${clientUrl}/`);
             window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=false`;
         });
 
         document.querySelector(".register-btn").addEventListener("click", async () => {
-
-            const homepage = encodeURIComponent(`${clientUrl}/finishAccountSetup.html`);
+            const homepage = encodeURIComponent(`${clientUrl}/finishsetup`);
             window.location.href = `${serverUrl}/auth/google?redirect=${homepage}&register=true`;
         });
     </script>

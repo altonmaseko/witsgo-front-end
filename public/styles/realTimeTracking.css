@@ -1,7 +1,7 @@
 * {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
 }
 
 :root {
@@ -13,7 +13,7 @@ body {
 }
 
 
-/* Header */
+/* Header
 
 .header {
     display: flex;
@@ -23,6 +23,7 @@ body {
     padding: 1rem;
     background-color: #23527c;
     color: white;
+
 }
 
 .header .profile-icon {
@@ -30,7 +31,7 @@ body {
     height: 40px;
     border-radius: 50%;
     border: 2px solid black;
-}
+} */
 
 /* MAIN */
 

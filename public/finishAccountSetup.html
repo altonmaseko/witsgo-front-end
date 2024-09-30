@@ -14,7 +14,7 @@
 
     <style>
         body {
-            font-family: cursive;
+            font-family: Poppins, sans-serif;
         }
 
         select {
@@ -28,6 +28,22 @@
             text-align: center;
             display: none;
         }
+
+        #finish-account-setup-button {
+            background-color: #23527c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 200px;
+        }
+
+        /* Add hover effect */
+        #finish-account-setup-button:hover {
+            background-color: #002b5a;
+        }
     </style>
 </head>
 
@@ -36,12 +52,24 @@
         <h1>Finish Setting Up Your Account</h1>
         <form class="form">
             <!-- create inputs for password with ids-->
-            <input type="password" id="password-input" placeholder="password" required>
-            <input type="password" id="verify-password-input" placeholder="verify password" required>
+            <!-- <input type="password" id="password-input" placeholder="Password" required>
+            <input type="password" id="verify-password-input" placeholder="Verify Password" required> -->
 
+            <div class="input-container">
+                <input type="password" id="password-input" placeholder="Password" required>
+                <img src="icons/invisible-icon.png" class="toggle-password"
+                    onclick="togglePasswordVisibility(this, 'password-input')" alt="Show Password">
+            </div>
 
+            <div class="input-container">
+                <input type="password" id="verify-password-input" placeholder="Verify Password" required>
+                <img src="icons/invisible-icon.png" class="toggle-password"
+                    onclick="togglePasswordVisibility(this, 'verify-password-input')" alt="Show Password">
+            </div>
 
-            <input type="number" id="age-input" placeholder="age">
+            <div class="input-container">
+                <input type="number" id="age-input" placeholder="Age">
+            </div>
 
             <select id="faculty-dropdown" required>
                 <option value="" disabled selected>Select your faculty</option>
@@ -73,8 +101,21 @@
         <p class="error-message"></p>
 
     </div>
-
-
 </body>
+<script>
+    function togglePasswordVisibility(icon, inputId) {
+        const inputField = document.getElementById(inputId);
+        const isPassword = inputField.getAttribute('type') === 'password';
+
+        // Toggle the input type between 'password' and 'text'
+        inputField.setAttribute('type', isPassword ? 'text' : 'password');
+
+        // Toggle the icon between visible and invisible
+        icon.src = isPassword ? 'icons/visible-icon.png' : 'icons/invisible-icon.png';
+        icon.alt = isPassword ? 'Hide Password' : 'Show Password';
+    }
+</script>
+
+
 
 </html>

@@ -9,7 +9,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "httpserver": "http-server -c -1 -S -C server.cert -K server.key -p 5000",
-    "cypress":"npx cypress open"
+    "cypress": "npx cypress open"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "eslint-plugin-html": "^8.1.1",
     "express": "^4.21.0",
     "globals": "^15.9.0",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "path": "^0.12.7"
   }
 }
