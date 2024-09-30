@@ -2,12 +2,12 @@
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
-const inputField = document.getElementById('search-input');
+const searchInputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
-// const serverUrl = "http://localhost:3000/"
-const serverUrl = "https://witsgobackend.azurewebsites.net"
+// const serverUrl = "https://witsgobackend.azurewebsites.net"
+const serverUrl = "http://localhost:3000"
 
 let polylinePath = null;
 let lastResponse = null;
@@ -30,28 +30,25 @@ let APIMarkers = [];
 let APIMarkersInfo = [];
 let searchedMarkerIndex = -1;
 let userMarker = null;
+let zoomedOut = false;
+let navigationStarted = false;
+let searchedPlace = false;
 
 
-
-inputField.addEventListener("click", function () {
+searchInputField.addEventListener("click", function () {
     profileImg.style.display = "None"
     cancelSearch.style.display = "flex"
 })
 
-inputField.addEventListener("focusout", function () {
-    if (inputField.value == "") {
+searchInputField.addEventListener("focusout", function () {
+    if (searchInputField.value == "") {
         profileImg.style.display = "flex";
         cancelSearch.style.display = "None"
     }
 })
 
-
-// profileImg.addEventListener("click",function(){
-//     window.location.assign("profile");
-// })
-
 cancelSearch.addEventListener("click", function () {
-    inputField.value = "";
+    searchInputField.value = "";
     profileImg.style.display = "flex";
     cancelSearch.style.display = "None";
     directionsTextArea.innerHTML = "";
@@ -61,7 +58,19 @@ cancelSearch.addEventListener("click", function () {
     }
 })
 
+function showMarkersOnMap(){
+    for (let i = 0; i < APIMarkers.length; i++) {
+        let marker = APIMarkers[i];
+        marker.map = map;
+    }
+}
 
+function hideMarkersOnmap(){
+    for (let i = 0; i < APIMarkers.length; i++) {
+        let marker = APIMarkers[i];
+        marker.map = null;
+    }
+}
 
 async function getLocation() {
     return new Promise((resolve, reject) => {
@@ -78,7 +87,6 @@ async function getLocation() {
         }
     });
 }
-
 
 // initialize map
 /**
@@ -118,10 +126,19 @@ async function initMap() {
 
     // Updates the addresses when searching
     map.addListener('bounds_changed', function () {
+        if (map.getZoom()<=15 && !navigationStarted){
+            zoomedOut = true;
+            hideMarkersOnmap()
+        }else{
+            if (zoomedOut && !navigationStarted){
+                showMarkersOnMap()
+                zoomedOut=false;
+            }
+        }
         searchBox.setBounds(map.getBounds());
     });
 
-    const searchBox = new SearchBox(inputField);
+    const searchBox = new SearchBox(searchInputField);
 
     searchBox.addListener('places_changed', function () {
         var places = searchBox.getPlaces();
@@ -182,8 +199,8 @@ async function initMap() {
                 bounds.extend(place.geometry.location);
             }
         });
-
         map.fitBounds(bounds);
+        searchedPlace=true;
 
     });
 }
@@ -192,7 +209,6 @@ function isNum(str) {
     const regex = /^\d+,\d+$/;
     return regex.test(str);
 }
-
 
 async function addMarkers() {
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -222,7 +238,6 @@ async function addMarkers() {
 
         const data = res.data.data.data;
 
-        console.log(data);
         data.forEach((element) => {
             let newMarker = {
                 id: element._id,
@@ -250,18 +265,38 @@ async function addMarkers() {
 
             APIMarkers.push(newAdvancedMarker);
 
-            let newCodeInsert = newMarker.code == null ? "None" : newMarker.code;
+            let newCodeInsert = "None";
+            if (newMarker.code != null ){
+                if (newMarker.code.length!=0){
+                    newCodeInsert = newMarker.code;
+                }
+            }
 
             let infoWindow = new google.maps.InfoWindow({
-                content: `<h3>${newMarker.building_name}</h3><p>Code:${newCodeInsert}</p>`, // HTML content
+                content: `
+                    <div style="font-family: Arial, sans-serif; text-align: center; position: relative; padding-bottom:30px">
+                        <h3 style="margin: 0; font-size: 16px; color: #333; letter-spacing: 1px; padding:5px">
+                            ${newMarker.building_name}
+                        </h3>
+                        <p style="margin: 5px 0 0; font-size: 14px; font-weight: bold; color: #777;">
+                            Code: <span> ${newCodeInsert}</span>
+                        </p>
+                    </div>
+                `,
             });
+            
 
             newAdvancedMarker.addListener("click", () => {
                 infoWindow.open({
                     anchor: newAdvancedMarker,
-                    map,
-                    shouldFocus: false,
+                    map:map,
+                    shouldFocus: true,
                 });
+
+                setTimeout(function() {
+                    infoWindow.close();
+                }, 2500);
+
             })
         })
     } catch (error) {
@@ -362,165 +397,117 @@ async function addMarkers() {
     }
 }
 
-
 async function renderPage() {
     await initMap();
     await addMarkers();
 }
 
-// navMeBtn.addEventListener("click", async function () {
-//     if (navMeBtn.textContent == "Stop Navigation") {
-//         if (lastResponse == null) {
-//             return;
-//         }
+navMeBtn.addEventListener("click", async function () {
+    if (navMeBtn.textContent == "Stop Navigation") {
+        searchInputField.value="";
+        if (lastResponse == null) {
+            return;
+        }
 
-//         navMeBtn.textContent = "Navigate Me";
-//         directionsTextArea.innerHTML = "";
-//         if (polylinePath) {
-//             polylinePath.setMap(null);
-//         }
-//         lastResponse = null;
+        navMeBtn.textContent = "Navigate Me";
+        directionsTextArea.innerHTML = "";
+        if (polylinePath) {
+            polylinePath.setMap(null);
+        }
+        lastResponse = null;
 
-//         for (let i = 0; i < APIMarkers.length; i++) {
-//             let marker = APIMarkers[i];
-//             marker.map = map;
-//         }
+        showMarkersOnMap()
 
-//         filter.value = "all"
-//         markers[searchedMarkerIndex].map = null;
-//         markers.slice(searchedMarkerIndex, searchedMarkerIndex);
-//         searchedMarkerIndex = -1
-//         return;
-//     }
-
-
-//     if (dest.latitude == -1 || dest.longitude == -1) {
-//         alert("Please search some place first");
-//         return;
-//     }
-
-//     navMeBtn.textContent = "Stop Navigation";
-
-//     try {
-
-//         for (let i = 0; i < APIMarkers.length; i++) {
-//             let marker = APIMarkers[i];
-//             marker.map = null;
-//         }
-//         filter.value = "none"
-
-//         let coords = await getLocation();
-
-//         origin["latitude"] = coords.latitude;
-//         origin["longitude"] = coords.longitude;
+        filter.value = "all"
+        markers[searchedMarkerIndex].map = null;
+        markers.slice(searchedMarkerIndex, searchedMarkerIndex);
+        searchedMarkerIndex = -1
+        navigationStarted = false;
+        searchedPlace=false;
+        return;
+    }else{
+        if (!searchedPlace){
+            return;
+        }
 
 
-//         origin["latitude"] = -26.1908692
-//         origin["longitude"] = 28.0271597
+        if (dest.latitude == -1 || dest.longitude == -1) {
+            alert("Please search some place first");
+            return;
+        }
+        navMeBtn.textContent = "Stop Navigation";
+    
 
-//         const url = serverUrl + "/v1/route_optimize/route_optimize";
+    try {
+        hideMarkersOnmap()
+        filter.value = "none"
+        let coords = await getLocation();
 
-//         let data = {
-//             "origin": origin,
-//             "destination": dest,
-//             "travelMode": "WALK"
-//         }
-
-//         const response = await axios.post(url, data);
-
-//         let outputData = response.data;
-
-//         lastResponse = outputData;
+        origin["latitude"] = coords.latitude;
+        origin["longitude"] = coords.longitude;
 
 
-//         const encodedPolyline = outputData.data["polyline"];
-//         const legs = outputData.data["legs"];
+        origin["latitude"] = -26.1908692
+        origin["longitude"] = 28.0271597
 
-//         var decodedPoints = polyline.decode(encodedPolyline);
+        const url = serverUrl + "/v1/route_optimize/route_optimize";
 
-//         if (polylinePath) {
-//             polylinePath.setMap(null);
-//         }
+        let data = {
+            "origin": origin,
+            "destination": dest,
+            "travelMode": "WALK"
+        }
 
-//         polylinePath = new google.maps.Polyline({
-//             path: decodedPoints.map(point => ({ lat: point[0], lng: point[1] })),
-//             geodesic: true,
-//             strokeColor: '#FF0000',
-//             strokeOpacity: 1.0,
-//             strokeWeight: 2
-//         });
+        const response = await axios.post(url, data);
 
-//         polylinePath.setMap(map);
+        let outputData = response.data;
 
-//         //add directions
-
-//         // while (directionsTextArea.firstChild) {
-//         //     directionsTextArea.removeChild(directionsTextArea.firstChild);
-//         // }
+        lastResponse = outputData;
 
 
-//         // legs[0]["steps"].forEach((leg)=>{
-//         // const instructions = leg["navigationInstruction"];
-//         // const distances = leg["localizedValues"];
+        const encodedPolyline = outputData.data["polyline"];
+        const legs = outputData.data["legs"];
 
-//         // const instrText = instructions["instructions"];
-//         // const instrMove = instructions["maneuver"];
+        var decodedPoints = polyline.decode(encodedPolyline);
 
-//         // const distanceKM = distances["distance"]["text"];
-//         // const time = distances["staticDuration"]["text"];
+        if (polylinePath) {
+            polylinePath.setMap(null);
+        }
 
-//         // // console.log(instrText,instrMove,distanceKM,time);
+        polylinePath = new google.maps.Polyline({
+            path: decodedPoints.map(point => ({ lat: point[0], lng: point[1] })),
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
 
+        polylinePath.setMap(map);
+        navigationStarted = true;
+    } catch (error) {
+        console.error("Error getting location:", error);
+    }
+}})
 
-//         // const row = document.createElement("section");
-//         // row.classList.add("directions-row")
+filter.addEventListener("change", (event) => {
+    let filterBy = filter.value;
 
+    if (filterBy == "all") {
+        APIMarkers.forEach((element) => {
+            element.map = map;
+        })
+    } else {
+        for (let i = 0; i < APIMarkers.length; i++) {
+            let info = APIMarkersInfo[i];
+            let marker = APIMarkers[i];
 
-//         // const instructionRow = document.createElement("section");
-//         // instructionRow.classList.add("directions-row-instruction");
-//         // instructionRow.innerHTML = "<p>"+instrText+"</p>"
-//         // row.appendChild(instructionRow);
-
-//         // const instructionDist = document.createElement("section");
-//         // instructionDist.classList.add("directions-row-distance");
-//         // instructionDist.innerHTML = "<p>"+distanceKM+"</p>"
-//         // row.appendChild(instructionDist);
-
-//         // const instructionTime = document.createElement("section");
-//         // instructionTime.classList.add("directions-row-time");
-//         // instructionTime.innerHTML = "<p>"+time+"</p>"
-//         // row.appendChild(instructionTime);
-
-//         // directionsTextArea.appendChild(row);
-//         // })
-
-
-//     } catch (error) {
-//         console.error("Error getting location:", error);
-//     }
-// });
-
-
-// filter.addEventListener("change", (event) => {
-//     let filterBy = filter.value;
-
-//     if (filterBy == "all") {
-//         APIMarkers.forEach((element) => {
-//             element.map = map;
-//         })
-//     } else {
-//         for (let i = 0; i < APIMarkers.length; i++) {
-//             let info = APIMarkersInfo[i];
-//             let marker = APIMarkers[i];
-
-//             if (info.type == filterBy) {
-//                 marker.map = map;
-//             } else {
-//                 marker.map = null;
-//             }
-//         }
-//     }
-// })
-
+            if (info.type == filterBy) {
+                marker.map = map;
+            } else {
+                marker.map = null;
+            }
+        }
+    }
+})
 
 renderPage();
