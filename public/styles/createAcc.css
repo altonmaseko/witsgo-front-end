@@ -36,6 +36,13 @@ input {
     font-size: 16px;
 }
 
+input,
+button,
+select {
+    width: 90%;
+}
+
+
 .input-container {
     position: relative;
     width: 100%;
@@ -151,11 +158,6 @@ button[type="submit"]:hover {
     gap: 1rem;
 }
 
-input,
-button,
-select {
-    width: 90%;
-}
 
 @media (width <=600px) {
     .container {
