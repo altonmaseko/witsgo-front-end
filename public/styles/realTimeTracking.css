@@ -44,6 +44,7 @@ body {
     gap: 1rem;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
 }
 
 .map-container {
