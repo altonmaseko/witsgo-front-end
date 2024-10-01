@@ -13,6 +13,7 @@ describe('Profile Page Test (Mobile View)', () => {
 
     it('Fields should be visible', () => {
         cy.get('.rows').should('be.visible');
+        cy.get('.rows .age').should('be.visible');
         cy.get('.rows .email').should('be.visible');
         cy.get('.rows .faculty').should('be.visible');
         cy.get('.rows .role').should('be.visible');
