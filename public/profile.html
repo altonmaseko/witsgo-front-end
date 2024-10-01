@@ -154,7 +154,12 @@
                 "preferences_value": pref_val
 
             }
-            const response = await axios.post(url, data);
+
+            try {
+                const response = await axios.post(url, data);
+            } catch (error) {
+                console.log("Error updating preferences", error.message);
+            }
         }
 
     </script>
