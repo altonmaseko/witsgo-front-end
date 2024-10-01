@@ -1,17 +1,17 @@
-let map, userPosition, selectedStationId;
+let map, userPosition, selectedStationId, selectedVehicleId;
 let rentalActive = false;
 let rentalTimer;
 let rentalTimeLeft = 1200; // 20 minutes in seconds
-let popupTimeout, reminderTimeout;
+const serverUrl = 'http://localhost:3000'; // Your server URL
+// const serverUrl = 'https://witsgobackend.azurewebsites.net'
 
 // Initialize the map
-function initMap() {
+window.initMap = function () {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: -26.192082, lng: 28.026229 }, // Default center of campus
+        center: { lat: -26.192082, lng: 28.026229 },
         zoom: 16
     });
 
-    // Get user's current position
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             userPosition = {
@@ -19,22 +19,19 @@ function initMap() {
                 lng: position.coords.longitude
             };
             map.setCenter(userPosition);
+            userPosition = {
+                
+                lat : -26.1907,
+                lng : 28.0302
+            };
+            map.setCenter(userPosition);
 
-            //testing
-            // userPosition = {
-            //     lat: -26.192082,
-            //     lng: 28.026229 
-            // };
-            // map.setCenter(userPosition);
-
-            // Place the user's position on the map
             new google.maps.Marker({
                 position: userPosition,
                 map: map,
                 title: "You are here"
             });
 
-            // Fetch and place station markers
             loadStations();
         });
     } else {
@@ -42,23 +39,25 @@ function initMap() {
     }
 }
 
-// Load stations from the backend and place markers on the map
+// Load stations and place markers on the map
 async function loadStations() {
     try {
-        const response = await axios.get('/rental/stations');
+        const response = await axios.get(`${serverUrl}/v1/rental/stations`);
         const stations = response.data;
 
         stations.forEach(station => {
-            const stationLatLng = { lat: station.lat, lng: station.lng };
+            const stationLatLng = { lat: station.location.lat, lng: station.location.lng };
 
             const marker = new google.maps.Marker({
                 position: stationLatLng,
                 map: map,
-                icon: station.icon, // Icon for the station
+                icon: {
+                    url: station.icon,
+                    scaledSize: new google.maps.Size(40, 40)
+                },
                 title: station.name
             });
 
-            // Add click listener for the station marker
             marker.addListener('click', () => handleStationClick(station));
         });
     } catch (error) {
@@ -66,70 +65,89 @@ async function loadStations() {
     }
 }
 
-// Handle clicking on a station marker
+// Handle station click
 async function handleStationClick(station) {
-    selectedStationId = station.id;
+    selectedStationId = station._id;
 
-    // Check if the user is within 20 meters of the station
     const distance = google.maps.geometry.spherical.computeDistanceBetween(
         new google.maps.LatLng(userPosition.lat, userPosition.lng),
-        new google.maps.LatLng(station.lat, station.lng)
+        new google.maps.LatLng(station.location.lat, station.location.lng)
     );
 
     if (distance > 20) {
         alert("You are not within 20 meters of the station. Move closer to rent or return a vehicle.");
     } else {
-        // User is within range, show vehicle selection
         await showVehicleDropdown(station);
     }
 }
 
-// Show the vehicle dropdown for a station
+// Show vehicles for rent
 async function showVehicleDropdown(station) {
     try {
-        const response = await axios.get(`/rental/stations/${station.id}/vehicles`);
-        const vehicles = response.data;
+        const vehicleIds = station.vehicles; // Assuming station.vehicles is an array of vehicle IDs
+        console.log(vehicleIds);
+        const vehiclePromises = vehicleIds.map(id => axios.get(`${serverUrl}/v1/rental/vehicle/${id}`));
+        const vehicleResponses = await Promise.all(vehiclePromises);
+        const vehicles = vehicleResponses.map(response => response.data);
 
         const vehicleSelect = document.getElementById('vehicleSelect');
         vehicleSelect.style.display = "block";
-        vehicleSelect.innerHTML = `<option value="">Please select a vehicle</option>`;
+        vehicleSelect.innerHTML = "<option value=''>Please select a vehicle</option>";
+
+        if (vehicles.length === 0) {
+            alert("No vehicles available at this station.");
+            return;
+        }
 
         vehicles.forEach(vehicle => {
-            vehicleSelect.innerHTML += `<option value="${vehicle._id}">${vehicle.type} - Available: ${vehicle.available}</option>`;
+            vehicleSelect.innerHTML += `<option value="${vehicle._id}">${vehicle.type} - Available: ${vehicle.isAvailable ? 'yes' : 'no'}</option>`;
         });
 
         document.getElementById('stationSelect').style.display = "block";
     } catch (error) {
         console.error("Error loading vehicles:", error);
+        alert("Failed to load vehicles. Please try again.");
     }
 }
 
 // Rent the selected vehicle
 async function rentVehicle() {
-    const vehicleId = document.getElementById('vehicleSelect').value;
-    if (!vehicleId) {
-        alert("Please select a vehicle.");
+    const vehicleSelect = document.getElementById('vehicleSelect');
+    selectedVehicleId = vehicleSelect.value;
+
+    if (!selectedVehicleId) {
+        alert("Please select a vehicle to rent.");
+        return;
+    }
+
+    const station = await axios.get(`${serverUrl}/rental/stations/${selectedStationId}`);
+    const distance = google.maps.geometry.spherical.computeDistanceBetween(
+        new google.maps.LatLng(userPosition.lat, userPosition.lng),
+        new google.maps.LatLng(station.data.location.lat, station.data.location.lng)
+    );
+
+    if (distance > 20) {
+        alert("You are not within 20 meters of the station. Move closer to rent the vehicle.");
         return;
     }
 
     try {
-        const response = await axios.post('/rental/rent', {
-            vehicleId: vehicleId,
-            fromStationId: selectedStationId
+        const response = await axios.post(`${serverUrl}/rental/rent`, {
+            vehicleId: selectedVehicleId,
+            stationId: selectedStationId,
+            userId: 'userId' // Replace with actual user ID
         });
 
-        if (response.data.success) {
-            startRentalTimer();
+        if (response.data) {
             alert("Vehicle rented successfully!");
-        } else {
-            alert("Error: " + response.data.error);
+            startRentalTimer();
         }
     } catch (error) {
         console.error("Error renting vehicle:", error);
     }
 }
 
-// Start the 20-minute rental countdown
+// Start the rental timer
 function startRentalTimer() {
     rentalActive = true;
     updateTimerDisplay();
@@ -138,7 +156,6 @@ function startRentalTimer() {
         updateTimerDisplay();
 
         if (rentalTimeLeft === 300) {
-            // 5-minute reminder
             alert("5 minutes remaining on your rental.");
         }
 
@@ -148,14 +165,14 @@ function startRentalTimer() {
     }, 1000);
 }
 
-// Update the displayed rental timer
+// Update the rental timer display
 function updateTimerDisplay() {
     const minutes = Math.floor(rentalTimeLeft / 60);
     const seconds = rentalTimeLeft % 60;
     document.getElementById('timer').innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
-// End the rental countdown
+// End the rental timer
 function endRentalTimer() {
     clearInterval(rentalTimer);
     rentalActive = false;
@@ -164,19 +181,19 @@ function endRentalTimer() {
 
 // Return the rented vehicle
 async function returnVehicle() {
-    // Check if the user is within 20 meters of the station to return the vehicle
+    const station = await axios.get(`${serverUrl}/rental/stations/${selectedStationId}`);
     const distance = google.maps.geometry.spherical.computeDistanceBetween(
         new google.maps.LatLng(userPosition.lat, userPosition.lng),
-        new google.maps.LatLng(station.lat, station.lng)
+        new google.maps.LatLng(station.data.location.lat, station.data.location.lng)
     );
 
     if (distance > 20) {
         alert("You are not within 20 meters of the station. Move closer to return the vehicle.");
     } else {
         try {
-            const response = await axios.post('/rental/return', {
-                vehicleId: selectedVehicleId, // Assuming a global variable `selectedVehicleId`
-                toStationId: selectedStationId
+            const response = await axios.post(`${serverUrl}/rental/return`, {
+                vehicleId: selectedVehicleId,
+                stationId: selectedStationId
             });
 
             if (response.data.success) {
