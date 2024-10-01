@@ -20,6 +20,13 @@ function initMap() {
             };
             map.setCenter(userPosition);
 
+            //testing
+            // userPosition = {
+            //     lat: -26.192082,
+            //     lng: 28.026229 
+            // };
+            // map.setCenter(userPosition);
+
             // Place the user's position on the map
             new google.maps.Marker({
                 position: userPosition,
@@ -189,3 +196,6 @@ function cancelSelection() {
     document.getElementById('vehicleSelect').style.display = "none";
     document.getElementById('stationSelect').style.display = "none";
 }
+
+// Call initMap to initialize the map
+window.onload = initMap;

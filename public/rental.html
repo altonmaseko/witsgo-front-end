@@ -6,8 +6,9 @@
 
     <title>Rental Page</title>
     <link rel="stylesheet" href="styles/rental.css">
-    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/navBar.css">
     <link rel="stylesheet" href="styles/header.css">
+    <!-- <link rel="stylesheet" href="styles/navbar.css"> -->
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script>
     <script src="scripts/rental.js" defer></script>
@@ -18,10 +19,6 @@
 </head>
 
 <body>
-    <!-- <header>
-        <img class="profile-img" src="images/pfp.jpg" alt="Profile Picture" id="profile-picture">
-        <h1>Rent a ride!</h1>
-    </header> -->
     <section class="header">
         <h1 class="title">Rent a Ride</h1>
         <a href="profile">
@@ -34,11 +31,9 @@
 
     <section id="controls">
         <select id="stationSelect" style="display: none;" onchange="showVehicleDropdown()">
-            <!-- Options will be added dynamically -->
         </select>
         <select id="vehicleSelect" style="display: none;" onchange="updateControls()">
             <option value="">Please select a vehicle</option>
-            <!-- Options will be added dynamically -->
         </select>
 
         <!-- Container for buttons -->
@@ -51,7 +46,7 @@
 
         <p id="availability">Select a vehicle to see availability</p>
         <div id="rental-status-container">
-            <p id="timerDisplay">
+            <p id="retnal-status">
                 Rental Time Remaining: <a id="timer">20:00</a>
                 <!-- <button id="return-button" onclick="returnVehicle()">Return</button> -->
             </p>
