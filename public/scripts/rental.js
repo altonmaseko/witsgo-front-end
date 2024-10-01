@@ -12,6 +12,8 @@ window.initMap = function () {
         zoom: 16
     });
 
+
+    // getting user position
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             userPosition = {
@@ -20,9 +22,9 @@ window.initMap = function () {
             };
             map.setCenter(userPosition);
             userPosition = {
-                
-                lat : -26.1907,
-                lng : 28.0302
+
+                lat: -26.1907,
+                lng: 28.0302
             };
             map.setCenter(userPosition);
 
@@ -81,7 +83,7 @@ async function handleStationClick(station) {
     }
 }
 
-// Show vehicles for rent
+// Show vehicles for rent, within the right distance
 async function showVehicleDropdown(station) {
     try {
         const vehicleIds = station.vehicles; // Assuming station.vehicles is an array of vehicle IDs
@@ -110,7 +112,7 @@ async function showVehicleDropdown(station) {
     }
 }
 
-// Rent the selected vehicle
+// Rent the selected vehicle : When pressing rent button
 async function rentVehicle() {
     const vehicleSelect = document.getElementById('vehicleSelect');
     selectedVehicleId = vehicleSelect.value;
@@ -179,7 +181,7 @@ function endRentalTimer() {
     alert("Rental time has ended. Please return the vehicle.");
 }
 
-// Return the rented vehicle
+// Return the rented vehicle : return button clicked
 async function returnVehicle() {
     const station = await axios.get(`${serverUrl}/rental/stations/${selectedStationId}`);
     const distance = google.maps.geometry.spherical.computeDistanceBetween(

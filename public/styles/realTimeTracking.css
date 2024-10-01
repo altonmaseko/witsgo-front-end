@@ -2,7 +2,7 @@
     padding: 0;
     margin: 0;
 
-    /* box-sizing: border-box; */
+    box-sizing: border-box;
 }
 
 :root {
@@ -11,28 +11,11 @@
 
 body {
     margin-bottom: 70px;
-}
-
-
-/* Header
-
-.header {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background-color: #23527c;
-    color: white;
-
+    flex-direction: column;
+    height: calc(100vh - 70px);
 }
 
-.header .profile-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid black;
-} */
 
 /* MAIN */
 
@@ -45,10 +28,12 @@ body {
     align-items: center;
     justify-content: center;
     padding: 1rem;
+
+    flex: 1;
 }
 
 .map-container {
-    width: 80%;
+    width: 100%;
     height: min(400px, 50vh);
     border: 2px solid black;
     border-radius: 1rem;
@@ -87,3 +72,58 @@ body {
 .checked {
     background-color: blue
 }
+
+/* SIDE NAVIGATION */
+
+/*
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.nav-and-content {
+    display: flex;
+    flex: 1;
+}
+
+
+.side-nav {
+    padding-block: 4rem;
+    width: 250px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: #23527c;
+}
+
+.side-nav-a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+
+    border-radius: 1rem;
+    padding: 0.5rem;
+    background-color: #e0dddd;
+    width: 100%;
+}
+
+.side-nav-a:any-link {
+    text-decoration: none;
+    color: black;
+}
+
+.side-nav-a img {
+    width: 60px;
+    height: 60px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+*/

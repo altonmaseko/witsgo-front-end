@@ -70,6 +70,7 @@
                 localStorage.setItem("age", userResponse.data.user.age);
                 localStorage.setItem("email", userResponse.data.user.email);
                 localStorage.setItem("role", userResponse.data.user.role);
+                localStorage.setItem("userId", userResponse.data.user._id);
 
                 let firstPage;
                 if (userResponse.data.user.role === "student") {

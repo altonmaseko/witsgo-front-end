@@ -29,6 +29,7 @@ const checkLogin = async () => {
     localStorage.setItem("age", response.data.user.user.age);
     localStorage.setItem("email", response.data.user.user.email);
     localStorage.setItem("role", response.data.user.user.role);
+    localStorage.setItem("userId", response.data.user.user._id);
 
 }
 checkLogin();
