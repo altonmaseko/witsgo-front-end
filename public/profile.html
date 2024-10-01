@@ -82,15 +82,20 @@
             let url = serverUrl + "/v1/userRoutes/getPreferences?user_id=" + email;
             const checkbox = document.getElementById('checkbox');
 
-            const response = await axios.get(url);
+            try {
+                const response = await axios.get(url);
 
-            response.data.data.forEach((pref) => {
-                if (pref.preferences_type == "wheelchair") {
-                    if (pref.preferences_value == true) {
-                        checkbox.checked = true;
+                response.data.data.forEach((pref) => {
+                    if (pref.preferences_type == "wheelchair") {
+                        if (pref.preferences_value == true) {
+                            checkbox.checked = true;
+                        }
                     }
-                }
-            });
+                });
+            } catch (error) {
+                console.log("Error getting preferences", error.message);
+            }
+
         });
 
         document.querySelector("#logout-button").addEventListener("click", async () => {
@@ -149,7 +154,12 @@
                 "preferences_value": pref_val
 
             }
-            const response = await axios.post(url, data);
+
+            try {
+                const response = await axios.post(url, data);
+            } catch (error) {
+                console.log("Error updating preferences", error.message);
+            }
         }
 
     </script>
@@ -160,26 +170,32 @@
         <section class="curved-header">
             <h1 class="full-name">Human Being</h1>
         </section>
-        <div class="profile-image"></div>
+        <div class="profile-image">
+        </div>
     </section>
-
     <section class="rows">
         <section>
-            <h3>Email:</h3>
+            <h2>Age:</h2>
             <section class="sub-row">
-                <p class="email">...</p>
+                <h3 class="age">69 years old</h2>
             </section>
         </section>
         <section>
-            <h3>Faculty:</h3>
+            <h2>Email:</h2>
             <section class="sub-row">
-                <p class="faculty">...</p>
+                <h3 class="email">example@gmail.com</h2>
             </section>
         </section>
         <section>
-            <h3>Role:</h3>
+            <h2>Faculty:</h2>
             <section class="sub-row">
-                <p class="role">...</p>
+                <h3 class="faculty">Faculty</h2>
+            </section>
+        </section>
+        <section>
+            <h2>Role:</h2>
+            <section class="sub-row">
+                <h3 class="role">Role</h2>
             </section>
         </section>
         <section class="wheelchair">
@@ -191,12 +207,12 @@
                 </label>
             </div>
         </section>
+        <div class="logout-delete-container">
+            <button id="logout-button">Logout</button>
+            <button id="delete-button">Delete Account</button>
+        </div>
     </section>
 
-    <div class="logout-delete-container">
-        <button id="logout-button">Logout</button>
-        <button id="delete-button">Delete Account</button>
-    </div>
 
     <!-- <section class="navbar">
         <a href="navigation">
