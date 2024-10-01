@@ -25,6 +25,7 @@ let dest = {
     "longitude": -1
 }
 
+let routeID = null;
 let APIMarkers = [];
 let APIMarkersInfo = [];
 let userMarker = null;
@@ -32,6 +33,7 @@ let searchedMarker = null;
 let zoomedOut = false;
 let navigationStarted = false;
 let searchedPlace = false;
+
 
 
 searchInputField.addEventListener("click", function () {
@@ -65,6 +67,7 @@ navMeBtn.addEventListener("click", async function () {
         lastResponse = null;
         showMarkersOnMap()
         resetNavigationState();
+        await insertNavigationHistory()
         return;
     }else{
         if (!searchedPlace){
@@ -88,8 +91,6 @@ navMeBtn.addEventListener("click", async function () {
 
             searchedMarker = placeMarker;
         }
-
-
     try {
         hideMarkersOnmap()
         filter.value = "none"
@@ -100,12 +101,21 @@ navMeBtn.addEventListener("click", async function () {
         lastResponse = outputData;
 
         const encodedPolyline = outputData.data["polyline"];
-        const legs = outputData.data["legs"];
-        console.log(legs);
+        // const legs = outputData.data["legs"];
+        // console.log(legs);
         var decodedPoints = polyline.decode(encodedPolyline);
         drawPolyline(decodedPoints);
 
         navigationStarted = true;
+
+        const insertedData = await insertRoute(encodedPolyline);
+        insertedData.data.data.success
+
+        if (insertedData.data.data.success==true){
+            routeID = insertedData.data.data.data.route_id;
+        }else{
+            routeID = null;
+        }
     } catch (error) {
         console.error("Error getting location:", error);
     }
@@ -297,7 +307,34 @@ async function getOptimizedRoute() {
         "destination": dest,
         "travelMode": "WALK"
     };
+    
+    const response = await axios.post(url, data);
+    return response;
+}
 
+async function insertRoute(polyline) {
+    const url = serverUrl + "/v1/userRoutes/insertRoute";
+
+    let data = {
+        "user_id":"12345",
+        "start_location": origin,
+        "end_location": dest,
+        "route_data":polyline
+    };
+    
+    const response = await axios.post(url, data);
+    return response;
+}
+
+async function insertNavigationHistory() {
+    if (routeID==null){
+        return;
+    }
+    const url = serverUrl + "/v1/userRoutes/insertNavHistory";
+    let data = {
+        "user_id":"12345",
+        "route_id":routeID
+    };
     const response = await axios.post(url, data);
     return response;
 }
@@ -421,6 +458,9 @@ async function initMap() {
 async function addMarkers() {
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
+    let errorOccured = false;
+
+
     const content = document.createElement('div');
     content.classList.add('custom-marker');
     // content.classList.add('material-icons');
@@ -446,7 +486,7 @@ async function addMarkers() {
         }
     )
     } catch (error) {
-        console.log(error);
+        errorOccured = true;
     }
 
 
@@ -463,7 +503,7 @@ async function addMarkers() {
         }
     )
     } catch (error) {
-        console.log(error);
+        errorOccured = true;
     }
 
 
@@ -505,8 +545,11 @@ async function addMarkers() {
         console.log(error);
         //TODO make error shorter
     }
-}
 
+    if (errorOccured){
+        alert("Error getting markers");
+    }
+}
 
 navigator.geolocation.watchPosition((position) => {
     // console.log("Current Location:", position.coords.latitude, position.coords.longitude);
@@ -527,11 +570,9 @@ navigator.geolocation.watchPosition((position) => {
     maximumAge: 10000
 });
 
-
 async function renderPage() {
     await initMap();
     await addMarkers();
 }
-
 
 renderPage();
