@@ -6,8 +6,8 @@ const searchInputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
 
-// const serverUrl = "https://witsgobackend.azurewebsites.net"
-const serverUrl = "http://localhost:3000"
+const serverUrl = "https://witsgobackend.azurewebsites.net"
+// const serverUrl = "http://localhost:3000"
 
 let polylinePath = null;
 let lastResponse = null;
