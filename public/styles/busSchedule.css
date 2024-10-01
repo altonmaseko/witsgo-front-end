@@ -79,14 +79,16 @@ table {
   font-size: 16px;
 }
 
-table, th, td {
+table,
+th,
+td {
   border: 1px solid #ddd;
   padding: 10px;
 }
 
 th {
-  background-color: #1f6f8b; 
-  color: white; 
+  background-color: #1f6f8b;
+  color: white;
   text-align: left;
 }
 
@@ -106,23 +108,23 @@ tbody tr:nth-child(even) {
 
 .arrow {
   display: inline-block;
-  transition: transform 0.3s ease; 
+  transition: transform 0.3s ease;
 }
 
 /* roating arrow */
 .expanded .arrow {
-  transform: rotate(90deg); 
+  transform: rotate(90deg);
 }
 
 
 .route-details {
-  display: none; 
+  display: none;
 }
 
 .route-details td {
   padding-left: 15px;
   background-color: #f2f2f2;
-}   
+}
 
 .hidden {
   display: none;
@@ -175,13 +177,19 @@ tbody tr:nth-child(even) {
 
 
 .dropdown-container {
+  margin-top: 1rem;
   display: flex;
-  flex-direction: row; /* Ensure dropdowns are in a row */
-  align-items: center; /* Align items vertically centered */
+  flex-direction: row;
+  /* Ensure dropdowns are in a row */
+  align-items: center;
+  /* Align items vertically centered */
   padding-inline: 1rem;
-  gap: 1rem; /* Adjust gap between items */
-  margin-left: auto; /* Push it to the right */
-  margin-right: 30px; /* Space from the right */
+  gap: 1rem;
+  /* Adjust gap between items */
+  margin-left: auto;
+  /* Push it to the right */
+  margin-right: 30px;
+  /* Space from the right */
 }
 
 
@@ -203,7 +211,7 @@ tbody tr:nth-child(even) {
     padding: 10px;
   }
 
-  .header img{
+  .header img {
     width: 40px;
     height: 40px;
     margin-right: 30px;
@@ -285,7 +293,7 @@ tbody tr:nth-child(even) {
     padding: 20px;
   }
 
-  
+
 
   .dropdown-container {
     flex-direction: row;

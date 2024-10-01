@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/witsGoLogo.png" type="image/x-icon">
+
+    <title>About Us - TechInnovate</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            padding-bottom: 50px;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        header {
+            /* background: #35424a; */
+            background: #23527c;
+            color: #ffffff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #e8491d 3px solid;
+        }
+
+        header h1 {
+            margin: 0;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        header .logo {
+            width: 60px;
+            height: 60px;
+        }
+
+        .header-container {
+            display: flex;
+            gap: 1rem;
+            margin-inline: auto;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .about-section,
+        .contact-section,
+        .team-section {
+            background: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .team-member {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        footer {
+            background: #23527c;
+            color: #ffffff;
+            text-align: center;
+            padding: 4px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container container">
+            <img src="images/witsGoLogo.png" alt="Wits Go Logo" class="logo">
+            <h1>WitsGo</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="about-section">
+            <h2>About</h2>
+            <p>
+                WitsGo is an innovative campus navigation and transportation platform developed to address the pressing
+                mobility challenges faced by students, faculty, and visitors at Wits Main Campus. With its sprawling and
+                intricate layout, navigating the campus can be a frustrating experience, particularly for first-year
+                students and newcomers. WitsGo is designed to simplify campus travel by offering comprehensive maps,
+                real-time updates, and intelligent route optimization, ensuring users can find their way with ease and
+                efficiency.
+                <br> <br>
+                The app provides real-time GPS tracking of both users and transportation services, allowing for better
+                travel planning and decision-making. WitsGo's advanced route optimization algorithms suggest the fastest
+                routes based on current conditions, and its unified system integrates various transportation options,
+                including buses and rentals, giving users more flexibility in how they travel around campus. By
+                streamlining travel, WitsGo eliminates the frustration of missed rides and inefficient routes.
+                <br> <br>
+                In addition, WitsGo is committed to creating an inclusive experience for all users, including those with
+                disabilities. With designated accessibility features and user-friendly interface design, the app ensures
+                that navigating the campus is both intuitive and accessible for everyone. By addressing critical issues
+                like limited transportation options, inefficient rentals, and accessibility barriers, WitsGo
+                revolutionizes how users interact with the campus environment.
+            </p>
+        </section>
+
+        <section class="team-section">
+            <h2>Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="images/profile_photo_placeholder.png" alt="Alton Maseko">
+                    <h3>Alton Maseko</h3>
+                    <p>Full Stack Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="images/profile_photo_placeholder.png" alt="Michael Chen">
+                    <h3>Laaiqah Ravat</h3>
+                    <p>Full Stack Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="images/profile_photo_placeholder.png" alt="Emily Rodriguez">
+                    <h3>Liam Brady</h3>
+                    <p>Full Stack Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="images/profile_photo_placeholder.png" alt="David Kim">
+                    <h3>Lucian Irsigler</h3>
+                    <p>Full Stack Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="images/profile_photo_placeholder.png" alt="Laura Martinez">
+                    <h3>Prashan Rajaratnam</h3>
+                    <p>Full Stack Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="images/profile_photo_placeholder.png" alt="Alex Novak">
+                    <h3>Prashant Kessa</h3>
+                    <p>Full Stack Developer</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <h2>Contact Us</h2>
+            <p>Email: info@witsgo.com</p>
+            <p>Phone: 012 123-4567</p>
+            <h3>Headquarters</h3>
+            <p>Mobile. Wits University Students.</p>
+            <!-- <div id="map"></div> -->
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 WitsGo. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" />
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var map = L.map('map').setView([37.4419, -122.1430], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            L.marker([37.4419, -122.1430]).addTo(map)
+                .bindPopup('TechInnovate HQ')
+                .openPopup();
+        });
+    </script> -->
+</body>
+
+</html>
