@@ -8,11 +8,10 @@
     <link rel="stylesheet" href="styles/navBar.css">
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Profile</title>
-
-    <script defer type="module" defer>
-
+    <script defer type="module">
         import { serverUrl, clientUrl } from "./scripts/constants.js";
-        const email = localStorage.getItem("email");
+
+        let email = localStorage.getItem("email");
 
         const getUserAndUpdate = async () => {
 
@@ -74,9 +73,25 @@
                         caches.delete(name);
                 });
             }
-
-
         }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            if (email == null) {
+                return;
+            }
+            let url = serverUrl + "/v1/userRoutes/getPreferences?user_id=" + email;
+            const checkbox = document.getElementById('checkbox');
+
+            const response = await axios.get(url);
+
+            response.data.data.forEach((pref) => {
+                if (pref.preferences_type == "wheelchair") {
+                    if (pref.preferences_value == true) {
+                        checkbox.checked = true;
+                    }
+                }
+            });
+        });
 
         document.querySelector("#logout-button").addEventListener("click", async () => {
 
@@ -106,9 +121,40 @@
             }
         });
 
+        document.getElementById('checkbox').addEventListener('change', function () {
+            const slider = document.getElementById('slider-round-thing');
+
+            if (this.checked) {
+                // Checkbox is checked (toggled on)
+                updatePref(this.checked);
+                console.log('Slider toggled ON');
+                slider.classList.add('on');  // Add any styles or effects here
+            } else {
+                // Checkbox is unchecked (toggled off)
+                updatePref(this.checked);
+
+                console.log('Slider toggled OFF');
+                slider.classList.remove('on');  // Remove any styles or effects here
+            }
+        });
+
+        async function updatePref(pref_val) {
+            if (email == null) {
+                return;
+            }
+            let url = serverUrl + "/v1/userRoutes/updatePreference";
+            let data = {
+                "user_id": email,
+                "preference_type": "wheelchair",
+                "preferences_value": pref_val
+
+            }
+            const response = await axios.post(url, data);
+        }
 
     </script>
 </head>
+
 <body>
     <section class="container">
         <section class="curved-header">
@@ -116,7 +162,7 @@
         </section>
         <div class="profile-image"></div>
     </section>
-    
+
     <section class="rows">
         <section>
             <h3>Email:</h3>
@@ -141,7 +187,7 @@
                 <h3>Wheelchair:</h3>
                 <label class="switch" for="checkbox">
                     <input type="checkbox" id="checkbox" />
-                    <div class="slider round"></div>
+                    <div class="slider round" id="slider-round-thing"></div>
                 </label>
             </div>
         </section>
@@ -152,7 +198,7 @@
         <button id="delete-button">Delete Account</button>
     </div>
 
-    <section class="navbar">
+    <!-- <section class="navbar">
         <a href="navigation">
             <img src="icons/nav-purple.png" alt="Nav Icon">
             <section class="text">Navigation</section>
@@ -169,12 +215,7 @@
             <img src="icons/tracking-grey.png" alt="Tracking Icon">
             <section class="text">Tracking</section>
         </a>
-    </section>
-
-    <!-- Your script here -->
-
+    </section> -->
 </body>
 
 </html>
-
-    

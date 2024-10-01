@@ -122,11 +122,11 @@ body {
     width: 26px;
 }
 
-input:checked + .slider {
+input:checked+.slider {
     background-color: #66bb6a;
 }
 
-input:checked + .slider::before {
+input:checked+.slider::before {
     transform: translateX(26px);
 }
 
@@ -140,7 +140,7 @@ input:checked + .slider::before {
 
 .logout-delete-container {
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 20px;
