@@ -1,6 +1,10 @@
 /* Basic styling for the rental page */
 body {
     font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* Ensure body content flows vertically */
+    align-items: center;
+    height: 100vh;
     margin: 0;
     padding: 0;
     overflow: hidden;
