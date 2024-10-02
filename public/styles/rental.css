@@ -3,7 +3,10 @@ body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column; /* Ensure body content flows vertically */
-    /* align-items: center; */ /* This would be good for if the map is a different size */
+
+    /* align-items: center; */
+
+ /* This would be good for if the map is a different size */
     height: 100vh;
     margin: 0;
     padding: 0;
@@ -91,8 +94,7 @@ button#cancel-button {
 #timer {
     font-weight: bold;
 }
-
-/* Navbar */
+/* 
 .navbar {
     display: flex;
     justify-content: space-around;
@@ -121,4 +123,4 @@ button#cancel-button {
 
 .navbar a:nth-child(2) {
     color: #6a0dad;
-}
+} */

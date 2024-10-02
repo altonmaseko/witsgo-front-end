@@ -44,7 +44,9 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 1rem;
+    font-size: 16px;
+
 }
 
 #search-input[type="text"] {
@@ -56,6 +58,31 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+/* Center the spinner */
+.spinner {
+    border: 8px solid rgb(0 0 0 / 10%);
+    border-left-color: #4b9ce2;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;  /* Ensure the spinner is on top */
+    display: none;  /* Initially hidden */
+  }
+  
+  /* Animation for spinning */
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  
 
 .user-picture {
     height: 30px;
@@ -111,6 +138,14 @@ button {
     height: fit-content;
 }
 
+label{
+    font-size: 16px;
+}
+
+select{
+    font-size: 16px;
+}
+
 #directions-text {
     width: 95%;
     height: fit-content;
@@ -126,38 +161,6 @@ button {
     margin-bottom: 10px;
     display: flex;
 }
-
-
-.directions-row-instruction {
-    border: 1px solid black;
-    width: 50%;
-    display: flex;
-    justify-content: center;
-}
-
-.directions-row-instruction p {
-    margin: 0;
-    padding: 1px;
-}
-
-.directions-row-distance {
-    border: 1px solid black;
-    width: 30%;
-    display: flex;
-    flex: 1;
-    justify-content: center;
-
-}
-
-.directions-row-time {
-    border: 1px solid black;
-    width: 20%;
-    display: flex;
-    justify-content: center;
-    flex: 1;
-
-}
-
 
 #nav-btn {
     padding: 8px;
