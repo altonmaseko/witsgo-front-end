@@ -20,13 +20,14 @@ header {
     background: #23527c;
     color: #fff;
     min-height: 60px;
-    border-bottom: #e8491d 3px solid;
+    border-bottom: #747BDC 3px solid;
+    position: relative;
 }
 
 header h1 {
     margin: 0;
     text-align: center;
-    padding-bottom: 20px;
+    /* padding-bottom: 20px; */
 }
 
 header .logo {
@@ -40,7 +41,19 @@ header .logo {
     margin-inline: auto;
     justify-content: center;
     align-items: center;
+    min-height: 60px;
 }
+
+.header-container img[alt="back"] {
+    position: absolute;
+    left: 20px; /* Positioning chevron in the left corner */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px; /* Adjust size as needed */
+    height: 40px;
+    cursor: pointer; /* Adds a pointer cursor for clickable appearance */
+}
+
 
 .about-section,
 .contact-section,
@@ -88,4 +101,19 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+
+/* Media query for phones and small devices */
+@media (max-width: 768px) {
+    .header-container img[alt="back"] {
+        width: 20px;  
+        height: 20px; 
+        left: 10px;   
+    }
+
+    header .logo {
+        width: 70px; 
+        height: 70px;
+    }
 }

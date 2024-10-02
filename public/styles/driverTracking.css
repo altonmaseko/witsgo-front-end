@@ -17,7 +17,7 @@
     color: white;
     padding: 1rem;
     width: 100%;
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 body {
@@ -68,7 +68,7 @@ body {
 }
 
 #track-me-button {
-    font-size: 2rem;
+    font-size: 1rem;
     padding: 1rem;
     background-color: #23527c;
     border-radius: 10px;
