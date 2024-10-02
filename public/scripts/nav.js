@@ -33,6 +33,11 @@ let searchedPlace = false;
 
 
 
+
+document.getElementById('loading-spinner').style.display = 'block';
+
+
+
 searchInputField.addEventListener("click", function () {
     profileImg.style.display = "None"
     cancelSearch.style.display = "flex"
@@ -292,8 +297,8 @@ function resetNavigationState() {
 async function getOptimizedRoute() {
     let coords = await getLocation();
 
-    origin["latitude"] = coords.latitude;
-    origin["longitude"] = coords.longitude;
+    // origin["latitude"] = coords.latitude;
+    // origin["longitude"] = coords.longitude;
 
     origin["latitude"] = -26.1908692;
     origin["longitude"] = 28.0271597;
@@ -373,8 +378,9 @@ async function initMap() {
     map = new Map(document.getElementById("map"), {
         zoom: 17,
         center: userLocation,
-        mapId: "DEMO_MAP_ID"
+        mapId:"d"
     });
+
 
 
     // Updates the addresses when searching
@@ -390,6 +396,11 @@ async function initMap() {
         }
         searchBox.setBounds(map.getBounds());
     });
+
+    google.maps.event.addListenerOnce(map, 'idle', function(){
+        document.getElementById('loading-spinner').style.display = 'none';
+    });
+    
 
     const searchBox = new SearchBox(searchInputField);
 
@@ -511,12 +522,9 @@ async function addMarkers() {
         res.data.forEach((restaurant) => {
             let location = restaurant.location;
 
+            let valid = isNum(Location);
 
-            if (isNum(location) == false) {
-                throw Error("Invalid format")
-            }
-
-
+            if (valid){
             let id = restaurant.id;
             let name = restaurant.name;
             let opening_time = restaurant.opening_time;
@@ -535,9 +543,8 @@ async function addMarkers() {
                     let is_available = menuItem.is_available;
 
                 })
-            })
-
-            console.log(location);
+                })
+            }
         })
     } catch (error) {
         console.log(error);
@@ -549,24 +556,25 @@ async function addMarkers() {
     }
 }
 
-navigator.geolocation.watchPosition((position) => {
-    // console.log("Current Location:", position.coords.latitude, position.coords.longitude);
-    const lat = position.coords.latitude;
-    const lng = position.coords.longitude;
-    origin["latitude"] = lat;
-    origin["longitude"] = lng;
-    if (userMarker == null) {
-        return;
-    }
-    userMarker.position = { lat: origin["latitude"], lng: origin["longitude"] }
+// navigator.geolocation.watchPosition((position) => {
+//     // console.log("Current Location:", position.coords.latitude, position.coords.longitude);
+//     const lat = position.coords.latitude;
+//     const lng = position.coords.longitude;
+//     origin["latitude"] = lat;
+//     origin["longitude"] = lng;
+//     if (userMarker == null) {
+//         return;
+//     }
+    
+//     userMarker.position = { lat: origin["latitude"], lng: origin["longitude"] }
 
-}, (error) => {
-    console.log("Could not get location:", error);
-}, {
-    enableHighAccuracy: true,
-    timeout: 10000, // if cant get location within 5 seconds, return an error
-    maximumAge: 10000
-});
+// }, (error) => {
+//     console.log("Could not get location:", error);
+// }, {
+//     enableHighAccuracy: true,
+//     timeout: 10000, // if cant get location within 5 seconds, return an error
+//     maximumAge: 10000
+// });
 
 async function renderPage() {
     await initMap();

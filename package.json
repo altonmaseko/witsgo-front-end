@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "stylelint": "npx stylelint **/*.css",
+    "fix": "npx stylelint **/*.css --fix",
     "start": "node app.js",
     "dev": "nodemon app.js",
     "httpserver": "http-server -c -1 -S -C server.cert -K server.key -p 5000",

@@ -31,6 +31,9 @@ const checkLogin = async () => {
     localStorage.setItem("role", response.data.user.user.role);
     localStorage.setItem("userId", response.data.user.user._id);
 
+    console.log("User from response.data.user.user", response.data.user.user);
+
+
 }
 checkLogin();
 

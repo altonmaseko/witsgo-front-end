@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="styles/navBar.css">
     <link rel="stylesheet" href="styles/header.css">
-
+    
 
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -18,7 +18,10 @@
 
     <script type="module" defer src="scripts/realTimeTracking.js"></script>
 
-    <script type="module" defer src="scripts/verifylogin.js"></script> <!-- This script should be put on everypage -->
+    <script defer src="/hexago-front-end/header.js"></script>
+
+    <script type="module" defer src="scripts/verifylogin.js"></script> 
+    <!-- This script should be put on everypage -->
 
     <script type="module" defer>
         import {
@@ -38,23 +41,35 @@
 </head>
 
 <body>
-
-    <!-- <header class="header">
-        <h1 class="header-title">
-            Real Time Tracking
-        </h1>
-    </header> -->
     <section class="header">
         <h1 class="title">Real Time Tracking</h1>
-        <a href="profile">
-            <img src="icons/profile-icon.png" alt="user-profile">
-        </a>
+    
+        <div class="header-right">
+            <div class="dropdown">
+                <button class="dropbtn">&#9776;</button> 
+                <div class="dropdown-content">
+                    <div class="wheelchair-option">
+                        <label for="wheelchair-toggle">Wheelchair</label>
+                        <input type="checkbox" id="wheelchair-toggle">
+                    </div>
+                    <a href="#">Logout</a>
+                </div>
+            </div>
+        </div>
     </section>
+        
 
 
     <main class="main">
         <div class="map-container">
         </div>
+
+        <div class="update-message-container">
+            <p class="update-message">
+                Choose a vehicle to track it
+            </p>
+        </div>
+
 
         <div class="check-and-vehicle-container">
 
@@ -110,37 +125,5 @@
             <section class="text">Tracking</section>
         </a>
     </section>
-
 </body>
-
-
-
 </html>
-
-
-
-<!-- 
-
-    <div class="side-nav">
-            <a href="navigation" class="side-nav-a">
-                <img src="icons/nav-grey.png" alt="Nav Icon">
-                <section class="side-nav-text">Navigation</section>
-            </a>
-
-            <a href="rental" class="side-nav-a">
-                <img src="icons/rent-grey.png" alt="Rent Icon">
-                <section class="side-nav-text">Renting</section>
-            </a>
-
-            <a href="buses" class="side-nav-a">
-                <img src="icons/schedule-grey.png" alt="Schedule Icon">
-                <section class="side-nav-text">Schedule</section>
-            </a>
-
-            <a href="tracktransport" class="side-nav-a">
-                <img src="icons/tracking-purple.png" alt="Tracking Icon">
-                <section class="side-nav-text">Tracking</section>
-            </a>
-        </div>
-
- -->

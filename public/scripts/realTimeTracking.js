@@ -16,12 +16,34 @@ try {
 
 // FROM STUDENT PERSPECTIVE ****************************************************
 
+// Timer stuff ===
+let lastUpdateTime = Date.now();
+
+function checkForUpdates() {
+    if (Date.now() - lastUpdateTime > 5000) {
+        //  if none of the three are checked
+        if (!witsBusCheck.classList.contains('checked')
+            && !campusControlBusCheck.classList.contains('checked')
+            && !campusSecurityCheck.classList.contains('checked')) {
+            updateMessage.textContent = "Please select a vehicle to track";
+            lastUpdateTime = Date.now();
+        } else {
+            updateMessage.textContent = "Waiting for vehicle updates...";
+        }
+    }
+}
+// Start checking for updates every second
+setInterval(checkForUpdates, 1000);
+
+// END: Timer stuff
+
 // get the user and get a property
 const role = localStorage.getItem("role");
 
 
 const mapContainer = document.querySelector('.map-container');
 
+const updateMessage = document.querySelector('.update-message');
 const humanIconDiv = document.createElement('div');
 humanIconDiv.innerHTML = `<img src="./icons/human_circle_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
 
@@ -175,6 +197,10 @@ campusControlIconDiv.innerHTML = `<img src="./icons/campus_control_marker.png" a
 socket.on("server-to-client", data => {
     console.log("Vehicle Location Update:", data);
 
+    lastUpdateTime = Date.now();
+
+    updateMessage.textContent = `Vehicles Updating... [${new Date().toLocaleTimeString()}]`;
+
     const vehicleId = data.id;
 
     let vehicleMarker;
@@ -184,6 +210,8 @@ socket.on("server-to-client", data => {
         vehicleMarker = securityIconDiv.cloneNode(true);
     } else if (data.userRole == 'campus-control') {
         vehicleMarker = campusControlIconDiv.cloneNode(true);
+    } else { // for testing
+        vehicleMarker = busIconDiv.cloneNode(true);
     }
 
     // If the vehicle does not exist, create it
