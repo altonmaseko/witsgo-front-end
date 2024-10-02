@@ -14,21 +14,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.2.1/polyline.js" rel="preconnect"
         defer></script>
     <script rel="preconnect" defer>(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
-            ({ key: "AIzaSyCEbj6_WGhOUTbbDAVNw3BhOMnQ44yyXOo", v: "weekly", libraries: "places" });</script>
+            ({ key: "AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s", v: "weekly", libraries: "places" });</script>
     <script src="scripts/nav.js" type="module" defer></script>
+    <script defer src="scripts/header.js"></script>
+    <script defer type="module" src="scripts/allpages.js"></script>
 
-    <!-- <script type="module" defer src="scripts/verifylogin.js" defer></script> -->
+
+    <script type="module" defer src="scripts/verifylogin.js" defer></script>
     <!--This script should be put on everypage -->
 </head>
 
 <body>
+    <div id="loading-spinner" class="spinner"></div>
     <div class="container">
-        <section class="header-nav">
+        <!-- <section class="header">
             <h1 class="title">Navigation</h1>
-            <a href="profile.html">
+            <a href="profile">
                 <img src="icons/profile-icon.png" alt="user-profile">
             </a>
+        </section> -->
+
+        <section class="header">
+            <h1 class="title">Navigation</h1>
+
+            <div class="header-right">
+                <div class="dropdown">
+                    <button class="dropbtn">&#9776;</button>
+                    <div class="dropdown-content">
+                        <div class="wheelchair-option">
+                            <label for="wheelchair-toggle">Wheelchair</label>
+                            <input type="checkbox" id="wheelchair-toggle">
+                        </div>
+                        <a href="#" id="about-button">About</a>
+                        <a href="#" id="stats-button">Stats</a>
+                        <a href="#" id="logout-button">Logout</a>
+                        <a href="#" id="delete-button">Delete</a>
+                    </div>
+                </div>
+            </div>
         </section>
+
+
         <section class="search-bar">
             <input type="text" id="search-input" placeholder="Search">
             <img src="icons/search-icon.png" class="user-picture" id="profile-user">
@@ -51,19 +77,19 @@
         <button type="button" id="nav-btn">Navigate Me</button>
         <section id="directions-text"></section>
         <section class="navbar">
-            <a href="navigation.html">
+            <a href="navigation">
                 <img src="icons/nav-purple.png" alt="Nav Icon">
                 <section class="text">Navigation</section>
             </a>
-            <a href="rental.html">
+            <a href="rental">
                 <img src="icons/rent-grey.png" alt="Rent Icon">
                 <section class="text">Renting</section>
             </a>
-            <a href="busSchedule.html">
+            <a href="buses">
                 <img src="icons/schedule-grey.png" alt="Schedule Icon">
                 <section class="text">Schedule</section>
             </a>
-            <a href="realTimeTracking.html">
+            <a href="tracktransport">
                 <img src="icons/tracking-grey.png" alt="Tracking Icon">
                 <section class="text">Tracking</section>
             </a>

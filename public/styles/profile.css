@@ -82,7 +82,7 @@ body {
 
 }
 
-.profile-image img{
+.profile-image img {
     height: 120px;
     width: 120px;
 }
@@ -266,3 +266,5 @@ button {
 button:hover {
     background-color: #1a3f5f;
 }
+
+

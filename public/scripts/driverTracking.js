@@ -30,6 +30,9 @@ let watchID;
 let lastPositionUpdateTime = 0;
 let watchPositionLimit = 500; // Will execute at most once every 500ms
 
+let currentLocation;
+let circleAnimationInterval;
+
 let GMAP, AdvancedMarkerElement, DirectionsService, DirectionsRenderer; // libraries
 let librariesImported = false;
 async function importLibraries() {
@@ -47,7 +50,7 @@ async function initMap() {
 
     await importLibraries();
 
-    const currentLocation = await getLocation();
+    currentLocation = await getLocation();
 
     // The map, centered at current location
     map = new GMAP(document.querySelector(".map-container"), {
@@ -64,7 +67,6 @@ async function initMap() {
         title: "I am here!!",
 
     });
-
 
 }
 
@@ -101,6 +103,8 @@ if (role == "bus-driver") {
     roomToSend = campusSecurityRoom;
 } else if (role == "campus-control") {
     roomToSend = campusControlRoom;
+} else { // temporary, for testing
+    roomToSend = busRoom;
 }
 
 
@@ -112,13 +116,56 @@ socket.on("server-to-client", data => {
     console.log(data.message);
 });
 // END: SOCKETS ========================================
+// Function to create an expanding circle
+function createExpandingCircle() {
+    let radius = 1; // Start with a very small radius
+    let opacity = 0.2; // Start with a slightly transparent
+
+    // Create a new circle at the marker's location
+    const circle = new google.maps.Circle({
+        strokeColor: "#0000FF",   // Blue border
+        strokeOpacity: 0.1,
+        strokeWeight: 2,
+        fillColor: "#0000FF",     // Blue fill
+        fillOpacity: 0.06,         // Transparency
+        map: map,
+        center: currentLocation,
+        radius: radius,           // Initial radius in meters
+    });
+
+    // Animate the circle's radius to expand
+    const intervalId = setInterval(() => {
+        radius += 10; // Increase radius gradually
+        opacity -= 0.005; // Reduce opacity gradually
+        if (opacity < 0) opacity = 0; // Prevent opacity from going below 0
+
+        circle.setRadius(radius);
+        circle.setOptions({ fillOpacity: opacity });; // Make the border transparent
+
+        // Check if the circle is too big and should be removed
+        // if (radius > 1000 || !map.getBounds().contains(circle.getCenter())) {
+        if (radius > 400) {
+            clearInterval(intervalId); // Stop the expansion
+            circle.setMap(null);       // Remove the circle from the map
+        }
+    }, 50); // Adjust the interval for smoother animation
+}
+
+// Function to create expanding circles periodically
+function createExpandingCircles() {
+    circleAnimationInterval = setInterval(() => {
+        createExpandingCircle(); // Create a new expanding circle
+    }, 1400); // Create a new circle every second
+}
+
 
 const trackMeButton = document.querySelector('#track-me-button');
 trackMeButton.addEventListener('click', async () => {
     if (allowTracking) {
         trackMeButton.textContent = "Track Me";
+        clearInterval(circleAnimationInterval);
 
-        trackingStatus.textContent = "Click below when you start your journey";
+        trackingStatus.textContent = "Click below when you start another journey";
         trackingLoader.style.display = "none";
 
         allowTracking = false;
@@ -128,6 +175,10 @@ trackMeButton.addEventListener('click', async () => {
             navigator.geolocation.clearWatch(watchID);
             console.log("Tracking Stopped!");
         }
+
+        clearInterval(circleAnimationInterval);
+        circleAnimationInterval = null;
+
     } else {
         if (!roomToSend) {
             alert("You should be a bus driver, campus security or campus control to track your location.");
@@ -136,9 +187,12 @@ trackMeButton.addEventListener('click', async () => {
         trackMeButton.textContent = "Stop Tracking";
         trackingStatus.textContent = "you are currently being tracked...";
         trackingLoader.style.display = "block";
+
         allowTracking = true;
 
         console.log("Tracking Started!")
+
+        createExpandingCircles();
 
         // Start continuous updates using watchPosition
         watchID = navigator.geolocation.watchPosition((position) => {
@@ -197,4 +251,16 @@ trackMeButton.addEventListener('click', async () => {
 });
 
 
-
+// Add event listener for page visibility change
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        // Page is out of focus
+        clearInterval(circleAnimationInterval);
+        circleAnimationInterval = null
+    } else {
+        // Page is in focus
+        if (allowTracking) {
+            createExpandingCircles();
+        }
+    }
+});

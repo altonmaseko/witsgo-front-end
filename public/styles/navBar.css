@@ -7,6 +7,8 @@
     justify-content: space-around;
     background-color: #E0DDDD;
     padding: 10px 0;
+
+    /* background-color: white; */
 }
 
 .navbar a {
@@ -42,11 +44,11 @@
 
 /* phones */
 @media (width <=600px) {
-    .header {
+    /* .header {
         flex-direction: row;
         align-items: flex-start;
         padding: 15px;
-    }
+    } */
 
     .profile-icon {
         /* width: 35px;
@@ -78,11 +80,11 @@
 
 /* Tablets */
 @media (width >=601px) and (width <=1024px) {
-    .header {
+    /* .header {
         flex-direction: row;
         align-items: center;
         padding: 20px;
-    }
+    } */
 
     .profile-icon {
         /* width: 40px;

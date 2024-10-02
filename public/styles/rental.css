@@ -1,114 +1,139 @@
+/* Basic styling for the rental page */
 body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column; /* Ensure body content flows vertically */
-    align-items: center;
+
+    /* align-items: center; */
+
+ /* This would be good for if the map is a different size */
     height: 100vh;
     margin: 0;
     padding: 0;
-    overflow-y: auto; /* Change to auto for better scrolling */
-}
-
-/* header {
-    background-color: #23527c;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%; 
-    box-sizing: border-box; 
-    font-size: 24px;
-}
-
-header img#profile-picture {
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    margin-right: 15px;
-} */
-
-section#map {
-    width: 90%;
-    max-width: 800px;
-    height: 50vh;
-    margin: 20px auto;
-    border: 1px solid #ccc;
-    border-radius: 15px;
+    font-size: 16px;
     overflow: hidden;
 }
 
-section#controls {
-    text-align: center;
-    margin: 20px auto;
+/* Header Section */
+.header {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    width: 90%; /* Ensure controls section is the same width as the map */
-    max-width: 800px;
+    padding: 10px;
+    background-color: #4a4a4a;
+    color: white;
 }
 
-#availability {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 15px; /* Ensure space between elements */
+.title {
+    font-size: 24px;
 }
 
+.header img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+/* Map Section */
+#map-container {
+    width: 90%;
+    max-width: 1900px;
+    margin: 20px auto; /* Centers the box */
+    border: 2px solid #000; /* Adds a border */
+    border-radius: 15px; /* Rounds the corners */
+    overflow: hidden; /* Ensures child elements don't overflow the box */
+    box-shadow: 0 2px 5px rgb(0 0 0 / 10%); /* Adds a subtle shadow */
+}
+
+#map {
+    height: 50vh; /* Set the height of the map */
+}
+
+/* Controls Section */
+#controls {
+    width: 80%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    margin: 20px auto;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+/* Button Group for Rent/Cancel/Return */
 .button-group {
     display: flex;
-    gap: 10px; /* Space between buttons */
-    margin-bottom: 15px; /* Space below button group */
+    justify-content: space-between;
 }
 
-button#rent-button,
-button#return-button,
+button#rent-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+button#return-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+}
+
 button#cancel-button {
-    font-size: 18px;
-    padding: 10px 20px;
+    background-color: #777;
+    color: white;
+    border: none;
 }
 
+/* Rental Status */
 #rental-status-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-}
-
-#rental-status {
+    margin-top: 10px;
+    display: none;
     font-size: 18px;
+    text-align: center;
 }
 
 #timer {
-    font-size: 18px;
-    color: #333;
-    margin-right: 10px;
+    font-weight: bold;
 }
 
-@media (width <= 768px) {
-    header {
-        text-align: center;
-    }
-
-    header img#profile-picture {
-        margin: 0 auto 15px;
-    }
-
-    .navbar img {
-        width: 24px;
-        height: 24px;
-    }
-
-    .navbar a .text {
-        font-size: 12px;
-    }
+/* 
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #4a4a4a;
+    padding: 10px 0;
 }
 
-@media (width <= 480px) {
-    header h1 {
-        font-size: 1.5rem;
-    }
-
-    .navbar a .text {
-        font-size: 10px;
-    }
+.navbar a {
+    text-align: center;
+    color: #bbb;
+    text-decoration: none;
+    flex: 1;
 }
+
+.navbar a img {
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin: 0 auto;
+}
+
+.navbar a .text {
+    margin-top: 5px;
+}
+
+.navbar a:nth-child(2) {
+    color: #6a0dad;
+} */

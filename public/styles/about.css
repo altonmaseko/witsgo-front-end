@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    padding-bottom: 50px;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px;
+}
+
+header {
+    /* background: #35424a; */
+    background: #23527c;
+    color: #fff;
+    min-height: 60px;
+    border-bottom: #e8491d 3px solid;
+}
+
+header h1 {
+    margin: 0;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+header .logo {
+    width: 80px;
+    height: 80px;
+}
+
+.header-container {
+    display: flex;
+    gap: 1rem;
+    margin-inline: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-section,
+.contact-section,
+.team-section {
+    background: #fff;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+}
+
+.team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.team-member {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    width: 300px;
+}
+
+.team-member img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#map {
+    height: 300px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+footer {
+    background: #23527c;
+    color: #fff;
+    text-align: center;
+    padding: 4px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

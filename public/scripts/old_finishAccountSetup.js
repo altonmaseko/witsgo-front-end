@@ -5,29 +5,65 @@ const urlParams = new URLSearchParams(window.location.search);
 const email = urlParams.get('email');
 
 import { clientUrl, serverUrl } from "./constants.js";
+// const password = document.querySelector("#password-input");
+// const confirmPassword = document.querySelector("#verify-password-input");
 const userRole = document.querySelector("#role-dropdown");
+// const faculty = document.querySelector("#faculty-dropdown");
 const onWheelChair = document.querySelector("#wheel-chair-dropdown");
 const errorMessage = document.querySelector(".error-message");
+// const age = document.querySelector("#age-input");
 
+// password.addEventListener("input", () => { errorMessage.style.display = "none"; });
+// confirmPassword.addEventListener("input", () => { errorMessage.style.display = "none"; });
 userRole.addEventListener("input", () => { errorMessage.style.display = "none"; });
+// faculty.addEventListener("input", () => {
+//     if (faculty.value != "wits-employee") {
+//         userRole.value = "student";
+//         userRole.disabled = true;
+//     } else {
+//         userRole.value = "bus-driver"; // most likely a bus driver, but they can change it
+//         userRole.disabled = false;
+
+//         userRole.querySelector("option[value='student']").disabled = true;
+//     }
+//     errorMessage.style.display = "none";
+
+// });
 onWheelChair.addEventListener("input", () => { errorMessage.style.display = "none"; });
+// age.addEventListener("input", () => { errorMessage.style.display = "none"; });
 
 finishAccountSetupButton.addEventListener("click", async () => {
 
     // Validation ========================================
+    const isStrong = isStrongPassword(password.value);
+    if (isStrong !== true) {
+        //show the message under the input instead of alerting
+        errorMessage.style.display = "block";
+        errorMessage.textContent = "Please enter a password with at least 8 characters, one number, one lowercase letter, one uppercase letter and one special character";
+        return;
+    }
 
-    if (userRole.value === "" ||
-        onWheelChair.value === "") {
+    if (userRole.value === "" || password.value === "" ||
+        confirmPassword.value === "" || faculty.value === "" ||
+        onWheelChair.value === "" || age.value === "") {
         errorMessage.style.display = "block";
         errorMessage.textContent = "Please fill in all fields.";
         return;
     }
 
+    if (password.value !== confirmPassword.value) {
+        errorMessage.style.display = "block";
+        errorMessage.textContent = isStrong;
+        return;
+    }
     // End Validation ========================================
 
     const body = {
+        password: password.value,
         role: userRole.value,
+        faculty: faculty.value,
         onWheelChair: onWheelChair.value,
+        age: age.value
     }
 
     try {
@@ -38,6 +74,19 @@ finishAccountSetupButton.addEventListener("click", async () => {
         alert("An error occurred. Please try again later");
         window.location.href = `${clientUrl}`;
     }
+
+    // // log out
+    // try {
+    //     let response = await axios.post(`${serverUrl}/logout`, {}, { withCredentials: true });
+    //     localStorage.clear();
+    //     window.location.href = `${clientUrl}`;
+    // } catch (error) {
+    //     alert("Error Finishing Account Setup. Please try again later");
+    //     console.error("Error", error);
+    //     window.location.href = `${clientUrl}`;
+
+    // }
+
 
 
     localStorage.clear();

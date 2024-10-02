@@ -16,6 +16,7 @@ const urlMap = {
     '/authorize': 'registerLogin.html',
     '/tracktransport': '/realTimeTracking.html',
     '/rental': '/rental.html',
+    '/about': '/about.html'
 };
 // END: SIMPLIFIED ROUTES
 

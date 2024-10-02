@@ -1,13 +1,10 @@
-// import { clientUrl, serverUrl } from "./constants.js";
+import { clientUrl, serverUrl } from "./constants.js";
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
 let cancelSearch = document.getElementById("cancel-search");
 const searchInputField = document.getElementById('search-input');
 const directionsTextArea = document.getElementById("directions-text");
 const filter = document.getElementById("filterType");
-
-const serverUrl = "https://witsgobackend.azurewebsites.net"
-// const serverUrl = "http://localhost:3000"
 
 let polylinePath = null;
 let lastResponse = null;
@@ -25,6 +22,7 @@ let dest = {
     "longitude": -1
 }
 
+let routeID = null;
 let APIMarkers = [];
 let APIMarkersInfo = [];
 let userMarker = null;
@@ -32,6 +30,12 @@ let searchedMarker = null;
 let zoomedOut = false;
 let navigationStarted = false;
 let searchedPlace = false;
+
+
+
+
+document.getElementById('loading-spinner').style.display = 'block';
+
 
 
 searchInputField.addEventListener("click", function () {
@@ -65,9 +69,10 @@ navMeBtn.addEventListener("click", async function () {
         lastResponse = null;
         showMarkersOnMap()
         resetNavigationState();
+        await insertNavigationHistory()
         return;
-    }else{
-        if (!searchedPlace){
+    } else {
+        if (!searchedPlace) {
             return;
         }
 
@@ -77,7 +82,7 @@ navMeBtn.addEventListener("click", async function () {
         }
         navMeBtn.textContent = "Stop Navigation";
 
-        if (searchedMarker!=null){
+        if (searchedMarker != null) {
             const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
             let placeMarker = new AdvancedMarkerElement({
@@ -88,27 +93,36 @@ navMeBtn.addEventListener("click", async function () {
 
             searchedMarker = placeMarker;
         }
+        try {
+            hideMarkersOnmap()
+            filter.value = "none"
 
+            const response = await getOptimizedRoute();
 
-    try {
-        hideMarkersOnmap()
-        filter.value = "none"
+            let outputData = response.data;
+            lastResponse = outputData;
 
-        const response = await getOptimizedRoute();
+            const encodedPolyline = outputData.data["polyline"];
+            // const legs = outputData.data["legs"];
+            // console.log(legs);
+            var decodedPoints = polyline.decode(encodedPolyline);
+            drawPolyline(decodedPoints);
 
-        let outputData = response.data;
-        lastResponse = outputData;
+            navigationStarted = true;
 
-        const encodedPolyline = outputData.data["polyline"];
-        // const legs = outputData.data["legs"];
-        var decodedPoints = polyline.decode(encodedPolyline);
-        drawPolyline(decodedPoints);
+            const insertedData = await insertRoute(encodedPolyline);
+            insertedData.data.data.success
 
-        navigationStarted = true;
-    } catch (error) {
-        console.error("Error getting location:", error);
+            if (insertedData.data.data.success == true) {
+                routeID = insertedData.data.data.data.route_id;
+            } else {
+                routeID = null;
+            }
+        } catch (error) {
+            console.error("Error getting location:", error);
+        }
     }
-}})
+})
 
 filter.addEventListener("change", () => {
     let filterBy = filter.value;
@@ -131,14 +145,14 @@ filter.addEventListener("change", () => {
     }
 })
 
-function showMarkersOnMap(){
+function showMarkersOnMap() {
     for (let i = 0; i < APIMarkers.length; i++) {
         let marker = APIMarkers[i];
         marker.map = map;
     }
 }
 
-function hideMarkersOnmap(){
+function hideMarkersOnmap() {
     for (let i = 0; i < APIMarkers.length; i++) {
         let marker = APIMarkers[i];
         marker.map = null;
@@ -267,7 +281,7 @@ function addMarkerToMap(element, AdvancedMarkerElement) {
 
 function resetNavigationState() {
     navMeBtn.textContent = "Navigate Me";
-    searchInputField.value="";
+    searchInputField.value = "";
     directionsTextArea.innerHTML = "";
     if (polylinePath) {
         polylinePath.setMap(null);
@@ -276,15 +290,15 @@ function resetNavigationState() {
     searchedMarker.map = null;
     navigationStarted = false;
     searchedPlace = false;
-    dest["latitude"]=-1;
-    dest["longitude"]=-1;
+    dest["latitude"] = -1;
+    dest["longitude"] = -1;
 }
 
 async function getOptimizedRoute() {
     let coords = await getLocation();
 
-    origin["latitude"] = coords.latitude;
-    origin["longitude"] = coords.longitude;
+    // origin["latitude"] = coords.latitude;
+    // origin["longitude"] = coords.longitude;
 
     origin["latitude"] = -26.1908692;
     origin["longitude"] = 28.0271597;
@@ -297,6 +311,33 @@ async function getOptimizedRoute() {
         "travelMode": "WALK"
     };
 
+    const response = await axios.post(url, data);
+    return response;
+}
+
+async function insertRoute(polyline) {
+    const url = serverUrl + "/v1/userRoutes/insertRoute";
+
+    let data = {
+        "user_id": "12345",
+        "start_location": origin,
+        "end_location": dest,
+        "route_data": polyline
+    };
+
+    const response = await axios.post(url, data);
+    return response;
+}
+
+async function insertNavigationHistory() {
+    if (routeID == null) {
+        return;
+    }
+    const url = serverUrl + "/v1/userRoutes/insertNavHistory";
+    let data = {
+        "user_id": "12345",
+        "route_id": routeID
+    };
     const response = await axios.post(url, data);
     return response;
 }
@@ -337,23 +378,29 @@ async function initMap() {
     map = new Map(document.getElementById("map"), {
         zoom: 17,
         center: userLocation,
-        mapId: "DEMO_MAP_ID"
+        mapId:"d"
     });
+
 
 
     // Updates the addresses when searching
     map.addListener('bounds_changed', function () {
-        if (map.getZoom()<=15 && !navigationStarted){
+        if (map.getZoom() <= 15 && !navigationStarted) {
             zoomedOut = true;
             hideMarkersOnmap()
-        }else{
-            if (zoomedOut && !navigationStarted){
+        } else {
+            if (zoomedOut && !navigationStarted) {
                 showMarkersOnMap()
-                zoomedOut=false;
+                zoomedOut = false;
             }
         }
         searchBox.setBounds(map.getBounds());
     });
+
+    google.maps.event.addListenerOnce(map, 'idle', function(){
+        document.getElementById('loading-spinner').style.display = 'none';
+    });
+    
 
     const searchBox = new SearchBox(searchInputField);
 
@@ -366,8 +413,8 @@ async function initMap() {
         }
 
         // Clear out the old markers by setting their map to null
-        if (searchedMarker!=null && searchedMarker.map!=null){
-            searchedMarker.map=null;
+        if (searchedMarker != null && searchedMarker.map != null) {
+            searchedMarker.map = null;
         }
 
         var bounds = new google.maps.LatLngBounds(); // Move the map to the new locations
@@ -412,13 +459,16 @@ async function initMap() {
             }
         });
         map.fitBounds(bounds);
-        searchedPlace=true;
+        searchedPlace = true;
 
     });
 }
 
 async function addMarkers() {
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+    let errorOccured = false;
+
 
     const content = document.createElement('div');
     content.classList.add('custom-marker');
@@ -443,9 +493,9 @@ async function addMarkers() {
         data.forEach((element) => {
             addMarkerToMap(element, AdvancedMarkerElement);
         }
-    )
+        )
     } catch (error) {
-        console.log(error);
+        errorOccured = true;
     }
 
 
@@ -460,9 +510,9 @@ async function addMarkers() {
         data.forEach((element) => {
             addWheelchairMarker(element, AdvancedMarkerElement);
         }
-    )
+        )
     } catch (error) {
-        console.log(error);
+        errorOccured = true;
     }
 
 
@@ -472,12 +522,9 @@ async function addMarkers() {
         res.data.forEach((restaurant) => {
             let location = restaurant.location;
 
+            let valid = isNum(Location);
 
-            if (isNum(location) == false) {
-                throw Error("Invalid format")
-            }
-
-
+            if (valid){
             let id = restaurant.id;
             let name = restaurant.name;
             let opening_time = restaurant.opening_time;
@@ -496,41 +543,42 @@ async function addMarkers() {
                     let is_available = menuItem.is_available;
 
                 })
-            })
-
-            console.log(location);
+                })
+            }
         })
     } catch (error) {
         console.log(error);
         //TODO make error shorter
     }
+
+    if (errorOccured) {
+        alert("Error getting markers");
+    }
 }
 
+// navigator.geolocation.watchPosition((position) => {
+//     // console.log("Current Location:", position.coords.latitude, position.coords.longitude);
+//     const lat = position.coords.latitude;
+//     const lng = position.coords.longitude;
+//     origin["latitude"] = lat;
+//     origin["longitude"] = lng;
+//     if (userMarker == null) {
+//         return;
+//     }
+    
+//     userMarker.position = { lat: origin["latitude"], lng: origin["longitude"] }
 
-navigator.geolocation.watchPosition((position) => {
-    console.log("Current Location:", position.coords.latitude, position.coords.longitude);
-
-    const lat = position.coords.latitude;
-    const lng = position.coords.longitude;
-
-    origin["latitude"] = lat;
-    origin["longitude"] = lng;
-
-    userMarker.position = { lat: origin["latitude"], lng: origin["longitude"] }
-
-}, (error) => {
-    console.log("Could not get location:", error);
-}, {
-    enableHighAccuracy: true,
-    timeout: 10000, // if cant get location within 5 seconds, return an error
-    maximumAge: 10000
-});
-
+// }, (error) => {
+//     console.log("Could not get location:", error);
+// }, {
+//     enableHighAccuracy: true,
+//     timeout: 10000, // if cant get location within 5 seconds, return an error
+//     maximumAge: 10000
+// });
 
 async function renderPage() {
     await initMap();
     await addMarkers();
 }
-
 
 renderPage();

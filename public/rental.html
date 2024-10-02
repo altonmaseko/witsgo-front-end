@@ -2,62 +2,78 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/witsGoLogo.png" type="image/x-icon">
+    <title>Rent a Ride</title>
 
-    <title>Rental Page</title>
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles/rental.css">
-    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/navBar.css">
     <link rel="stylesheet" href="styles/header.css">
+
+    <!-- Google Maps API and other scripts -->
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script>
-    <script src="scripts/rental.js" defer></script>
+    <script src="scripts/rental.js" type="module" defer></script>
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" defer src="scripts/verifylogin.js"></script>
+    <script defer src="scripts/header.js"></script>
+    <script defer type="module" src="scripts/allpages.js"></script>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-    <!-- <header>
-        <img class="profile-img" src="images/pfp.jpg" alt="Profile Picture" id="profile-picture">
-        <h1>Rent a ride!</h1>
-    </header> -->
+    <!-- Header Section -->
     <section class="header">
         <h1 class="title">Rent a Ride</h1>
-        <a href="profile">
-            <img src="icons/profile-icon.png" alt="user-profile">
-        </a>
+
+        <div class="header-right">
+            <div class="dropdown">
+                <button class="dropbtn">&#9776;</button>
+                <div class="dropdown-content">
+                    <div class="wheelchair-option">
+                        <label for="wheelchair-toggle">Wheelchair</label>
+                        <input type="checkbox" id="wheelchair-toggle">
+                    </div>
+                    <a href="#" id="about-button">About</a>
+                    <a href="#" id="stats-button">Stats</a>
+                    <a href="#" id="logout-button">Logout</a>
+                    <a href="#" id="delete-button">Delete</a>
+                </div>
+            </div>
+        </div>
     </section>
 
 
-    <section id="map"></section>
+    <!-- Map Section -->
+    <section id="map-container">
+        <section id="map"></section>
+    </section>
 
+    <!-- Controls Section -->
     <section id="controls">
-        <select id="stationSelect" style="display: none;" onchange="showVehicleDropdown()">
-            <!-- Options will be added dynamically -->
-        </select>
-        <select id="vehicleSelect" style="display: none;" onchange="updateControls()">
+        <select id="vehicleSelect" style="display: none;">
             <option value="">Please select a vehicle</option>
-            <!-- Options will be added dynamically -->
         </select>
 
-        <!-- Container for buttons -->
-        <div class="button-group">
-            <button id="cancel-button" onclick="cancelSelection()">Cancel</button>
-            <button id="rent-button" onclick="rentVehicle()">Rent</button>
-            <button id="return-button" onclick="returnVehicle()">Return</button>
-
+        <!-- Buttons -->
+        <div class="button-group" style="display: none;">
+            <button id="cancel-button">Cancel</button>
+            <button id="rent-button" style="display: none;">Rent</button>
+            <button id="return-button" style="display: none;">Return</button>
         </div>
 
-        <p id="availability">Select a vehicle to see availability</p>
-        <div id="rental-status-container">
-            <p id="timerDisplay">
-                Rental Time Remaining: <a id="timer">20:00</a>
-                <!-- <button id="return-button" onclick="returnVehicle()">Return</button> -->
+        <!-- Timer and Availability Message -->
+        <p id="availability">Click on a station to rent a vehicle!</p>
+        <div id="rental-status-container" style="display: none;">
+            <p id="rental-status">
+                Rental Time Remaining: <span id="timer">20:00</span>
             </p>
         </div>
+        <div id="rented-vehicle-message" style="display: none;"></div>
     </section>
 
+    <!-- Navigation Bar -->
     <section class="navbar">
         <a href="navigation">
             <img src="icons/nav-grey.png" alt="Nav Icon">
