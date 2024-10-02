@@ -24,6 +24,7 @@ p{
 
 .main {
     width: 100vw;
+
     /* margin-top: var(--main-margin); */
     display: flex;
     flex-direction: column;
@@ -39,7 +40,6 @@ p{
     height: 100%;
     border: 2px solid black;
     border-radius: 0.4rem;
-
     z-index: 0;
 }
 
