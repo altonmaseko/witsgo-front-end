@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column; /* Ensure body content flows vertically */
-    align-items: center;
+    /* align-items: center; */ /* This would be good for if the map is a different size */
     height: 100vh;
     margin: 0;
     padding: 0;
