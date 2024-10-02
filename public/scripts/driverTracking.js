@@ -143,7 +143,8 @@ function createExpandingCircle() {
         circle.setOptions({ fillOpacity: opacity });; // Make the border transparent
 
         // Check if the circle is too big and should be removed
-        if (radius > 1000 || !map.getBounds().contains(circle.getCenter())) {
+        // if (radius > 1000 || !map.getBounds().contains(circle.getCenter())) {
+        if (radius > 400) {
             clearInterval(intervalId); // Stop the expansion
             circle.setMap(null);       // Remove the circle from the map
         }
