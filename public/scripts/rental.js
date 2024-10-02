@@ -1,8 +1,9 @@
+import { clientUrl, serverUrl } from "./constants.js";
 let map, userPosition, selectedStationId, selectedVehicleId;
 let rentalActive = false;
 let rentalTimer;
 let rentalTimeLeft = 1200; // 20 minutes in seconds
-const serverUrl = 'http://localhost:3000'; // Your server URL
+//const serverUrl = 'http://localhost:3000'; // Your server URL
 // const serverUrl = 'https://witsgobackend.azurewebsites.net'
 
 // Initialize the map
