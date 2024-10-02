@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/witsGoLogo.png" type="image/x-icon">
+    <title>Rent a Ride</title>
     
-    <title>Rental Page</title>
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles/rental.css">
     <link rel="stylesheet" href="styles/navBar.css">
     <link rel="stylesheet" href="styles/header.css">
-    <!-- <link rel="stylesheet" href="styles/navbar.css"> -->
     
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script>
+    <!-- Google Maps API and other scripts -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script>
     <script src="scripts/rental.js" defer></script>
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-    
-    <!-- <script type="module" defer src="scripts/verifylogin.js"></script> -->
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
+    <!-- Header Section -->
     <section class="header">
         <h1 class="title">Rent a Ride</h1>
         <a href="profile">
@@ -29,9 +25,10 @@
         </a>
     </section>
 
-
+    <!-- Map Section -->
     <section id="map"></section>
 
+    <!-- Controls Section -->
     <section id="controls">
         <select id="stationSelect" style="display: none;" onchange="showVehicleDropdown()">
         </select>
@@ -39,23 +36,23 @@
             <option value="">Please select a vehicle</option>
         </select>
 
-        <!-- Container for buttons -->
-        <div class="button-group">
+        <!-- Buttons -->
+        <div class="button-group" style="display: none;">
             <button id="cancel-button" onclick="cancelSelection()">Cancel</button>
-            <button id="rent-button" onclick="rentVehicle()">Rent</button>
-            <button id="return-button" onclick="returnVehicle()">Return</button>
-
+            <button id="rent-button" style="display: none;" onclick="rentVehicle()">Rent</button>
+            <button id="return-button" style="display: none;" onclick="returnVehicle()">Return</button>
         </div>
 
-        <p id="availability">Select a vehicle to see availability</p>
-        <div id="rental-status-container">
-            <p id="retnal-status">
-                Rental Time Remaining: <a id="timer">20:00</a>
-                <!-- <button id="return-button" onclick="returnVehicle()">Return</button> -->
+        <!-- Timer and Availability Message -->
+        <p id="availability">Click on a station to rent a vehicle!</p>
+        <div id="rental-status-container" style="display: none;">
+            <p id="rental-status">
+                Rental Time Remaining: <span id="timer">20:00</span>
             </p>
         </div>
     </section>
 
+    <!-- Navigation Bar -->
     <section class="navbar">
         <a href="navigation">
             <img src="icons/nav-grey.png" alt="Nav Icon">
@@ -75,5 +72,4 @@
         </a>
     </section>
 </body>
-
 </html>
