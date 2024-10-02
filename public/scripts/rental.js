@@ -1,4 +1,5 @@
 import { clientUrl, serverUrl } from "./constants.js";
+import { clientUrl, serverUrl } from "./constants.js";
 let map, userPosition, selectedStationId, selectedVehicleId;
 let rentalActive = false;
 let rentalTimer;

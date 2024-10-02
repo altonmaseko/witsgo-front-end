@@ -12,8 +12,6 @@
   justify-content: space-between;
   align-items: center;
   height: 60px;
-
-  /* margin-bottom: 20px; */
 }
 
 .title {
@@ -26,10 +24,55 @@
   font-family: Poppins, sans-serif;
 }
 
-.header-left {
+/* Header Right Section */
+.header-right {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+/* Dropdown Menu */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #23527c;
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.dropbtn:hover {
+  opacity: 0.8;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgb(0 0 0 / 20%);
+  z-index: 1;
+}
+
+.dropdown-content a, .wheelchair-option {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover, .wheelchair-option:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 
 .header .header-wits-logo {
@@ -37,26 +80,15 @@
   height: 40px;
 }
 
-.header img {
-  width: 58px;
-  height: 58px;
-  cursor: pointer;
-  border-radius: 50%;
-
-  /* transition: transform 0.3s ease-in-out; */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Wheelchair Toggle */
+.wheelchair-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.header img:hover {
-  transform: scale(1.2);
-  box-shadow: 0 10px 20px rgb(0 0 0 / 20%);
-}
-
-
-@media (width <=600px) {
-  .header img {
-    width: 42px;
-    height: 42px;
-    margin-right: 25px;
-  }
+.wheelchair-option input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
 }
