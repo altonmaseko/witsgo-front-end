@@ -129,7 +129,8 @@ function createExpandingCircle() {
         fillColor: "#0000FF",     // Blue fill
         fillOpacity: 0.06,         // Transparency
         map: map,
-        center: currentLocation,
+        // center: currentLocation,
+        center: currentLocationMarker.position,
         radius: radius,           // Initial radius in meters
     });
 

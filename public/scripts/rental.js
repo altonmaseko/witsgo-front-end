@@ -156,7 +156,7 @@ async function rentVehicle() {
         const response = await axios.post(`${serverUrl}/v1/rental/rent`, {
             vehicleId: selectedVehicleId,
             stationId: selectedStationId,
-            userId: '66fafa67c47c85212931d7be' // Replace with actual user ID
+            userId: localStorage.getItem("userId")
         });
 
         if (response.data) {
@@ -195,13 +195,14 @@ async function rentVehicle() {
 
 
 // Start rental timer
-// Start rental timer
 function startRentalTimer() {
     rentalActive = true;
     updateTimerDisplay();
     document.getElementById('rental-status-container').style.display = 'block'; // Show the timer
+    
     rentalTimer = setInterval(() => {
         rentalTimeLeft--;
+        localStorage.setItem('rentalTimeLeft', rentalTimeLeft); // Store the updated rental time left
         updateTimerDisplay();
 
         // Check for 5 minutes remaining (300 seconds)
@@ -218,12 +219,15 @@ function startRentalTimer() {
 
 
 
+
+
 // Update rental timer display
 function updateTimerDisplay() {
     const minutes = Math.floor(rentalTimeLeft / 60);
     const seconds = rentalTimeLeft % 60;
     document.getElementById('timer').innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
+
 
 // End rental timer
 function endRentalTimer() {
@@ -260,7 +264,7 @@ async function returnVehicle() {
         const response = await axios.post(`${serverUrl}/v1/rental/return`, {
             vehicleId: selectedVehicleId,
             stationId: selectedStationId,
-            userId: '66fafa67c47c85212931d7be' // Replace with actual user ID
+            userId: localStorage.getItem("userId")
         });
 
         if (response.data) {
@@ -318,23 +322,34 @@ document.getElementById("rent-button").addEventListener("click",rentVehicle);
 document.getElementById("return-button").addEventListener("click",returnVehicle);
 document.getElementById("cancel-button").addEventListener("click",cancelSelection);
 
-window.onload = function() {
+window.onload = function () {
     const rentalStartTime = localStorage.getItem('rentalStartTime');
     const rentalTimeLeftStored = localStorage.getItem('rentalTimeLeft');
     const selectedVehicleIdStored = localStorage.getItem('selectedVehicleId');
 
     if (rentalStartTime) {
         rentalActive = true;
-        const elapsedTime = Math.floor((new Date().getTime() - rentalStartTime) / 1000);
-        rentalTimeLeft = rentalTimeLeftStored ? parseInt(rentalTimeLeftStored) - elapsedTime : 1200 - elapsedTime; // Calculate remaining time
 
-        if (rentalTimeLeft > 0) {
-            startRentalTimer();
+        // Calculate the elapsed time since the vehicle was rented
+        const elapsedTime = Math.floor((new Date().getTime() - rentalStartTime) / 1000);
+        
+        // Calculate the remaining time left
+        rentalTimeLeft = rentalTimeLeftStored ? parseInt(rentalTimeLeftStored) - elapsedTime : 1200 - elapsedTime; // 1200 seconds = 20 minutes
+
+        // Ensure that the rental time left does not go below zero
+        if (rentalTimeLeft <= 0) {
+            resetRental(); // Reset the rental if time is up
+        } else {
+            // Update the display with the remaining time
+            updateTimerDisplay();
+            startRentalTimer(); // Start the timer with the remaining time
             displayRentedVehicleState(); // Show rented vehicle details instead of dropdown
             document.getElementById('availability').innerText = `You rented vehicle ID: ${selectedVehicleIdStored}`;
-        } else {
-            resetRental();
         }
+    } else {
+        // If no rental information is stored, initialize the map normally
+        initMap();
     }
-    initMap();
 };
+
+
