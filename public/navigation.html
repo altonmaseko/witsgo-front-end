@@ -17,6 +17,9 @@
             ({ key: "AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s", v: "weekly", libraries: "places" });</script>
     <script src="scripts/nav.js" type="module" defer></script>
     <script defer src="scripts/header.js"></script>
+    <script defer type="module" src="scripts/allpages.js"></script>
+
+
     <script type="module" defer src="scripts/verifylogin.js" defer></script>
     <!--This script should be put on everypage -->
 </head>
@@ -30,22 +33,22 @@
                 <img src="icons/profile-icon.png" alt="user-profile">
             </a>
         </section> -->
-        
+
         <section class="header">
             <h1 class="title">Navigation</h1>
-        
+
             <div class="header-right">
                 <div class="dropdown">
-                    <button class="dropbtn">&#9776;</button> 
+                    <button class="dropbtn">&#9776;</button>
                     <div class="dropdown-content">
                         <div class="wheelchair-option">
                             <label for="wheelchair-toggle">Wheelchair</label>
                             <input type="checkbox" id="wheelchair-toggle">
                         </div>
-                        <a href="#">Stats</a>
-                    <a href="#">Logout</a>
-                    <a href="#">Delete</a>
-                    <a href="#">About</a>
+                        <a href="#" id="stats-button">Stats</a>
+                        <a href="#" id="logout-button">Logout</a>
+                        <a href="#" id="delete-button">Delete</a>
+                        <a href="#" id="about-button">About</a>
                     </div>
                 </div>
             </div>
