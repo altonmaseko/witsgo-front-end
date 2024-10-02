@@ -2,6 +2,9 @@ const deleteButton = document.querySelector('#delete-button');
 const logoutButton = document.querySelector('#logout-button');
 const statsButton = document.querySelector('#stats-button');
 const aboutButton = document.querySelector('#about-button');
+const wheelChairToggle = document.querySelector('#wheelchair-toggle');
+
+
 
 import { serverUrl, clientUrl } from "./constants.js";
 let email = localStorage.getItem("email");
@@ -66,3 +69,19 @@ deleteButton?.addEventListener('click', async () => {
     }
 });
 
+wheelChairToggle?.addEventListener('click', async () => {
+    console.log("wheelChairToggle clicked");
+
+    const body = {
+        onWheelChair: wheelChairToggle.checked,
+    }
+
+    try {
+        let response = await axios.put(`${serverUrl}/user/update/${email}`, body);
+        console.log("Wheel chair check is: ", wheelChairToggle.checked)
+        console.log(response.data);
+    } catch (error) {
+        console.log(error.message);
+        alert("Something went wrong updating your disabiltiy status. Please try again later");
+    }
+});
