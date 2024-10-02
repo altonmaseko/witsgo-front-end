@@ -177,7 +177,6 @@ function endRentalTimer() {
 
 // Cancel the vehicle selection
 function cancelSelection() {
-    document.getElementById('stationSelect').style.display = "none";
     document.getElementById('vehicleSelect').style.display = "none";
     document.querySelector('.button-group').style.display = "none";
     document.getElementById('rent-button').style.display = "none";
