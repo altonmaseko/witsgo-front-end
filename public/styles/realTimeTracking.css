@@ -42,6 +42,21 @@ body {
     z-index: 0;
 }
 
+.update-message-container {
+    display: flex;
+    top: 100px;
+    right: 2rem;
+    width: fit-content;
+    padding: 1rem;
+    background-color: aliceblue;
+    color: black;
+    border-radius: 0.4rem;
+    border: 2px dotted black;
+    position: absolute;
+    margin-left: 2rem;
+
+    z-index: 1;
+}
 
 .check-and-vehicle-container {
     border: 1px solid black;
@@ -61,10 +76,11 @@ body {
 
 .check-and-vehicle {
     border-radius: 1rem;
-    border: 2px solid black;
+    border: 2px dotted black;
     padding: 0.4rem;
     display: flex;
     align-items: center;
+    background-color: white;
 
     /* justify-content: center; */
     gap: 1rem;
@@ -80,7 +96,8 @@ body {
 /* draw a tick */
 
 .checked {
-    background-color: blue
+    background-color: #23527c;
+    /* background-color: magenta; */
 }
 
 

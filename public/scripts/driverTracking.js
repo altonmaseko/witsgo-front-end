@@ -103,6 +103,8 @@ if (role == "bus-driver") {
     roomToSend = campusSecurityRoom;
 } else if (role == "campus-control") {
     roomToSend = campusControlRoom;
+} else { // temporary, for testing
+    roomToSend = busRoom;
 }
 
 
