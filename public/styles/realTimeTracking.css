@@ -28,7 +28,7 @@ p{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 1rem 0 1rem ;
+    padding: 0 1rem;
     flex: 1;
 }
 
@@ -51,6 +51,7 @@ p{
 
 .check-and-vehicle {
     /* border-radius: 1rem; */
+
     /* border: 1px solid black; */
     padding: 0.4rem;
     display: flex;
@@ -63,6 +64,7 @@ p{
 .check {
     width: 6vw;
     height: 6vw;
+
     /* border-radius: 50%; */
     border: 1px solid black;
 }
