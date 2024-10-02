@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="styles/navBar.css">
     <link rel="stylesheet" href="styles/header.css">
-    
+
 
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -20,7 +20,7 @@
 
     <script defer src="scripts/header.js"></script>
 
-    <script type="module" defer src="scripts/verifylogin.js"></script> 
+    <script type="module" defer src="scripts/verifylogin.js"></script>
     <!-- This script should be put on everypage -->
 
     <script type="module" defer>
@@ -32,7 +32,7 @@
         const role = localStorage.getItem("role");
 
         console.log("FINDING Role: ", role);
-        if (role != "student") {
+        if (role == "bus-driver" || role == "campus-security" || role == "campus-control") {
             window.location.href = `${clientUrl}/driverpage`;
         }
     </script>
@@ -43,10 +43,10 @@
 <body>
     <section class="header">
         <h1 class="title">Real Time Tracking</h1>
-    
+
         <div class="header-right">
             <div class="dropdown">
-                <button class="dropbtn">&#9776;</button> 
+                <button class="dropbtn">&#9776;</button>
                 <div class="dropdown-content">
                     <div class="wheelchair-option">
                         <label for="wheelchair-toggle">Wheelchair</label>
@@ -60,7 +60,7 @@
             </div>
         </div>
     </section>
-        
+
 
 
     <main class="main">
@@ -129,4 +129,5 @@
         </a>
     </section>
 </body>
+
 </html>
