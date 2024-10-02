@@ -180,15 +180,20 @@ tbody tr:nth-child(even) {
   margin-top: 1rem;
   display: flex;
   flex-direction: row;
+
   /* Ensure dropdowns are in a row */
   align-items: center;
+
   /* Align items vertically centered */
   padding-inline: 1rem;
   gap: 1rem;
+
   /* Adjust gap between items */
   margin-left: auto;
+
   /* Push it to the right */
   margin-right: 30px;
+
   /* Space from the right */
 }
 

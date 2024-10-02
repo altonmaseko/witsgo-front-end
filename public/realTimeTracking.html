@@ -18,7 +18,7 @@
 
     <script type="module" defer src="scripts/realTimeTracking.js"></script>
 
-    <!-- <script type="module" defer src="scripts/verifylogin.js"></script>  -->
+    <script type="module" defer src="scripts/verifylogin.js"></script> 
     <!-- This script should be put on everypage -->
 
     <script type="module" defer>
@@ -30,9 +30,9 @@
         const role = localStorage.getItem("role");
 
         console.log("FINDING Role: ", role);
-        // if (role != "student") {
-        //     window.location.href = `${clientUrl}/driverpage`;
-        // }
+        if (role != "student") {
+            window.location.href = `${clientUrl}/driverpage`;
+        }
     </script>
 
     <title>Real Time Tracking Page</title>
@@ -56,6 +56,7 @@
     <main class="main">
         <div class="map-container">
         </div>
+
         <div class="check-and-vehicle-container">
 
             <div class="check-and-vehicle">
@@ -85,6 +86,8 @@
         </div>
 
 
+
+
     </main>
 
 
@@ -108,37 +111,5 @@
             <section class="text">Tracking</section>
         </a>
     </section>
-
 </body>
-
-
-
 </html>
-
-
-
-<!-- 
-
-    <div class="side-nav">
-            <a href="navigation" class="side-nav-a">
-                <img src="icons/nav-grey.png" alt="Nav Icon">
-                <section class="side-nav-text">Navigation</section>
-            </a>
-
-            <a href="rental" class="side-nav-a">
-                <img src="icons/rent-grey.png" alt="Rent Icon">
-                <section class="side-nav-text">Renting</section>
-            </a>
-
-            <a href="buses" class="side-nav-a">
-                <img src="icons/schedule-grey.png" alt="Schedule Icon">
-                <section class="side-nav-text">Schedule</section>
-            </a>
-
-            <a href="tracktransport" class="side-nav-a">
-                <img src="icons/tracking-purple.png" alt="Tracking Icon">
-                <section class="side-nav-text">Tracking</section>
-            </a>
-        </div>
-
- -->

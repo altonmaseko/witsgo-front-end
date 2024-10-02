@@ -61,7 +61,7 @@ body {
 
 /* Center the spinner */
 .spinner {
-    border: 8px solid rgba(0, 0, 0, 0.1);
+    border: 8px solid rgb(0 0 0 / 10%);
     border-left-color: #4b9ce2;
     border-radius: 50%;
     width: 60px;

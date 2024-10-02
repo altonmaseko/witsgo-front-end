@@ -12,8 +12,7 @@ window.initMap = function () {
         zoom: 16
     });
 
-
-    // getting user position
+    // Get user position
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             userPosition = {
@@ -27,21 +26,14 @@ window.initMap = function () {
                 lng: 28.0302
             };
             map.setCenter(userPosition);
-
-            new google.maps.Marker({
-                position: userPosition,
-                map: map,
-                title: "You are here"
-            });
-
             loadStations();
         });
     } else {
         alert("Geolocation is not supported by this browser.");
     }
-}
+};
 
-// Load stations and place markers on the map
+// Load stations and place markers
 async function loadStations() {
     try {
         const response = await axios.get(`${serverUrl}/v1/rental/stations`);
@@ -83,11 +75,10 @@ async function handleStationClick(station) {
     }
 }
 
-// Show vehicles for rent, within the right distance
+// Show vehicle dropdown
 async function showVehicleDropdown(station) {
     try {
-        const vehicleIds = station.vehicles; // Assuming station.vehicles is an array of vehicle IDs
-        console.log(vehicleIds);
+        const vehicleIds = station.vehicles;
         const vehiclePromises = vehicleIds.map(id => axios.get(`${serverUrl}/v1/rental/vehicle/${id}`));
         const vehicleResponses = await Promise.all(vehiclePromises);
         const vehicles = vehicleResponses.map(response => response.data);
@@ -105,14 +96,13 @@ async function showVehicleDropdown(station) {
             vehicleSelect.innerHTML += `<option value="${vehicle._id}">${vehicle.type} - Available: ${vehicle.isAvailable ? 'yes' : 'no'}</option>`;
         });
 
-        document.getElementById('stationSelect').style.display = "block";
+        document.querySelector('.button-group').style.display = "flex";
     } catch (error) {
         console.error("Error loading vehicles:", error);
-        alert("Failed to load vehicles. Please try again.");
     }
 }
 
-// Rent the selected vehicle : When pressing rent button
+// Rent the selected vehicle
 async function rentVehicle() {
     const vehicleSelect = document.getElementById('vehicleSelect');
     selectedVehicleId = vehicleSelect.value;
@@ -143,13 +133,15 @@ async function rentVehicle() {
         if (response.data) {
             alert("Vehicle rented successfully!");
             startRentalTimer();
+            document.querySelector('.button-group').style.display = "none";
+            document.getElementById('return-button').style.display = "block";
         }
     } catch (error) {
         console.error("Error renting vehicle:", error);
     }
 }
 
-// Start the rental timer
+// Start rental timer
 function startRentalTimer() {
     rentalActive = true;
     updateTimerDisplay();
@@ -167,21 +159,31 @@ function startRentalTimer() {
     }, 1000);
 }
 
-// Update the rental timer display
+// Update rental timer display
 function updateTimerDisplay() {
     const minutes = Math.floor(rentalTimeLeft / 60);
     const seconds = rentalTimeLeft % 60;
     document.getElementById('timer').innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
-// End the rental timer
+// End rental timer
 function endRentalTimer() {
     clearInterval(rentalTimer);
     rentalActive = false;
-    alert("Rental time has ended. Please return the vehicle.");
+    rentalTimeLeft = 0;
+    document.getElementById('timer').innerText = "00:00";
+    alert("Your rental has ended. Please return the vehicle.");
 }
 
-// Return the rented vehicle : return button clicked
+// Cancel the vehicle selection
+function cancelSelection() {
+    document.getElementById('vehicleSelect').style.display = "none";
+    document.querySelector('.button-group').style.display = "none";
+    document.getElementById('rent-button').style.display = "none";
+    document.getElementById('return-button').style.display = "none";
+}
+
+// Return the vehicle
 async function returnVehicle() {
     const station = await axios.get(`${serverUrl}/rental/stations/${selectedStationId}`);
     const distance = google.maps.geometry.spherical.computeDistanceBetween(
@@ -191,30 +193,49 @@ async function returnVehicle() {
 
     if (distance > 20) {
         alert("You are not within 20 meters of the station. Move closer to return the vehicle.");
-    } else {
-        try {
-            const response = await axios.post(`${serverUrl}/rental/return`, {
-                vehicleId: selectedVehicleId,
-                stationId: selectedStationId
-            });
+        return;
+    }
 
-            if (response.data.success) {
-                endRentalTimer();
-                alert("Vehicle returned successfully!");
-            } else {
-                alert("Error: " + response.data.error);
-            }
-        } catch (error) {
-            console.error("Error returning vehicle:", error);
+    try {
+        const response = await axios.post(`${serverUrl}/rental/return`, {
+            vehicleId: selectedVehicleId,
+            stationId: selectedStationId,
+            userId: 'userId' // Replace with actual user ID
+        });
+
+        if (response.data) {
+            alert("Vehicle returned successfully! Thank you for using our service.");
+            resetRental();
         }
+    } catch (error) {
+        console.error("Error returning vehicle:", error);
     }
 }
 
-// Cancel the vehicle selection
-function cancelSelection() {
-    document.getElementById('vehicleSelect').style.display = "none";
+// Reset rental state after returning the vehicle
+function resetRental() {
+    clearInterval(rentalTimer);
+    rentalActive = false;
+    rentalTimeLeft = 1200; // Reset the timer to 20 minutes
+
+    document.getElementById('timer').innerText = "20:00";
     document.getElementById('stationSelect').style.display = "none";
+    document.getElementById('vehicleSelect').style.display = "none";
+    document.querySelector('.button-group').style.display = "none";
+    document.getElementById('rent-button').style.display = "none";
+    document.getElementById('return-button').style.display = "none";
+    document.getElementById('rental-status-container').style.display = "none";
+    document.getElementById('availability').innerText = "Click on a station to rent a vehicle!";
 }
 
-// Call initMap to initialize the map
+// Update the controls based on vehicle selection
+function updateControls() {
+    const vehicleSelect = document.getElementById('vehicleSelect');
+    if (vehicleSelect.value) {
+        document.getElementById('rent-button').style.display = "inline-block";
+    } else {
+        document.getElementById('rent-button').style.display = "none";
+    }
+}
+
 window.onload = initMap;
