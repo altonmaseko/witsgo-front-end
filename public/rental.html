@@ -15,15 +15,27 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script>
     <script src="scripts/rental.js" type="module" defer></script>
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer src="/hexago-front-end/header.js"></script>
 </head>
 <body>
     <!-- Header Section -->
     <section class="header">
         <h1 class="title">Rent a Ride</h1>
-        <a href="profile">
-            <img src="icons/profile-icon.png" alt="user-profile">
-        </a>
+    
+        <div class="header-right">
+            <div class="dropdown">
+                <button class="dropbtn">&#9776;</button> 
+                <div class="dropdown-content">
+                    <div class="wheelchair-option">
+                        <label for="wheelchair-toggle">Wheelchair</label>
+                        <input type="checkbox" id="wheelchair-toggle">
+                    </div>
+                    <a href="#">Logout</a>
+                </div>
+            </div>
+        </div>
     </section>
+        
 
     <!-- Map Section -->
     <section id="map"></section>
