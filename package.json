@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/developerAlton/hexago-front-end#readme",
   "devDependencies": {
+    "cypress-real-events": "^1.13.0",
     "eslint": "^9.9.1",
     "jest-environment-jsdom": "^29.7.0",
     "stylelint": "^16.9.0",

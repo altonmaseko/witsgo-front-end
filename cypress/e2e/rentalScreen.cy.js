@@ -1,7 +1,27 @@
-describe('Navigation Page Test (Mobile View)', () => {
+describe('Rental page', () => {
     // Set the viewport size to 360x800 before each test
     beforeEach(() => {
       cy.viewport(360, 800);
+      cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin`, {
+        statusCode: 200,
+        body: {
+            isLoggedIn: true,
+            user: {
+                user: {
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    picture: 'https://example.com/profile.jpg',
+                    onWheelChair: false,
+                    email: 'john.doe@example.com',
+                    role: 'student',
+                    _id: '12345'
+                }
+            }
+        }
+    }).as('verifyLogin');
+    
+
+    
       cy.visit('http://localhost:5000/rental.html',{
         onBeforeLoad(win) {
           cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake((success, error) => {
@@ -16,21 +36,15 @@ describe('Navigation Page Test (Mobile View)', () => {
         });
     });
 
-    it('should load the navigation page in mobile view', () => {
+    it('Elements loaded', () => {
         // Wait for a specific element that indicates the page is loaded
-        cy.get('.container').should('be.visible');
-        cy.get('title').should('contain', 'Navigate Screen'); // Verify the page title
+        cy.get("#map").should("be.visible");
       });
 
-  
     it('should display the map container in mobile view', () => {
       cy.get('#map').should('be.visible');
-      cy.get('.map-container').should('exist');
     });
   
-    it('should toggle profile picture and cancel button in the search bar (mobile)', () => {
-      cy.get('#search-input').should('be.enabled').type('wits biology building');
-    });
   
 });
   

@@ -39,10 +39,10 @@ body {
     width: 90%;
     max-width: 1900px;
     margin: 20px auto; /* Centers the box */
-    border: 2px solid #000000; /* Adds a border */
+    border: 2px solid #000; /* Adds a border */
     border-radius: 15px; /* Rounds the corners */
     overflow: hidden; /* Ensures child elements don't overflow the box */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+    box-shadow: 0 2px 5px rgb(0 0 0 / 10%); /* Adds a subtle shadow */
 }
 
 #map {

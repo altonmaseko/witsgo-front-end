@@ -1,41 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/witsGoLogo.png" type="image/x-icon">
     <title>Rent a Ride</title>
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="styles/rental.css">
     <link rel="stylesheet" href="styles/navBar.css">
     <link rel="stylesheet" href="styles/header.css">
-    
+
     <!-- Google Maps API and other scripts -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script>
     <script src="scripts/rental.js" type="module" defer></script>
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script defer src="/hexago-front-end/header.js"></script>
+    <script defer src="scripts/header.js"></script>
+    <script defer type="module" src="scripts/allpages.js"></script>
+
 </head>
+
 <body>
     <!-- Header Section -->
     <section class="header">
         <h1 class="title">Rent a Ride</h1>
-    
+
         <div class="header-right">
             <div class="dropdown">
-                <button class="dropbtn">&#9776;</button> 
+                <button class="dropbtn">&#9776;</button>
                 <div class="dropdown-content">
                     <div class="wheelchair-option">
                         <label for="wheelchair-toggle">Wheelchair</label>
                         <input type="checkbox" id="wheelchair-toggle">
                     </div>
-                    <a href="#">Logout</a>
+                    <a href="#" id="stats-button">Stats</a>
+                    <a href="#" id="logout-button">Logout</a>
+                    <a href="#" id="delete-button">Delete</a>
+                    <a href="#" id="about-button">About</a>
                 </div>
             </div>
         </div>
     </section>
-        
+
 
     <!-- Map Section -->
     <section id="map-container">
@@ -85,4 +93,5 @@
         </a>
     </section>
 </body>
+
 </html>

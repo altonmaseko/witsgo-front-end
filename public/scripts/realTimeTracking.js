@@ -44,6 +44,7 @@ const role = localStorage.getItem("role");
 const mapContainer = document.querySelector('.map-container');
 
 const updateMessage = document.querySelector('.update-message');
+const updateMessageContainer = document.querySelector('.update-message-container');
 const humanIconDiv = document.createElement('div');
 humanIconDiv.innerHTML = `<img src="./icons/human_circle_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
 
@@ -285,3 +286,11 @@ function removeInactiveBusMarkers() {
 // Call removeInactiveBusMarkers periodically
 setInterval(removeInactiveBusMarkers, 60000); // Check every minute
 
+updateMessageContainer.addEventListener("click", (event) => {
+    if (updateMessage.textContent = "...") {
+        event.currentTarget.style.width = "fit-content";
+    } else {
+        event.currentTarget.style.maxWidth = "40px";
+        event.currentTarget.style.maxHeight = "40px";
+    }
+});

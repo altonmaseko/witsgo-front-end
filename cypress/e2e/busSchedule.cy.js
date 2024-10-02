@@ -1,7 +1,26 @@
 describe('Bus Schedule Page', () => {
   beforeEach(() => {
     cy.viewport(360, 800);
-    cy.visit('http://localhost:5000/busSchedule.html'); 
+    cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin`, {
+      statusCode: 200,
+      body: {
+          isLoggedIn: true,
+          user: {
+              user: {
+                  firstName: 'John',
+                  lastName: 'Doe',
+                  picture: 'https://example.com/profile.jpg',
+                  onWheelChair: false,
+                  email: 'john.doe@example.com',
+                  role: 'student',
+                  _id: '12345'
+              }
+          }
+      }
+  }).as('verifyLogin');
+  
+    cy.visit('http://localhost:5000/buses'); 
+    
   });
 
   it('should have the correct page title', () => {

@@ -21,5 +21,8 @@ module.exports = defineConfig({
       '*/**/1-getting-started',
       '*/**/2-advanced-examples',
     ],
+    env: {
+      serverUrl: 'https://witsgobackend.azurewebsites.net', // Replace with your actual server URL
+    },
   },
 });

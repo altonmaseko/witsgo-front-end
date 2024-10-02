@@ -1,12 +1,34 @@
 describe('Navbar Test', () => {
-
   beforeEach(() => {
-    // Visit the page where the navbar is located
     cy.viewport(360, 800);
+    cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin`, {
+      statusCode: 200,
+      body: {
+          isLoggedIn: true,
+          user: {
+              user: {
+                  firstName: 'John',
+                  lastName: 'Doe',
+                  picture: 'https://example.com/profile.jpg',
+                  onWheelChair: false,
+                  email: 'john.doe@example.com',
+                  role: 'student',
+                  _id: '12345'
+              }
+          }
+      }
+  }).as('verifyLogin');
+  
+    cy.window().then((window) => {
+      window.localStorage.setItem('role', 'student'); // Example role
+    });
+
     cy.visit('http://localhost:5000/navigation.html'); // Replace with your actual page URL
   });
 
   it('Should display the navbar with correct links and text', () => {
+    cy.wait("@verifyLogin")
+    
     // Check if the navbar section exists
     cy.get('.navbar').should('exist');
 
@@ -36,21 +58,17 @@ describe('Navbar Test', () => {
   });
 
   it('Should navigate to correct pages when navbar links are clicked', () => {
-    // Click the "Navigation" link and verify the URL changes
-    // cy.get('.navbar a').eq(0).click();
-    // cy.url().should('include', '/navigation');
+    cy.get('.navbar a').eq(0).click();
+    cy.url().should('include', '/navigation');
 
-    // Click the "Renting" link and verify the URL changes
     cy.get('.navbar a').eq(1).click();
     cy.url().should('include', '/rental');
 
-    // Click the "Schedule" link and verify the URL changes
-    // cy.get('.navbar a').eq(2).click();
-    // cy.url().should('include', '/buses');
+    cy.get('.navbar a').eq(2).click();
+    cy.url().should('include', '/buses');
 
-    // Click the "Tracking" link and verify the URL changes
-    // cy.get('.navbar a').eq(3).click();
-    // cy.url().should('include', '/tracktransport');
+    cy.get('.navbar a').eq(3).click();
+    cy.url().should('include', '/tracktransport');
   });
 
 });
