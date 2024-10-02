@@ -10,13 +10,15 @@
 
     <link rel="stylesheet" href="styles/navBar.css">
     <link rel="stylesheet" href="styles/header.css">
-
+    
 
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 
     <script type="module" defer src="scripts/realTimeTracking.js"></script>
+
+    <script defer src="/hexago-front-end/header.js"></script>
 
     <script type="module" defer src="scripts/verifylogin.js"></script> 
     <!-- This script should be put on everypage -->
@@ -39,23 +41,23 @@
 </head>
 
 <body>
-
-    <!-- <header class="header">
-        <h1 class="header-title">
-            Real Time Tracking
-        </h1>
-    </header> -->
     <section class="header">
-        <div class="header-left">
-            <img src="images/witsGoLogo.png" alt="WitsGo Logo" class="header-wits-logo">
-
-            <h1 class="title">Real Time Tracking</h1>
-
+        <h1 class="title">Real Time Tracking</h1>
+    
+        <div class="header-right">
+            <div class="dropdown">
+                <button class="dropbtn">&#9776;</button> 
+                <div class="dropdown-content">
+                    <div class="wheelchair-option">
+                        <label for="wheelchair-toggle">Wheelchair</label>
+                        <input type="checkbox" id="wheelchair-toggle">
+                    </div>
+                    <a href="#">Logout</a>
+                </div>
+            </div>
         </div>
-        <a href="profile">
-            <img src="icons/profile-icon.png" alt="user-profile">
-        </a>
     </section>
+        
 
 
     <main class="main">
