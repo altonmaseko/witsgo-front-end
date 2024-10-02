@@ -1,5 +1,4 @@
 import { clientUrl, serverUrl } from "./constants.js";
-import { clientUrl, serverUrl } from "./constants.js";
 let map, userPosition, selectedStationId, selectedVehicleId;
 let rentalActive = false;
 let rentalTimer;
@@ -19,11 +18,10 @@ window.initMap = function () {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
-            map.setCenter(userPosition);
-            // userPosition = {
-            //     lat: -26.1907,
-            //     lng: 28.0302
-            // };
+            userPosition = {
+                lat: -26.1907,
+                lng: 28.0302
+            };
             map.setCenter(userPosition);
             loadStations();
         });
