@@ -17,6 +17,7 @@
         <div class="header-container container">
             <img src="images/witsGoLogo.png" alt="Wits Go Logo" class="logo">
             <h1>WitsGo</h1>
+            <img src="icons/chevron-left.png" alt="back">
         </div>
     </header>
 
@@ -97,17 +98,29 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" />
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var map = L.map('map').setView([37.4419, -122.1430], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([37.4419, -122.1430]).addTo(map)
-                .bindPopup('TechInnovate HQ')
-                .openPopup();
+    <script>
+
+        document.querySelector('.logo').addEventListener('click', () => {
+            window.location.href = '/';
         });
-    </script> -->
+
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     var map = L.map('map').setView([37.4419, -122.1430], 13);
+        //     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //         attribution: '© OpenStreetMap contributors'
+        //     }).addTo(map);
+        //     L.marker([37.4419, -122.1430]).addTo(map)
+        //         .bindPopup('TechInnovate HQ')
+        //         .openPopup();
+        // });
+
+
+        //Back Chevron things
+            document.getElementById('back-chevron').addEventListener('click', () => {
+                window.location.href = 'navigation'; 
+            });
+
+    </script>
 </body>
 
 </html>

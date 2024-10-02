@@ -71,6 +71,7 @@
                 localStorage.setItem("role", userResponse.data.user.role);
                 localStorage.setItem("userId", userResponse.data.user._id);
 
+
                 let firstPage;
                 if (userResponse.data.user.role === "student") {
                     firstPage = clientUrl + "/navigation";
