@@ -52,27 +52,32 @@ img{
 /* Media query things */
 
 /* Phones */
-@media (width <= 600px) {
+@media (max-width: 600px) {
     .logo-thing {
         flex-direction: row;
-        margin-top: 0; 
     }
 
     h1 {
-        font-size: 2rem; 
-        margin-left: 0; 
+        font-size: 2rem;
+        margin-left: 5px;
     }
 
     img {
-        max-width: 120px; 
+        max-width: 100px;
+        max-height: 20vh; 
     }
 
     .bottom {
-        height: 80px; 
+        height: 15vh; 
+        border-top-left-radius: 100% 50px; 
+        border-top-right-radius: 100% 50px; 
     }
 
     .slogan {
-        font-size: 1rem; 
+        font-size: 1rem;
+        word-wrap: break-word;
+        padding: 0 5px; /* Optional: adjust padding for smaller screens */
+        margin-bottom: 25px;
     }
 }
 
