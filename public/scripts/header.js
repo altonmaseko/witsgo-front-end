@@ -1,5 +1,5 @@
-const dropdownButton = document.getElementById('dropdown-button');
-const dropdownMenu = document.getElementById('dropdown-menu');
+const dropdownButton = document.getElementById('.dropbtn');
+const dropdownMenu = document.getElementById('.dropdown-content');
 
 dropdownButton.addEventListener('click', function () {
     if (dropdownMenu.style.display === 'block') {
