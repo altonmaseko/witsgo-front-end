@@ -1,9 +1,8 @@
+import { clientUrl, serverUrl } from "./constants.js";
 let map, userPosition, selectedStationId, selectedVehicleId;
 let rentalActive = false;
 let rentalTimer;
 let rentalTimeLeft = 1200; // 20 minutes in seconds
-const serverUrl = 'http://localhost:3000'; // Your server URL
-// const serverUrl = 'https://witsgobackend.azurewebsites.net'
 
 // Initialize the map
 window.initMap = function () {
@@ -20,11 +19,10 @@ window.initMap = function () {
                 lng: position.coords.longitude
             };
             map.setCenter(userPosition);
-            userPosition = {
-
-                lat: -26.1907,
-                lng: 28.0302
-            };
+            // userPosition = {
+            //     lat: -26.1907,
+            //     lng: 28.0302
+            // };
             map.setCenter(userPosition);
             loadStations();
         });
@@ -104,6 +102,11 @@ async function showVehicleDropdown(station) {
 
 // Rent the selected vehicle
 async function rentVehicle() {
+    if (rentalActive==true){
+        alert("Already rented a vehicle");
+        return;
+    }
+
     const vehicleSelect = document.getElementById('vehicleSelect');
     selectedVehicleId = vehicleSelect.value;
 
@@ -111,8 +114,10 @@ async function rentVehicle() {
         alert("Please select a vehicle to rent.");
         return;
     }
+    console.log(selectedStationId);
+    const station = await axios.get(`${serverUrl}/v1/rental/station/${selectedStationId}`);
 
-    const station = await axios.get(`${serverUrl}/rental/stations/${selectedStationId}`);
+
     const distance = google.maps.geometry.spherical.computeDistanceBetween(
         new google.maps.LatLng(userPosition.lat, userPosition.lng),
         new google.maps.LatLng(station.data.location.lat, station.data.location.lng)
@@ -124,10 +129,10 @@ async function rentVehicle() {
     }
 
     try {
-        const response = await axios.post(`${serverUrl}/rental/rent`, {
+        const response = await axios.post(`${serverUrl}/v1/rental/rent`, {
             vehicleId: selectedVehicleId,
             stationId: selectedStationId,
-            userId: 'userId' // Replace with actual user ID
+            userId: '66fafa67c47c85212931d7be' // Replace with actual user ID
         });
 
         if (response.data) {
@@ -139,6 +144,8 @@ async function rentVehicle() {
     } catch (error) {
         console.error("Error renting vehicle:", error);
     }
+
+    rentalActive=true;
 }
 
 // Start rental timer
@@ -185,7 +192,7 @@ function cancelSelection() {
 
 // Return the vehicle
 async function returnVehicle() {
-    const station = await axios.get(`${serverUrl}/rental/stations/${selectedStationId}`);
+    const station = await axios.get(`${serverUrl}/v1/rental/station/${selectedStationId}`);
     const distance = google.maps.geometry.spherical.computeDistanceBetween(
         new google.maps.LatLng(userPosition.lat, userPosition.lng),
         new google.maps.LatLng(station.data.location.lat, station.data.location.lng)
@@ -197,10 +204,10 @@ async function returnVehicle() {
     }
 
     try {
-        const response = await axios.post(`${serverUrl}/rental/return`, {
+        const response = await axios.post(`${serverUrl}/v1/rental/return`, {
             vehicleId: selectedVehicleId,
             stationId: selectedStationId,
-            userId: 'userId' // Replace with actual user ID
+            userId: '66fafa67c47c85212931d7be' // Replace with actual user ID
         });
 
         if (response.data) {
@@ -210,6 +217,8 @@ async function returnVehicle() {
     } catch (error) {
         console.error("Error returning vehicle:", error);
     }
+
+    rentalActive = false;
 }
 
 // Reset rental state after returning the vehicle
@@ -237,5 +246,11 @@ function updateControls() {
         document.getElementById('rent-button').style.display = "none";
     }
 }
+
+
+document.getElementById("vehicleSelect").addEventListener("click",updateControls);
+document.getElementById("rent-button").addEventListener("click",rentVehicle);
+document.getElementById("return-button").addEventListener("click",returnVehicle);
+document.getElementById("cancel-button").addEventListener("click",cancelSelection);
 
 window.onload = initMap;
