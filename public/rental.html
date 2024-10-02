@@ -13,7 +13,7 @@
     
     <!-- Google Maps API and other scripts -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuh-uKry0h46SR733ZDYCODIyzeWSqD9s&libraries=geometry&callback=initMap"></script>
-    <script src="scripts/rental.js" defer></script>
+    <script src="scripts/rental.js" type="module" defer></script>
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -30,15 +30,15 @@
 
     <!-- Controls Section -->
     <section id="controls">
-        <select id="vehicleSelect" style="display: none;" onchange="updateControls()">
+        <select id="vehicleSelect" style="display: none;">
             <option value="">Please select a vehicle</option>
         </select>
 
         <!-- Buttons -->
         <div class="button-group" style="display: none;">
-            <button id="cancel-button" onclick="cancelSelection()">Cancel</button>
-            <button id="rent-button" style="display: none;" onclick="rentVehicle()">Rent</button>
-            <button id="return-button" style="display: none;" onclick="returnVehicle()">Return</button>
+            <button id="cancel-button">Cancel</button>
+            <button id="rent-button" style="display: none;">Rent</button>
+            <button id="return-button" style="display: none;">Return</button>
         </div>
 
         <!-- Timer and Availability Message -->
