@@ -19,8 +19,7 @@ header {
     /* background: #35424a; */
     background: #23527c;
     color: #fff;
-    padding-top: 30px;
-    min-height: 70px;
+    min-height: 60px;
     border-bottom: #e8491d 3px solid;
 }
 
@@ -31,8 +30,8 @@ header h1 {
 }
 
 header .logo {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
 }
 
 .header-container {
