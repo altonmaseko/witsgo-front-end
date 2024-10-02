@@ -65,6 +65,7 @@ async function initMap() {
     });
 
 
+
 }
 
 // function to calculate the route between two points and display it on the map
