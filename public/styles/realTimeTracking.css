@@ -82,16 +82,20 @@ p {
     display: flex;
     align-items: center;
     background-color: white;
+    max-height: 200px;
 
     /* justify-content: center; */
     gap: 1rem;
 }
 
 .check {
-    width: 6vw;
-    height: 6vw;
+    /* width: 6vw; */
+    /* height: 6vw; */
 
-    /* border-radius: 50%; */
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
     border: 1px solid black;
 }
 
