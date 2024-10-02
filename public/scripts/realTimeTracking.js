@@ -18,7 +18,6 @@ try {
 
 // Timer stuff ===
 let lastUpdateTime = Date.now();
-const updateMessageElement = document.querySelector('.update-message');
 
 function checkForUpdates() {
     if (Date.now() - lastUpdateTime > 5000) {
