@@ -1,5 +1,5 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #333;
     margin: 0;
@@ -18,7 +18,7 @@ body {
 header {
     /* background: #35424a; */
     background: #23527c;
-    color: #ffffff;
+    color: #fff;
     padding-top: 30px;
     min-height: 70px;
     border-bottom: #e8491d 3px solid;
@@ -50,7 +50,7 @@ header .logo {
     margin: 20px 0;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgb(0 0 0 / 10%);
 }
 
 .team-grid {
@@ -83,7 +83,7 @@ header .logo {
 
 footer {
     background: #23527c;
-    color: #ffffff;
+    color: #fff;
     text-align: center;
     padding: 4px;
     position: fixed;
