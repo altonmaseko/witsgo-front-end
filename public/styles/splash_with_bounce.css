@@ -6,6 +6,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    max-height: 100vh;
     margin: 0;
     text-align: center;
     position: relative;
@@ -16,6 +17,8 @@ body {
     display: flex;
     align-items: center;
     margin-top: -50px;
+    animation: pulse 1.2s ease-in-out infinite;
+    animation-delay: 1s;
 }
 
 h1 {
@@ -27,6 +30,7 @@ h1 {
 img {
     max-width: 170px;
     height: auto;
+    animation: dropAndBounce 1s ease-out;
 }
 
 .bottom {
@@ -46,11 +50,82 @@ img {
 
 .slogan {
     color: black;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+    font-weight: 500;
 }
 
-/* Media query things */
+/* Animations */
+@keyframes dropAndBounce {
+    0% {
+        transform: translateY(-200px);
+    }
 
+    60% {
+        transform: translateY(20px);
+    }
+
+    80% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes disappear {
+    0% {
+        clip-path: circle(0% at center);
+    }
+
+    40% {
+        clip-path: circle(40% at center);
+    }
+
+    60% {
+        clip-path: circle(60% at center);
+        transform: scale(1);
+    }
+
+    100% {
+        clip-path: circle(150% at center);
+        transform: scale(1.2);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Disappearing effect */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    clip-path: circle(0% at center);
+    /* animation: disappear 1.5s cubic-bezier(0.25, 1, 0.3, 1) forwards; */
+    animation-delay: 2s;
+}
+
+body::before {
+    background-color: rgba(255, 255, 255, 0.7);
+    animation-delay: 1.8s;
+}
+
+/* Media Queries */
 /* Phones */
 @media (max-width: 600px) {
     .logo-thing {
@@ -77,13 +152,12 @@ img {
         font-size: 1rem;
         word-wrap: break-word;
         padding: 0 5px;
-        /* Optional: adjust padding for smaller screens */
         margin-bottom: 25px;
     }
 }
 
 /* Tablets */
-@media (width >=601px) and (width <=1024px) {
+@media (min-width: 601px) and (max-width: 1024px) {
     .logo-thing {
         margin-top: -20px;
     }
@@ -105,10 +179,8 @@ img {
     }
 }
 
-/* laptops and desktops */
-@media (width >=1025px) {
-
-    /* Default styles for large screens */
+/* Laptops and Desktops */
+@media (min-width: 1025px) {
     .logo-thing {
         margin-top: -50px;
     }

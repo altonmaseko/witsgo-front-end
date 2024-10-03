@@ -59,20 +59,7 @@ p {
     z-index: 1;
 }
 
-/* if on mobile, decrease font size */
-@media (max-width: 600px) {
-    .update-message-container p {
-        font-size: 12px;
-    }
 
-    .update-message-container {
-        padding: 0.2rem;
-    }
-
-    .check-and-vehicle-container {
-        font-size: 12px;
-    }
-}
 
 
 .check-and-vehicle-container {
@@ -122,6 +109,25 @@ p {
     /* background-color: magenta; */
 }
 
+
+/* if on mobile, decrease font size */
+@media (max-width: 600px) {
+    .update-message-container p {
+        font-size: 12px;
+    }
+
+    .update-message-container {
+        padding: 0.2rem;
+    }
+
+    .check-and-vehicle-container {
+        padding: 0.6rem;
+    }
+
+    .check-and-vehicle-container p {
+        font-size: 12px;
+    }
+}
 
 
 /* SIDE NAVIGATION */
