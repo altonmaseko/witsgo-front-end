@@ -17,7 +17,7 @@
         <div class="header-container container">
             <img src="images/witsGoLogo.png" alt="Wits Go Logo" class="logo">
             <h1>WitsGo</h1>
-            <img src="icons/chevron-left.png" alt="back">
+            <img src="icons/chevron-left.png" alt="back" id="back-chevron">
         </div>
     </header>
 
@@ -50,32 +50,32 @@
             <h2>Meet Our Team</h2>
             <div class="team-grid">
                 <div class="team-member">
-                    <img src="images/profile_photo_placeholder.png" alt="Alton Maseko">
+                    <img src="images/alton-avatar.jpg" alt="Alton Maseko">
                     <h3>Alton Maseko</h3>
                     <p>Full Stack Developer</p>
                 </div>
                 <div class="team-member">
-                    <img src="images/profile_photo_placeholder.png" alt="Michael Chen">
+                    <img src="images/laiqaah-avatar.jpg" alt="Laaiqah Ravat">
                     <h3>Laaiqah Ravat</h3>
                     <p>Full Stack Developer</p>
                 </div>
                 <div class="team-member">
-                    <img src="images/profile_photo_placeholder.png" alt="Emily Rodriguez">
+                    <img src="images/liam-avatar.jpg" alt="Liam Brady">
                     <h3>Liam Brady</h3>
                     <p>Full Stack Developer</p>
                 </div>
                 <div class="team-member">
-                    <img src="images/profile_photo_placeholder.png" alt="David Kim">
+                    <img src="images/lucian-avatar.jpg" alt="Lucian Irsigler">
                     <h3>Lucian Irsigler</h3>
                     <p>Full Stack Developer</p>
                 </div>
                 <div class="team-member">
-                    <img src="images/profile_photo_placeholder.png" alt="Laura Martinez">
+                    <img src="images/prashan-avatar.jpg" alt="Prashan Rajaratnam">
                     <h3>Prashan Rajaratnam</h3>
                     <p>Full Stack Developer</p>
                 </div>
                 <div class="team-member">
-                    <img src="images/profile_photo_placeholder.png" alt="Alex Novak">
+                    <img src="images/prashant-avatar.jpg" alt="Prashant Kessa">
                     <h3>Prashant Kessa</h3>
                     <p>Full Stack Developer</p>
                 </div>
@@ -116,9 +116,12 @@
 
 
         //Back Chevron things
-            document.getElementById('back-chevron').addEventListener('click', () => {
-                window.location.href = 'navigation'; 
-            });
+        document.getElementById('back-chevron').addEventListener('click', () => {
+            // window.location.href = 'navigation';
+
+            // go to previous page
+            window.history.back();
+        });
 
     </script>
 </body>
