@@ -52,32 +52,19 @@ p {
     padding: 0.6rem;
     background-color: aliceblue;
     color: black;
-    border-radius: 0.4rem;
+    border-radius: 3px;
     border: 2px dotted black;
     position: absolute;
     margin-left: 2rem;
     z-index: 1;
 }
 
-/* if on mobile, decrease font size */
-@media (max-width: 600px) {
-    .update-message-container p {
-        font-size: 12px;
-    }
 
-    .update-message-container {
-        padding: 0.2rem;
-    }
-
-    .check-and-vehicle-container {
-        font-size: 12px;
-    }
-}
 
 
 .check-and-vehicle-container {
     border: 1px solid black;
-    border-radius: 2rem;
+    border-radius: 1rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
@@ -92,7 +79,7 @@ p {
 }
 
 .check-and-vehicle {
-    border-radius: 1rem;
+    border-radius: 3px;
     border: 2px dotted black;
     padding: 0.4rem;
     display: flex;
@@ -122,6 +109,25 @@ p {
     /* background-color: magenta; */
 }
 
+
+/* if on mobile, decrease font size */
+@media (max-width: 600px) {
+    .update-message-container p {
+        font-size: 12px;
+    }
+
+    .update-message-container {
+        padding: 0.2rem;
+    }
+
+    .check-and-vehicle-container {
+        padding: 0.6rem;
+    }
+
+    .check-and-vehicle-container p {
+        font-size: 12px;
+    }
+}
 
 
 /* SIDE NAVIGATION */
