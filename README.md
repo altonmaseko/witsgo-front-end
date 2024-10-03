@@ -21,3 +21,19 @@ WitsGo will address these challenges by providing:
 ---
 * You can explore and use our amazing website from anywhere: https://witsgo.azurewebsites.net
 
+# How to run the front end locally
+To run the front-end of your Node.js application locally, follow these steps:
+
+Start by cloning the repository to your local machine if you haven’t done so already.
+
+```bash
+git clone https://github.com/developerAlton/witsgo-front-end.git
+cd witsgo-front-end
+```
+
+To then run the app locally:
+```bash
+npm install
+npm start
+```
+Go to the url http://localhost:5000/
