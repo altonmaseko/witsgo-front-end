@@ -4,7 +4,11 @@ const statsButton = document.querySelector('#stats-button');
 const aboutButton = document.querySelector('#about-button');
 const wheelChairToggle = document.querySelector('#wheelchair-toggle');
 
-
+try {
+    wheelChairToggle.checked = localStorage.getItem("onWheelChair") === "true";
+    console.log("Wheel chair check is: ", localStorage.getItem("onWheelChair"))
+} catch (error) {
+}
 
 import { serverUrl, clientUrl } from "./constants.js";
 let email = localStorage.getItem("email");
