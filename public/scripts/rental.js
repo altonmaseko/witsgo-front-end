@@ -290,6 +290,9 @@ async function returnVehicle() {
             // Hide the rented vehicle message and the timer
             document.getElementById('rented-vehicle-message').style.display = "none"; // Hide vehicle type message
             document.getElementById('rental-status-container').style.display = "none"; // Hide the timer container
+
+            // Refresh the page
+            location.reload(); // This will reload the entire page
         }
     } catch (error) {
         console.error("Error returning vehicle:", error.response ? error.response.data : error.message);
@@ -338,9 +341,6 @@ function resetRental() {
     document.getElementById('timer').style.display = "none"; // Hide the timer after returning
 }
 
-
-
-
 // Update the controls based on vehicle selection
 function updateControls() {
     const vehicleSelect = document.getElementById('vehicleSelect');
@@ -377,6 +377,7 @@ window.onload = function () {
         } else {
             // Update the display with the remaining time
             updateTimerDisplay();
+            // console.log("Rental time left:", rentalTimeLeft);
             startRentalTimer(); // Start the timer with the remaining time
             displayRentedVehicleState(); // Show rented vehicle details instead of dropdown
             const availabilityMessage = document.getElementById('availability');
