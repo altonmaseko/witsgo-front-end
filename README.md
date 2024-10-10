@@ -27,7 +27,7 @@ To run the front-end of your Node.js application locally, follow these steps:
 Start by cloning the repository to your local machine if you haven’t done so already.
 
 ```bash
-git clone https://github.com/developerAlton/witsgo-front-end.git
+git clone https://github.com/altonmaseko/witsgo-front-end.git
 cd witsgo-front-end
 ```
 
