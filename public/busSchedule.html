@@ -75,7 +75,7 @@
                     <th>Interval</th>
                 </tr>
             </thead>
-            <tbody>
+            <!-- <tbody>
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 1-Full Circuit</td>
                     <td>AMIC > NSW > WJ > WEC > EOH > KNK > AMIC</td>
@@ -152,7 +152,7 @@
                     <td>Hourly (Departs WJ)</td>
                 </tr>
 
-                <!-- Route 3B -->
+    
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 3B</td>
                     <td>WJ > WEC > WJ</td>
@@ -184,7 +184,7 @@
                 <td>Every 15 – 20 minutes (Shuttle)</td>
                 </tr>
 
-                <!-- <tr class="route-header" onclick="toggleDetails(this)"> -->
+            
                 <td> Route 4A1</td>
                 <td>WEC > NSW > AMIC</td>
                 <td>07:00 to 18:00</td>
@@ -227,8 +227,7 @@
                     <td>AMIC > EOH > KNK (Rock Ridge Rd) > AMIC</td>
                     <td>16:30 to 18:00</td>
                     <td>Continuous shuttle, “drop & go”</td>
-                </tr>
-
+                </tr> -->
             </tbody>
         </table>
 
@@ -357,6 +356,71 @@
     </section>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchBusSchedule();
+        });
+        
+        async function fetchBusSchedule() {
+            try {
+                const response = await fetch('/api/schedule');
+                const data = await response.json();
+                if (data.success) {
+                    populateScheduleTables(data.data);
+                } else {
+                    console.error('Failed to fetch bus schedule:', data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching bus schedule:', error);
+            }
+        }
+        
+        function populateScheduleTables(scheduleData) {
+            const weekdayTable = document.getElementById('weekday-schedule').querySelector('tbody');
+            const weekendTable = document.getElementById('weekend-schedule').querySelector('tbody');
+            
+            weekdayTable.innerHTML = '';
+            weekendTable.innerHTML = '';
+        
+            scheduleData.forEach(route => {
+                const isWeekend = route.name.toLowerCase().includes('weekend') || route.name.includes('6');
+                const targetTable = isWeekend ? weekendTable : weekdayTable;
+        
+                const row = createRouteRow(route);
+                targetTable.appendChild(row);
+        
+                route.details.forEach(detail => {
+                    const detailRow = createDetailRow(detail);
+                    targetTable.appendChild(detailRow);
+                });
+            });
+        }
+        
+        function createRouteRow(route) {
+            const row = document.createElement('tr');
+            row.className = 'route-header';
+            row.onclick = () => toggleDetails(row);
+            row.innerHTML = `
+                <td><span class="arrow">&#9654;</span> ${route.name}</td>
+                <td colspan="3"></td>
+            `;
+            return row;
+        }
+        
+        function createDetailRow(detail) {
+            const row = document.createElement('tr');
+            row.className = 'route-details hidden';
+            row.innerHTML = `
+                <td></td>
+                <td>${detail.route}</td>
+                <td>${detail.time}</td>
+                <td>${detail.interval}</td>
+            `;
+            return row;
+        }
+        
+        // Keep your existing toggleDetails, toggleSchedule, filterRoutesByDestination, etc. functions
+    </script>
+    <!-- <script>
         // Function to toggle route details 
         function toggleDetails(row) {
             let nextRow = row.nextElementSibling;
@@ -465,7 +529,7 @@
             collapseAllDetails();
             toggleSchedule();
         });
-    </script>
+    </script> -->
 </body>
 
 </html>
