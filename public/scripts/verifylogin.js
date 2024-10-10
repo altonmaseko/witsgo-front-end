@@ -4,9 +4,12 @@ console.log("verifylogin.js is connected");
 
 const checkLogin = async () => {
 
+    const accessToken = localStorage.getItem("accessToken");
+
     let response
     try {
-        response = await axios.get(`${serverUrl}/verifylogin`, { withCredentials: true });
+
+        response = await axios.get(`${serverUrl}/verifylogin?token=${accessToken}`, { withCredentials: true });
         console.log("Login, 200 OK", response.data);
     } catch (error) {
         console.log("Error: ", error);
@@ -21,7 +24,7 @@ const checkLogin = async () => {
     }
 
     // Set local storage
-    localStorage.clear();
+    // localStorage.clear();
     localStorage.setItem("firstName", response.data.user.user.firstName);
     localStorage.setItem("lastName", response.data.user.user.lastName);
     localStorage.setItem("picture", response.data.user.user.picture);

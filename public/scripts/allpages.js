@@ -81,7 +81,7 @@ wheelChairToggle?.addEventListener('click', async () => {
     }
 
     try {
-        let response = await axios.put(`${serverUrl}/user/update/${email}`, body);
+        let response = await axios.put(`${serverUrl}/user/update/${email}`, body, { withCredentials: true });
         console.log("Wheel chair check is: ", wheelChairToggle.checked)
         console.log(response.data);
     } catch (error) {
