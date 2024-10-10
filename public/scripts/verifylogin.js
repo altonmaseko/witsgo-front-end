@@ -13,6 +13,7 @@ const checkLogin = async () => {
         console.log("Login, 200 OK", response.data);
     } catch (error) {
         console.log("Error: ", error);
+        alert(`Failed to verify login. localStorage accessToken: ${accessToken}`);
         window.location.href = `${clientUrl}/authorize`;
         return;
     }
