@@ -12,12 +12,34 @@
 
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <!-- <script type="module" defer src="scripts/verifylogin.js"></script> This script should be put on everypage -->
 
 
 
     <script defer type="module">
+
+        // GET TOKEN FROM URL ==========================================
+
+
+        // Get the encrypted token from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        let accessToken = urlParams.get('token');
+
+        if (accessToken) {
+
+            let accessTokenDecoded = decodeURIComponent(accessToken);
+
+            console.log('Decoded Access Token:', accessTokenDecoded);
+
+            alert(`Decoded Token: ${accessTokenDecoded}`);
+            // Store in localStorage
+            localStorage.setItem('accessToken', accessTokenDecoded);
+        }
+
+        // END: GET TOKEN FROM URL =====================================
+
+
 
 
         import { clientUrl, serverUrl } from "./scripts/constants.js";
@@ -62,7 +84,6 @@
             }
 
             // Set local storage
-            localStorage.clear();
             if (userResponse.data.user) {
                 console.log("userResponse.data.user", userResponse.data.user);
 

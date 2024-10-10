@@ -89,7 +89,6 @@ finishAccountSetupButton.addEventListener("click", async () => {
 
 
 
-    localStorage.clear();
     window.location.href = `${clientUrl}`;
 
 });
