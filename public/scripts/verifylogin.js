@@ -20,6 +20,7 @@ const checkLogin = async () => {
 
     if (!response.data.isLoggedIn) {
         console.log("User is not logged in");
+        alert(`response.data.isLoggedIn is false. localStorage accessToken: ${accessToken}`);
         window.location.href = `${clientUrl}/authorize`;
         return;
     }
