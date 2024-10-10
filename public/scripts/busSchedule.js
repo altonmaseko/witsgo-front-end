@@ -3,7 +3,7 @@ import { serverUrl } from "./constants.js";
 // Fetch bus schedule data
 async function fetchBusSchedule() {
     try {
-        const response = await axios.get(`${serverUrl}/v1/BusSchedule/busSchedule`);
+        const response = await axios.get(`${serverUrl}/v1/Schedule/busSchedule`);
         return response.data;
     } catch (error) {
         console.error("Error fetching bus schedule:", error);
