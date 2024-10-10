@@ -35,6 +35,9 @@
             alert(`Decoded Token: ${accessTokenDecoded}`);
             // Store in localStorage
             localStorage.setItem('accessToken', accessTokenDecoded);
+
+            alert(`Token stored in localStorage, getting it now: ${localStorage.getItem('accessToken')}`);
+
         }
 
         // END: GET TOKEN FROM URL =====================================
