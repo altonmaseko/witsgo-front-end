@@ -4,24 +4,29 @@ console.log("verifylogin.js is connected");
 
 const checkLogin = async () => {
 
+    const accessToken = localStorage.getItem("accessToken");
+
     let response
     try {
-        response = await axios.get(`${serverUrl}/verifylogin`, { withCredentials: true });
+
+        response = await axios.get(`${serverUrl}/verifylogin?token=${accessToken}`, { withCredentials: true });
         console.log("Login, 200 OK", response.data);
     } catch (error) {
         console.log("Error: ", error);
+        alert(`Failed to verify login. localStorage accessToken: ${accessToken}`);
         window.location.href = `${clientUrl}/authorize`;
         return;
     }
 
     if (!response.data.isLoggedIn) {
         console.log("User is not logged in");
+        alert(`response.data.isLoggedIn is false. localStorage accessToken: ${accessToken}`);
         window.location.href = `${clientUrl}/authorize`;
         return;
     }
 
     // Set local storage
-    localStorage.clear();
+    // localStorage.clear();
     localStorage.setItem("firstName", response.data.user.user.firstName);
     localStorage.setItem("lastName", response.data.user.user.lastName);
     localStorage.setItem("picture", response.data.user.user.picture);

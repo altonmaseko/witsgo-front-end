@@ -31,7 +31,7 @@ finishAccountSetupButton.addEventListener("click", async () => {
     }
 
     try {
-        let response = await axios.put(`${serverUrl}/user/update/${email}`, body);
+        let response = await axios.put(`${serverUrl}/user/update/${email}`, body, { withCredentials: true });
         console.log(response.data);
     } catch (error) {
         console.log(error.message);
@@ -40,7 +40,6 @@ finishAccountSetupButton.addEventListener("click", async () => {
     }
 
 
-    localStorage.clear();
     window.location.href = `${clientUrl}`;
 
 });

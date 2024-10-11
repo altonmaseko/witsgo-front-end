@@ -18,11 +18,10 @@ window.initMap = function () {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
+            //test location
             userPosition = {
-                    lat:
-                    -26.190476,
-                    lng:
-                    28.026834
+                lat: -26.190476,
+                lng: 28.026834
             };
             map.setCenter(userPosition);
             loadStations();
@@ -93,8 +92,6 @@ function displayRentedVehicleState() {
     document.getElementById('rental-status-container').style.display = "block";
 }
 
-
-// Show vehicle dropdown
 // Show vehicle dropdown
 async function showVehicleDropdown(station) {
     try {
@@ -206,7 +203,6 @@ async function rentVehicle() {
 }
 
 
-
 // Start rental timer
 function startRentalTimer() {
     rentalActive = true;
@@ -230,17 +226,12 @@ function startRentalTimer() {
     }, 1000);
 }
 
-
-
-
-
 // Update rental timer display
 function updateTimerDisplay() {
     const minutes = Math.floor(rentalTimeLeft / 60);
     const seconds = rentalTimeLeft % 60;
     document.getElementById('timer').innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
-
 
 // End rental timer
 function endRentalTimer() {
@@ -259,7 +250,6 @@ function cancelSelection() {
     document.getElementById('return-button').style.display = "none";
 }
 
-// Return the vehicle
 // Return the vehicle
 async function returnVehicle() {
     try {

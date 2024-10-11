@@ -12,15 +12,37 @@
 
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <!-- <script type="module" defer src="scripts/verifylogin.js"></script> This script should be put on everypage -->
 
 
 
     <script defer type="module">
-
-
         import { clientUrl, serverUrl } from "./scripts/constants.js";
+
+        // GET TOKEN FROM URL ==========================================
+
+
+        // Get the encrypted token from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        let accessToken = urlParams.get('token');
+
+        if (accessToken) {
+
+            let accessTokenDecoded = decodeURIComponent(accessToken);
+
+            console.log('Decoded Access Token:', accessTokenDecoded);
+
+            alert(`Decoded Token: ${accessTokenDecoded}`);
+            // Store in localStorage
+            localStorage.setItem('accessToken', accessTokenDecoded);
+
+            alert(`Token stored in localStorage, getting it now: ${localStorage.getItem('accessToken')}`);
+
+        }
+
+        // END: GET TOKEN FROM URL =====================================
+
 
         // Wait 2 seconds then navigate to the new URL
         setTimeout(async () => {
@@ -36,16 +58,20 @@
 
             let response
             try {
-                response = await axios.get(`${serverUrl}/verifylogin`, { withCredentials: true });
+                response = await axios.get(`${serverUrl}/verifylogin?token=${accessToken}`, { withCredentials: true });
                 console.log("Login, 200 OK", response.data);
             } catch (error) {
                 console.log("Error: ", error);
+                alert(`Failed to verify login. direct localStorage accessToken: ${localStorage.getItem('accessToken')}`);
+                alert(`token from url: ${accessToken}`);
                 window.location.href = `${clientUrl}/authorize`;
                 return;
             }
 
             if (!response.data.isLoggedIn) {
                 console.log("User is not logged in");
+                alert(`User is not logged in. direct localStorage accessToken: ${localStorage.getItem('accessToken')}`);
+                alert(`token from url: ${accessToken}`);
                 window.location.href = `${clientUrl}/authorize`;
                 return;
             }
@@ -62,7 +88,6 @@
             }
 
             // Set local storage
-            localStorage.clear();
             if (userResponse.data.user) {
                 console.log("userResponse.data.user", userResponse.data.user);
 
