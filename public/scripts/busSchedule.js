@@ -1,82 +1,78 @@
-import { serverUrl } from "./constants.js";
+let scheduleData = []; // Store the full schedule data
 
-// Fetch bus schedule data
+document.addEventListener('DOMContentLoaded', () => {
+    fetchBusSchedule();
+    
+    // Add event listeners for filters
+    document.getElementById('days').addEventListener('change', toggleSchedule);
+    document.getElementById('destination').addEventListener('change', filterRoutesByDestination);
+});
+
 async function fetchBusSchedule() {
     try {
-        const response = await axios.get(`${serverUrl}/v1/BusSchedule/busSchedule`);
-        return response.data;
+        const response = await fetch('/api/bus-schedule');
+        if (!response.ok) {
+            throw new Error('Failed to fetch bus schedule');
+        }
+        scheduleData = await response.json();
+        populateSchedule(scheduleData);
+        initializeFilters(); // Initialize filters after data is loaded
     } catch (error) {
-        console.error("Error fetching bus schedule:", error);
-        return null;
+        console.error('Error:', error);
+        // Handle error (e.g., display error message to user)
     }
 }
 
-// Populate schedule tables
-function populateScheduleTables(scheduleData) {
-    const weekdayTable = document.getElementById('weekday-schedule').querySelector('tbody');
-    const weekendTable = document.getElementById('weekend-schedule').querySelector('tbody');
-    
-    weekdayTable.innerHTML = '';
-    weekendTable.innerHTML = '';
+function populateSchedule(data) {
+    const weekdaySchedule = document.getElementById('weekday-schedule').querySelector('tbody');
+    const weekendSchedule = document.getElementById('weekend-schedule').querySelector('tbody');
 
-    scheduleData.forEach(route => {
+    weekdaySchedule.innerHTML = '';
+    weekendSchedule.innerHTML = '';
+
+    data.forEach(route => {
         const isWeekend = route.name.toLowerCase().includes('weekend') || route.name.includes('6');
-        const targetTable = isWeekend ? weekendTable : weekdayTable;
+        const targetSchedule = isWeekend ? weekendSchedule : weekdaySchedule;
 
-        const row = createRouteRow(route);
-        targetTable.appendChild(row);
-
-        route.details.forEach(detail => {
-            const detailRow = createDetailRow(detail);
-            targetTable.appendChild(detailRow);
+        route.details.forEach((detail, index) => {
+            const row = document.createElement('tr');
+            row.className = index === 0 ? 'route-header' : 'route-details hidden';
+            row.innerHTML = `
+                <td>${index === 0 ? `<span class="arrow">&#9654;</span> ${route.name}` : ''}</td>
+                <td>${detail.route}</td>
+                <td>${detail.time}</td>
+                <td>${detail.interval}</td>
+            `;
+            if (index === 0) {
+                row.onclick = () => toggleDetails(row);
+            }
+            targetSchedule.appendChild(row);
         });
     });
 }
 
-function createRouteRow(route) {
-    const row = document.createElement('tr');
-    row.className = 'route-header';
-    row.onclick = () => toggleDetails(row);
-    row.innerHTML = `
-        <td><span class="arrow">&#9654;</span> ${route.name}</td>
-        <td colspan="3"></td>
-    `;
-    return row;
+function initializeFilters() {
+    // Populate destination dropdown
+    const destinationDropdown = document.getElementById('destination');
+    const destinations = new Set();
+    scheduleData.forEach(route => {
+        route.details.forEach(detail => {
+            detail.route.split('>').forEach(stop => {
+                destinations.add(stop.trim());
+            });
+        });
+    });
+    destinations.forEach(destination => {
+        const option = document.createElement('option');
+        option.value = destination;
+        option.textContent = destination;
+        destinationDropdown.appendChild(option);
+    });
+
+    // Initial filter application
+    toggleSchedule();
 }
 
-function createDetailRow(detail) {
-    const row = document.createElement('tr');
-    row.className = 'route-details hidden';
-    row.innerHTML = `
-        <td></td>
-        <td>${detail.route}</td>
-        <td>${detail.time}</td>
-        <td>${detail.interval}</td>
-    `;
-    return row;
-}
-
-// Toggle route details
-function toggleDetails(row) {
-    let nextRow = row.nextElementSibling;
-    while (nextRow && nextRow.classList.contains('route-details')) {
-        nextRow.classList.toggle('hidden');
-        nextRow = nextRow.nextElementSibling;
-    }
-    row.classList.toggle('expanded');
-}
-
-// Initialize bus schedule
-async function initBusSchedule() {
-    const busScheduleData = await fetchBusSchedule();
-    if (busScheduleData && busScheduleData.success) {
-        populateScheduleTables(busScheduleData.data);
-    } else {
-        console.error("Failed to fetch bus schedule");
-    }
-}
-
-// Toggle between weekday and weekend schedules
 function toggleSchedule() {
     const daysDropdown = document.getElementById('days');
     const weekdaySchedule = document.getElementById('weekday-schedule');
@@ -96,42 +92,61 @@ function toggleSchedule() {
     filterRoutesByDestination();
 }
 
-// Filter routes by destination
 function filterRoutesByDestination() {
     const destinationDropdown = document.getElementById('destination');
     const selectedDestination = destinationDropdown.value;
-    const visibleSchedule = document.getElementById('weekday-schedule').classList.contains('hidden') 
-        ? document.getElementById('weekend-schedule') 
-        : document.getElementById('weekday-schedule');
+    const weekdaySchedule = document.getElementById('weekday-schedule');
+    const weekendSchedule = document.getElementById('weekend-schedule');
+
+    const visibleSchedule = weekdaySchedule.classList.contains('hidden') ? weekendSchedule : weekdaySchedule;
     const rows = visibleSchedule.querySelectorAll('tbody tr');
 
     rows.forEach(row => {
         const routeDetailsCell = row.cells[1];
         if (routeDetailsCell) {
             const routeDetails = routeDetailsCell.textContent;
+
             if (selectedDestination === '' || routeDetails.includes(selectedDestination)) {
                 row.classList.remove('hidden');
+                row.style.display = 'table-row';
+
                 if (row.classList.contains('route-header')) {
-                    row.classList.add('expanded');
+                    expandDetails(row);
+                }
+
+                if (selectedDestination !== '') {
+                    highlightDestination(routeDetailsCell, selectedDestination);
                 }
             } else {
                 row.classList.add('hidden');
-                if (row.classList.contains('route-header')) {
-                    row.classList.remove('expanded');
-                }
+                row.style.display = 'none';
             }
         }
     });
 }
 
-// Window onload function
-window.onload = async function () {
-    await initBusSchedule();
+function expandDetails(row) {
+    let nextRow = row.nextElementSibling;
+    while (nextRow && nextRow.classList.contains('route-details')) {
+        nextRow.classList.remove('hidden');
+        nextRow.style.display = 'table-row';
+        nextRow = nextRow.nextElementSibling;
+    }
+    row.classList.add('expanded');
+}
 
-    // Set up event listeners
-    document.getElementById('days').addEventListener('change', toggleSchedule);
-    document.getElementById('destination').addEventListener('change', filterRoutesByDestination);
+function highlightDestination(cell, destination) {
+    const regex = new RegExp(destination, 'gi');
+    const originalText = cell.textContent;
+    const highlightedText = originalText.replace(regex, match => `<span class="highlight">${match}</span>`);
+    cell.innerHTML = highlightedText;
+}
 
-    // Initial toggle and filter
-    toggleSchedule();
-};
+function toggleDetails(row) {
+    let nextRow = row.nextElementSibling;
+    while (nextRow && nextRow.classList.contains('route-details')) {
+        nextRow.style.display = (nextRow.style.display === 'table-row') ? 'none' : 'table-row';
+        nextRow = nextRow.nextElementSibling;
+    }
+    row.classList.toggle('expanded');
+}
