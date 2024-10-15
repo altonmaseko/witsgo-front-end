@@ -13,14 +13,14 @@ const checkLogin = async () => {
         console.log("Login, 200 OK", response.data);
     } catch (error) {
         console.log("Error: ", error);
-        alert(`Failed to verify login. localStorage accessToken: ${accessToken}`);
+        // alert(`Failed to verify login. localStorage accessToken: ${accessToken}`);
         window.location.href = `${clientUrl}/authorize`;
         return;
     }
 
     if (!response.data.isLoggedIn) {
         console.log("User is not logged in");
-        alert(`response.data.isLoggedIn is false. localStorage accessToken: ${accessToken}`);
+        // alert(`response.data.isLoggedIn is false. localStorage accessToken: ${accessToken}`);
         window.location.href = `${clientUrl}/authorize`;
         return;
     }

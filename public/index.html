@@ -62,7 +62,7 @@
                 console.log("Login, 200 OK", response.data);
             } catch (error) {
                 console.log("Error: ", error);
-                alert(`Failed to verify login. direct localStorage accessToken: ${localStorage.getItem('accessToken')}`);
+                // alert(`Failed to verify login. direct localStorage accessToken: ${localStorage.getItem('accessToken')}`);
                 // alert(`token from url: ${accessToken}`);
                 window.location.href = `${clientUrl}/authorize`;
                 return;
@@ -70,7 +70,7 @@
 
             if (!response.data.isLoggedIn) {
                 console.log("User is not logged in");
-                alert(`User is not logged in. direct localStorage accessToken: ${localStorage.getItem('accessToken')}`);
+                // alert(`User is not logged in. direct localStorage accessToken: ${localStorage.getItem('accessToken')}`);
                 // alert(`token from url: ${accessToken}`);
                 window.location.href = `${clientUrl}/authorize`;
                 return;
