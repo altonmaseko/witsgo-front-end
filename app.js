@@ -1,9 +1,10 @@
 const express = require('express');
 require('dotenv').config()
 const path = require('path');
+const cors = require('cors');
+const http = require('http');
 
 const app = express();
-
 
 // Mapping of simplified URLs to actual file paths
 // app.use(express.static("./frontend")); handles other files.
@@ -32,8 +33,11 @@ app.get(Object.keys(urlMap), (req, res) => {
     });
 });
 
+const server = http.createServer(app);
+
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}...`);
 });
+

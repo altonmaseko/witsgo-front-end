@@ -30,6 +30,7 @@
     "stylelint-config-standard": "^36.0.1"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "cypress": "^13.14.1",
     "dotenv": "^16.4.5",
     "eslint-plugin-html": "^8.1.1",
