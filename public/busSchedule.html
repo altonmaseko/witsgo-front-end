@@ -2,6 +2,11 @@
 <html lang="en">
 
 <head>
+
+    <!-- Awesome Notifications -->
+    <link rel="stylesheet" href="styles/awesome_notifications.css">
+    <script src="scripts/awesome_notifications.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/witsGoLogo.png" type="image/x-icon">
@@ -10,8 +15,7 @@
         rel="stylesheet">
 
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module" src="scripts/busSchedule.js"></script>
-
+    <!-- <script type="module" src="scripts/busSchedule.js"></script> -->
 
     <link rel="stylesheet" href="styles/busSchedule.css">
     <link rel="stylesheet" href="styles/navBar.css">
@@ -76,7 +80,7 @@
                     <th>Interval</th>
                 </tr>
             </thead>
-            <!-- <tbody>
+            <tbody>
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 1-Full Circuit</td>
                     <td>AMIC > NSW > WJ > WEC > EOH > KNK > AMIC</td>
@@ -153,7 +157,7 @@
                     <td>Hourly (Departs WJ)</td>
                 </tr>
 
-    
+
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 3B</td>
                     <td>WJ > WEC > WJ</td>
@@ -185,7 +189,7 @@
                 <td>Every 15 – 20 minutes (Shuttle)</td>
                 </tr>
 
-            
+
                 <td> Route 4A1</td>
                 <td>WEC > NSW > AMIC</td>
                 <td>07:00 to 18:00</td>
@@ -228,7 +232,7 @@
                     <td>AMIC > EOH > KNK (Rock Ridge Rd) > AMIC</td>
                     <td>16:30 to 18:00</td>
                     <td>Continuous shuttle, “drop & go”</td>
-                </tr> -->
+                </tr>
             </tbody>
         </table>
 
@@ -242,7 +246,7 @@
                     <th>Interval</th>
                 </tr>
             </thead>
-            <!-- <tbody>
+            <tbody>
                 <tr class="route-header" onclick="toggleDetails(this)">
                     <td><span class="arrow">&#9654;</span> Route 1 - Full Circuit</td>
                     <td>AMIC > NSW > WJ (PARKLANE) > WEC > EOH > KNK > AMIC</td>
@@ -332,7 +336,7 @@
                     <td>Sundays: 09:00 to 15:00</td>
                     <td>Hourly (Last dep. from Rosebank at 15:00)</td>
                 </tr>
-            </tbody> -->
+            </tbody>
         </table>
 
     </section>
@@ -355,7 +359,7 @@
             <section class="text">Tracking</section>
         </a>
     </section>
-<!-- 
+    <!-- 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetchBusSchedule();
@@ -421,7 +425,7 @@
     
     </script>-->
 
-    <!-- <script>
+    <script>
         // Function to toggle route details 
         function toggleDetails(row) {
             let nextRow = row.nextElementSibling;
@@ -456,7 +460,7 @@
 
             collapseAllDetails();
 
-            filterRoutesByDestination(); 
+            filterRoutesByDestination();
         }
 
         // Filter routes based on destination 
@@ -530,7 +534,7 @@
             collapseAllDetails();
             toggleSchedule();
         });
-    </script> -->
+    </script>
 </body>
 
 </html>

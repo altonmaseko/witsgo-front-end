@@ -1,3 +1,4 @@
+let notifier = new AWN()
 const finishAccountSetupButton = document.querySelector("#finish-account-setup-button");
 
 //access email from ...url/?email=...
@@ -35,7 +36,16 @@ finishAccountSetupButton.addEventListener("click", async () => {
         console.log(response.data);
     } catch (error) {
         console.log(error.message);
-        alert("An error occurred. Please try again later");
+        // alert("An error occurred. Please try again later");
+
+        notifier.alert("An error occurred. Please try again later",
+            {
+                durations: { alert: 4000 },
+                labels: { alert: 'Error Occured' }
+            });
+
+        await new Promise(r => setTimeout(r, 4000));
+
         window.location.href = `${clientUrl}`;
     }
 
