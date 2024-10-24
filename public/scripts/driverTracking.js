@@ -1,3 +1,5 @@
+let notifier = new AWN()
+
 // LOAD MAP
 import { clientUrl, serverUrl } from "./constants.js";
 let googleMapsApiKey;
@@ -6,7 +8,14 @@ try {
     googleMapsApiKey = response.data.googleMapsApiKey;
     // console.log("Google Maps API Key: ", googleMapsApiKey);
 } catch (error) {
-    alert("Failed to load Google Maps.");
+    // alert("Failed to load Google Maps.");
+
+    notifier.alert("Failed to load Google Maps.",
+        {
+            durations: { alert: 4000 },
+            labels: { alert: 'Error Occured' }
+        });
+
     console.error(error);
 }
 
@@ -182,7 +191,14 @@ trackMeButton.addEventListener('click', async () => {
 
     } else {
         if (!roomToSend) {
-            alert("You should be a bus driver, campus security or campus control to track your location.");
+            // alert("You should be a bus driver, campus security or campus control to track your location.");
+
+            notifier.alert("You should be a bus driver, campus security or campus control to track your location.",
+                {
+                    durations: { alert: 4000 },
+                    labels: { alert: 'Error Occured' }
+                });
+
             return;
         };
         trackMeButton.textContent = "Stop Tracking";

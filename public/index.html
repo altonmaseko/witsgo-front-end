@@ -2,6 +2,11 @@
 <html lang="en">
 
 <head>
+
+    <!-- Awesome Notifications -->
+    <link rel="stylesheet" href="styles/awesome_notifications.css">
+    <script src="scripts/awesome_notifications.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/witsGoLogo.png" type="image/x-icon">
@@ -16,9 +21,11 @@
     <!-- <script type="module" defer src="scripts/verifylogin.js"></script> This script should be put on everypage -->
 
 
-
     <script defer type="module">
         import { clientUrl, serverUrl } from "./scripts/constants.js";
+
+        let notifier = new AWN()
+
 
         // GET TOKEN FROM URL ==========================================
 
@@ -42,18 +49,27 @@
 
         // END: GET TOKEN FROM URL =====================================
 
+        // if server redirected us here after error, display servermessage query param
+        let changePageDelay = 1000
 
-        // Wait 2 seconds then navigate to the new URL
+        const serverMessage = urlParams.get('servermessage');
+        if (serverMessage) {
+            console.log("Server message: ", serverMessage);
+            // alert(serverMessage);
+
+            notifier.info(serverMessage, {
+                duration: 4000,
+                labels: {
+                    info: 'Please Note:',
+                }
+            });
+
+            changePageDelay += 4000
+        }
+
+
         setTimeout(async () => {
-            // return;
 
-            // if server redirected us here after error, display servermessage query param
-            const urlParams = new URLSearchParams(window.location.search);
-            const serverMessage = urlParams.get('servermessage');
-            if (serverMessage) {
-                console.log("Server message: ", serverMessage);
-                alert(serverMessage);
-            }
 
             let response
             try {
@@ -108,21 +124,21 @@
 
                 console.log("FROM index.html, userResponse.data.user.rol", userResponse.data.user.rol);
 
-                setTimeout(() => {
-                    window.location.href = firstPage;
-                }, 1000);
+
+                window.location.href = firstPage;
+
             } else {
                 console.log("userResponse is null");
-                setTimeout(() => {
-                    window.location.href = clientUrl + "/authorize";
-                }, 1000);
+
+                window.location.href = clientUrl + "/authorize";
+
             }
 
 
 
 
 
-        }, 1000);
+        }, changePageDelay);
 
     </script>
 </head>
