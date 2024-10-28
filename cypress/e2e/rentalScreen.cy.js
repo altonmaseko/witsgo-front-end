@@ -2,7 +2,7 @@ describe('Rental page', () => {
     // Set the viewport size to 360x800 before each test
     beforeEach(() => {
       cy.viewport(360, 800);
-      cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin`, {
+      cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin?token=null`, {
         statusCode: 200,
         body: {
             isLoggedIn: true,
