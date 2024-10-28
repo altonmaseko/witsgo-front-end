@@ -21,11 +21,11 @@ window.initMap = function () {
                 lng: position.coords.longitude
             };
             //test location
-            userPosition = {
-                lat: -26.190476,
-                lng: 28.026834
-            };
-            map.setCenter(userPosition);
+            // userPosition = {
+            //     lat: -26.190476,
+            //     lng: 28.026834
+            // };
+            // map.setCenter(userPosition);
 
             // Add user position marker
             new google.maps.Marker({

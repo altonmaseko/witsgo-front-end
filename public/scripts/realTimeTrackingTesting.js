@@ -99,7 +99,9 @@ async function importLibraries() {
     if (librariesImported) return;
 
     GMAP = (await google.maps.importLibrary("maps")).Map;
-    AdvancedMarkerElement = (await google.maps.importLibrary("marker")).AdvancedMarkerElement;
+    // AdvancedMarkerElement = (await google.maps.importLibrary("marker")).AdvancedMarkerElement;
+    const markerLib = await google.maps.importLibrary("marker");
+    AdvancedMarkerElement = markerLib.AdvancedMarkerElement;
     ({ DirectionsService, DirectionsRenderer } = await google.maps.importLibrary("routes"));
 
     librariesImported = true;
@@ -119,46 +121,56 @@ function getMarkerIcon(type) {
 }
 
 async function initMap() {
-    await importLibraries();
+    try {
+        await importLibraries();
 
-    const currentLocation = await getLocation();
+        const currentLocation = await getLocation();
 
-    map = new GMAP(document.querySelector(".map-container"), {
-        zoom: 18,
-        center: currentLocation,
-        mapId: "DEMO_MAP_ID",
-    });
-
-    currentLocationMarker = new AdvancedMarkerElement({
-        map: map,
-        position: currentLocation,
-        title: "You are here",
-        content: humanIconDiv.cloneNode(true)
-    });
-
-    // Add click listener to map
-    map.addListener('click', function (event) {
-        const position = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-        };
-
-        // Create marker based on current type
-        const markerType = markerTypes[currentMarkerType];
-        const markerIcon = getMarkerIcon(markerType);
-
-        const marker = new AdvancedMarkerElement({
-            map: map,
-            position: position,
-            title: `${markerType} marker`,
-            content: markerIcon
+        map = new GMAP(document.querySelector(".map-container"), {
+            zoom: 18,
+            center: currentLocation,
+            mapId: "DEMO_MAP_ID",
         });
 
-        clickMarkers.push(marker);
+        currentLocationMarker = new AdvancedMarkerElement({
+            map: map,
+            position: currentLocation,
+            title: "You are here",
+            content: humanIconDiv.cloneNode(true)
+        });
 
-        // Update marker type for next click
-        currentMarkerType = (currentMarkerType + 1) % markerTypes.length;
-    });
+        // Add click listener to map
+        map.addListener('click', function (event) {
+            const position = {
+                lat: event.latLng.lat(),
+                lng: event.latLng.lng()
+            };
+
+            // Create marker based on current type
+            const markerType = markerTypes[currentMarkerType];
+            const markerIcon = getMarkerIcon(markerType);
+
+            const marker = new AdvancedMarkerElement({
+                map: map,
+                position: position,
+                title: `${markerType} marker`,
+                content: markerIcon
+            });
+
+            clickMarkers.push(marker);
+
+            // Update marker type for next click
+            currentMarkerType = (currentMarkerType + 1) % markerTypes.length;
+        });
+    } catch (error) {
+
+        notifier.alert('Something went wrong when trying to initialize map.', {
+            durations: { alert: 4000 },
+            labels: { alert: 'Note:' }
+        });
+
+        console.log("Error initializing map:", error);
+    }
 }
 
 async function calculateAndDisplayRoute(start, end) {
