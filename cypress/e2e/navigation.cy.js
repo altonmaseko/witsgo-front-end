@@ -131,11 +131,8 @@ describe('Navigation Page Test (Mobile View)', () => {
     cy.get('#filterType').select('None');
     cy.get(".building-marker").should(notExist);
     cy.get(".library-marker").should(notExist)
-
     cy.get(".wheelchair-marker").should(notExist);
     cy.get(".gatehouse-marker").should(notExist);
-
-
   })
 
 
