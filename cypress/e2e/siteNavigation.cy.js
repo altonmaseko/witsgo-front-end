@@ -1,7 +1,7 @@
 describe('Navbar Test', () => {
   beforeEach(() => {
     cy.viewport(360, 800);
-    cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin`, {
+    cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin?token=null`, {
       statusCode: 200,
       body: {
           isLoggedIn: true,

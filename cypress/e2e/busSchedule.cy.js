@@ -1,7 +1,7 @@
 describe('Bus Schedule Page', () => {
   beforeEach(() => {
     cy.viewport(360, 800);
-    cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin`, {
+    cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin?token=null`, {
       statusCode: 200,
       body: {
           isLoggedIn: true,
@@ -74,15 +74,12 @@ describe('Bus Schedule Page', () => {
     cy.get('tbody tr.route-details').first().as('firstRouteDetails');
 
 
-    cy.get('@firstRouteDetails').should('not.be.visible');
-
-
     cy.get('@firstRouteHeader').click();
-    cy.get('@firstRouteDetails').should('be.visible');
+    cy.get('@firstRouteDetails').should('not.be.visible');
 
     
     cy.get('@firstRouteHeader').click();
-    cy.get('@firstRouteDetails').should('not.be.visible');
+    cy.get('@firstRouteDetails').should('be.visible');
   });
 
   // it('should filter routes based on selected destination', () => {

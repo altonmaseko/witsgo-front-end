@@ -30,34 +30,28 @@ try {
     // Hide the loader once the map is successfully loaded
     google.maps.__ib__ = () => {
         document.getElementById('map-loader').style.display = 'none';
-        // Initialize map
-        const map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: -34.397, lng: 150.644 },
-            zoom: 8,
-        });
+        // Initialize map after loading
+        initMap();
     };
 } catch (error) {
     // Hide the loader in case of an error
     document.getElementById('map-loader').style.display = 'none';
-
-    // Display an error notification
     notifier.alert("Failed to load Google Maps.", {
         durations: { alert: 4000 },
         labels: { alert: 'Error Occurred:' }
     });
-
     console.error(error);
 }
-// END: LOAD MAP
 
-// FROM STUDENT PERSPECTIVE ****************************************************
+// Add marker type tracking
+let currentMarkerType = 0; // 0: bus, 1: campus control, 2: campus security
+const markerTypes = ['bus', 'campus-control', 'campus-security'];
 
-// Timer stuff ===
+// Timer stuff
 let lastUpdateTime = Date.now();
 
 function checkForUpdates() {
     if (Date.now() - lastUpdateTime > 5000) {
-        //  if none of the three are checked
         if (!witsBusCheck.classList.contains('checked')
             && !campusControlBusCheck.classList.contains('checked')
             && !campusSecurityCheck.classList.contains('checked')) {
@@ -68,71 +62,123 @@ function checkForUpdates() {
         }
     }
 }
-// Start checking for updates every second
 setInterval(checkForUpdates, 1000);
 
-// END: Timer stuff
-
-// get the user and get a property
+// Get user role
 const role = localStorage.getItem("role");
 
-
+// DOM Elements
 const mapContainer = document.querySelector('.map-container');
-
 const updateMessage = document.querySelector('.update-message');
 const updateMessageContainer = document.querySelector('.update-message-container');
+
+// Create marker icons
+const busIconDiv = document.createElement('div');
+busIconDiv.innerHTML = `<img src="./icons/bus_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
+
+const campusControlIconDiv = document.createElement('div');
+campusControlIconDiv.innerHTML = `<img src="./icons/campus_control_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
+
+const securityIconDiv = document.createElement('div');
+securityIconDiv.innerHTML = `<img src="./icons/security_car_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
+
 const humanIconDiv = document.createElement('div');
 humanIconDiv.innerHTML = `<img src="./icons/human_circle_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
 
+// Map variables
 let map;
 let currentLocationMarker;
 let vehicleMarkers = {};
+let clickMarkers = [];
 
-let GMAP, AdvancedMarkerElement, DirectionsService, DirectionsRenderer; // libraries
+// Google Maps libraries
+let GMAP, AdvancedMarkerElement, DirectionsService, DirectionsRenderer;
 let librariesImported = false;
+
 async function importLibraries() {
     if (librariesImported) return;
 
     GMAP = (await google.maps.importLibrary("maps")).Map;
-    AdvancedMarkerElement = (await google.maps.importLibrary("marker")).AdvancedMarkerElement;
+    // AdvancedMarkerElement = (await google.maps.importLibrary("marker")).AdvancedMarkerElement;
+    const markerLib = await google.maps.importLibrary("marker");
+    AdvancedMarkerElement = markerLib.AdvancedMarkerElement;
     ({ DirectionsService, DirectionsRenderer } = await google.maps.importLibrary("routes"));
 
     librariesImported = true;
 }
 
-
-async function initMap() {
-
-    await importLibraries();
-
-    const currentLocation = await getLocation();
-
-    // The map, centered at current location
-    map = new GMAP(document.querySelector(".map-container"), {
-        zoom: 18,
-        center: currentLocation,
-        mapId: "DEMO_MAP_ID",
-
-
-    });
-
-    currentLocationMarker = new AdvancedMarkerElement({
-        map: map,
-        position: currentLocation,
-        title: "You are here",
-        content: humanIconDiv.cloneNode(true)
-    });
-
+function getMarkerIcon(type) {
+    switch (type) {
+        case 'bus':
+            return busIconDiv.cloneNode(true);
+        case 'campus-control':
+            return campusControlIconDiv.cloneNode(true);
+        case 'campus-security':
+            return securityIconDiv.cloneNode(true);
+        default:
+            return busIconDiv.cloneNode(true);
+    }
 }
 
-// function to calculate the route between two points and display it on the map
-async function calculateAndDisplayRoute(start, end) {
+async function initMap() {
+    try {
+        await importLibraries();
 
+        const currentLocation = await getLocation();
+
+        map = new GMAP(document.querySelector(".map-container"), {
+            zoom: 18,
+            center: currentLocation,
+            mapId: "DEMO_MAP_ID",
+        });
+
+        currentLocationMarker = new AdvancedMarkerElement({
+            map: map,
+            position: currentLocation,
+            title: "You are here",
+            content: humanIconDiv.cloneNode(true)
+        });
+
+        // Add click listener to map
+        map.addListener('click', function (event) {
+            const position = {
+                lat: event.latLng.lat(),
+                lng: event.latLng.lng()
+            };
+
+            // Create marker based on current type
+            const markerType = markerTypes[currentMarkerType];
+            const markerIcon = getMarkerIcon(markerType);
+
+            const marker = new AdvancedMarkerElement({
+                map: map,
+                position: position,
+                title: `${markerType} marker`,
+                content: markerIcon
+            });
+
+            clickMarkers.push(marker);
+
+            // Update marker type for next click
+            currentMarkerType = (currentMarkerType + 1) % markerTypes.length;
+        });
+    } catch (error) {
+
+        notifier.alert('Something went wrong when trying to initialize map.', {
+            durations: { alert: 4000 },
+            labels: { alert: 'Note:' }
+        });
+
+        console.log("Error initializing map:", error);
+    }
+}
+
+async function calculateAndDisplayRoute(start, end) {
     const directionsService = new DirectionsService();
     const directionsRenderer = new DirectionsRenderer({
         polylineOptions: {
-            strokeColor: 'lime', // set the color
-            strokeWeight: 5 // set the width
+            strokeColor: 'lime',
+            strokeWeight: 5
         }
     });
 
@@ -142,24 +188,18 @@ async function calculateAndDisplayRoute(start, end) {
         origin: start,
         destination: end,
         travelMode: 'WALKING',
-
     }, (response, status) => {
         if (status === 'OK') {
             directionsRenderer.setDirections(response);
         } else {
-
-            notifier.alert('Directions request failed due to ' + status,
-                {
-                    durations: { alert: 4000 },
-                    labels: { alert: 'Error Occured:' }
-                });
-
-            window.alert('Directions request failed due to ' + status);
+            notifier.alert('Directions request failed due to ' + status, {
+                durations: { alert: 4000 },
+                labels: { alert: 'Error Occurred:' }
+            });
         }
     });
 }
 
-// returns the current location of the user
 function getLocation() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
@@ -175,7 +215,7 @@ function getLocation() {
     });
 }
 
-// keep track of the user's location as they move
+// Watch user location
 navigator.geolocation.watchPosition((position) => {
     console.log("Current Location:", position.coords.latitude, position.coords.longitude);
 
@@ -184,34 +224,24 @@ navigator.geolocation.watchPosition((position) => {
         lng: position.coords.longitude
     };
 
-    // Check if the marker exists, if yes, update its position, else create it
     if (currentLocationMarker) {
         currentLocationMarker.position = newPosition;
     } else {
-        // Create the marker for the first time
         currentLocationMarker = new AdvancedMarkerElement({
             map: map,
             position: newPosition,
             title: "I am here!!",
         });
     }
-
-    // Optionally, update the map center as well
-    // map.setCenter(newPosition);
-
 }, (error) => {
     console.log("Could not get location:", error);
 }, {
     enableHighAccuracy: true,
-    timeout: 10000, // if cant get location within 5 seconds, return an error
+    timeout: 10000,
     maximumAge: 10000
 });
 
-initMap();
-
-
-// SOCKETS ========================================
-
+// SOCKETS
 const busRoom = "bus-driver";
 const campusControlRoom = "campus-control";
 const campusSecurityRoom = "campus-security";
@@ -220,114 +250,95 @@ const witsBusCheck = document.querySelector(".wits-bus-check");
 const campusControlBusCheck = document.querySelector(".campus-control-bus-check");
 const campusSecurityCheck = document.querySelector(".campus-security-check");
 
-const socket = io(serverUrl); // a connection to the server
+const socket = io(serverUrl);
 
 socket.on("connect", () => {
     console.log(`You are connected with ID: ${socket.id}`);
-})
-
-
-const busIconDiv = document.createElement('div');
-busIconDiv.innerHTML = `<img src="./icons/bus_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
-
-const securityIconDiv = document.createElement('div');
-securityIconDiv.innerHTML = `<img src="./icons/security_car_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
-
-const campusControlIconDiv = document.createElement('div');
-campusControlIconDiv.innerHTML = `<img src="./icons/campus_control_marker.png" alt="custom marker" style="width: 40px; height: 40px;" />`;
+});
 
 socket.on("server-to-client", data => {
     console.log("Vehicle Location Update:", data);
 
     lastUpdateTime = Date.now();
-
     updateMessage.textContent = `Vehicles Updating... [${new Date().toLocaleTimeString()}]`;
 
     const vehicleId = data.id;
-
     let vehicleMarker;
+
     if (data.userRole == 'bus-driver') {
         vehicleMarker = busIconDiv.cloneNode(true);
     } else if (data.userRole == 'campus-security') {
         vehicleMarker = securityIconDiv.cloneNode(true);
     } else if (data.userRole == 'campus-control') {
         vehicleMarker = campusControlIconDiv.cloneNode(true);
-    } else { // for testing
+    } else {
         vehicleMarker = busIconDiv.cloneNode(true);
     }
 
-    // If the vehicle does not exist, create it
     if (!vehicleMarkers[vehicleId]) {
         vehicleMarkers[vehicleId] = new google.maps.marker.AdvancedMarkerElement({
             map: map,
-            position: data.message, // Set initial position from the server data
+            position: data.message,
             title: `Bus ${vehicleId}`,
             content: vehicleMarker
         });
     } else {
-        // If the busMarker already exists, just update its position
         vehicleMarkers[vehicleId].position = data.message;
     }
+});
 
-})
-
+// Event Listeners
 witsBusCheck.addEventListener("click", (event) => {
     event.currentTarget.classList.toggle('checked');
-
     if (event.currentTarget.classList.contains("checked")) {
         socket.emit("join-room", busRoom, (messageFromServer) => {
-            console.log(`FROM SERVER: ${messageFromServer}`)
+            console.log(`FROM SERVER: ${messageFromServer}`);
         });
     } else {
         socket.emit("leave-room", busRoom, (messageFromServer) => {
-            console.log(`FROM SERVER: ${messageFromServer}`)
+            console.log(`FROM SERVER: ${messageFromServer}`);
         });
     }
 });
 
 campusControlBusCheck.addEventListener("click", (event) => {
     event.currentTarget.classList.toggle('checked');
-
     if (event.currentTarget.classList.contains("checked")) {
         socket.emit("join-room", campusControlRoom, (messageFromServer) => {
-            console.log(`FROM SERVER: ${messageFromServer}`)
+            console.log(`FROM SERVER: ${messageFromServer}`);
         });
     } else {
         socket.emit("leave-room", campusControlRoom, (messageFromServer) => {
-            console.log(`FROM SERVER: ${messageFromServer}`)
+            console.log(`FROM SERVER: ${messageFromServer}`);
         });
     }
 });
 
 campusSecurityCheck.addEventListener("click", (event) => {
     event.currentTarget.classList.toggle('checked');
-
     if (event.currentTarget.classList.contains("checked")) {
         socket.emit("join-room", campusSecurityRoom, (messageFromServer) => {
-            console.log(`FROM SERVER: ${messageFromServer}`)
+            console.log(`FROM SERVER: ${messageFromServer}`);
         });
     } else {
         socket.emit("leave-room", campusSecurityRoom, (messageFromServer) => {
-            console.log(`FROM SERVER: ${messageFromServer}`)
+            console.log(`FROM SERVER: ${messageFromServer}`);
         });
     }
 });
 
-
-
-// function to remove inactive bus markers
+// Remove inactive markers
 function removeInactiveBusMarkers() {
     const currentTime = Date.now();
     for (const [busId, markerInfo] of Object.entries(vehicleMarkers)) {
-        if (currentTime - markerInfo.lastUpdateTime > 10000) { // Remove if no update for 10 seconds
+        if (currentTime - markerInfo.lastUpdateTime > 10000) {
             markerInfo.marker.setMap(null);
             delete vehicleMarkers[busId];
         }
     }
 }
 
-// Call removeInactiveBusMarkers periodically
-setInterval(removeInactiveBusMarkers, 10000); // Check every 10 seconds
+setInterval(removeInactiveBusMarkers, 10000);
 
 updateMessageContainer.addEventListener("click", (event) => {
     if (updateMessage.textContent = "...") {
