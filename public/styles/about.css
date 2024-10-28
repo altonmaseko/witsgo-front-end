@@ -27,6 +27,7 @@ header {
 header h1 {
     margin: 0;
     text-align: center;
+
     /* padding-bottom: 20px; */
 }
 
@@ -105,7 +106,7 @@ footer {
 
 
 /* Media query for phones and small devices */
-@media (max-width: 768px) {
+@media (width <= 768px) {
     .header-container img[alt="back"] {
         width: 20px;  
         height: 20px; 

@@ -9,10 +9,10 @@ describe('Splash Screen Tests', () => {
         cy.visit('http://localhost:5000/')
     
         // Check if the H1 element contains the text "Wits Go"
-        cy.contains("h1", "Wits Go").should('be.visible')
+        cy.contains("h1", "WitsGo").should('be.visible')
     
         // Check if the logo image is visible
-        cy.get('img[alt="Wits Go Logo"]').should('be.visible')
+        cy.get('img[alt="WitsGo Logo"]').should('be.visible')
         })
     })
 

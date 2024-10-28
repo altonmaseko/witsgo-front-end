@@ -26,6 +26,18 @@ window.initMap = function () {
                 lng: 28.026834
             };
             map.setCenter(userPosition);
+
+            // Add user position marker
+            new google.maps.Marker({
+                position: userPosition,
+                map: map,
+                icon: {
+                    url: '/images/person2.png',
+                    scaledSize: new google.maps.Size(40, 40)
+                },
+                title: 'Your Position'
+            });
+
             loadStations();
         });
     } else {
