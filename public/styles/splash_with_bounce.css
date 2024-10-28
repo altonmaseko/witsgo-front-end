@@ -94,7 +94,6 @@ img {
 }
 
 @keyframes pulse {
-
     0%,
     100% {
         transform: scale(1);
@@ -116,18 +115,20 @@ body::after {
     height: 100%;
     background-color: white;
     clip-path: circle(0% at center);
+
     /* animation: disappear 1.5s cubic-bezier(0.25, 1, 0.3, 1) forwards; */
     animation-delay: 2s;
 }
 
 body::before {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgb(255 255 255 / 70%);
     animation-delay: 1.8s;
 }
 
 /* Media Queries */
+
 /* Phones */
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .logo-thing {
         flex-direction: row;
     }
@@ -157,7 +158,7 @@ body::before {
 }
 
 /* Tablets */
-@media (min-width: 601px) and (max-width: 1024px) {
+@media (width >= 601px) and (width <= 1024px) {
     .logo-thing {
         margin-top: -20px;
     }
@@ -180,7 +181,7 @@ body::before {
 }
 
 /* Laptops and Desktops */
-@media (min-width: 1025px) {
+@media (width >= 1025px) {
     .logo-thing {
         margin-top: -50px;
     }
