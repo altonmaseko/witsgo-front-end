@@ -35,11 +35,7 @@ let navigationStarted = false;
 let searchedPlace = false;
 
 
-
-
 document.getElementById('loading-spinner').style.display = 'block';
-
-
 
 searchInputField.addEventListener("click", function () {
     profileImg.style.display = "None"
@@ -155,6 +151,9 @@ filter.addEventListener("change", () => {
     }
 })
 
+/**
+ * Shows all the markers on the map
+ */
 function showMarkersOnMap() {
     for (let i = 0; i < APIMarkers.length; i++) {
         let marker = APIMarkers[i];
@@ -162,6 +161,9 @@ function showMarkersOnMap() {
     }
 }
 
+/**
+ * Hides all the markers on the map
+ */
 function hideMarkersOnmap() {
     for (let i = 0; i < APIMarkers.length; i++) {
         let marker = APIMarkers[i];
@@ -169,6 +171,9 @@ function hideMarkersOnmap() {
     }
 }
 
+/**
+ * @returns the users lat and long if geolocation is allowed
+ */
 async function getLocation() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
@@ -192,7 +197,12 @@ async function getLocation() {
     });
 }
 
-
+/**
+ * Adds a wheelchair marker to the map. This needs to be a seperate function because we need to fetch
+ * the markers from different endpoint
+ * @param {*} element JSON including the map marker data
+ * @param {*} AdvancedMarkerElement google maps Advanced Marker
+ */
 function addWheelchairMarker(element, AdvancedMarkerElement) {
     let newMarker = {
         id: element._id,
@@ -231,6 +241,11 @@ function addWheelchairMarker(element, AdvancedMarkerElement) {
     });
 }
 
+/**
+ * Adds marker to the map
+ * @param {*} element JSON including the map marker data
+ * @param {*} AdvancedMarkerElement google maps Advanced Marker
+ */
 function addMarkerToMap(element, AdvancedMarkerElement) {
     let newMarker = {
         id: element._id,
@@ -296,6 +311,10 @@ function addMarkerToMap(element, AdvancedMarkerElement) {
     });
 }
 
+/**
+ * Resets HTML DOM to pre navigation state.
+ * Includes clearing fields and resetting variables
+ */
 function resetNavigationState() {
     navMeBtn.textContent = "Navigate Me";
     searchInputField.value = "";
@@ -311,6 +330,9 @@ function resetNavigationState() {
     dest["longitude"] = -1;
 }
 
+/**
+ * @returns JSON including the route data
+ */
 async function getOptimizedRoute() {
     let coords = await getLocation();
 
@@ -332,6 +354,11 @@ async function getOptimizedRoute() {
     return response;
 }
 
+/**
+ * 
+ * @param {*} polyline 
+ * @returns 
+ */
 async function insertRoute(polyline) {
     const url = serverUrl + "/v1/userRoutes/insertRoute";
 
@@ -346,6 +373,10 @@ async function insertRoute(polyline) {
     return response;
 }
 
+/**
+ * Inserts route data as history
+ * @returns response, which includes success status
+ */
 async function insertNavigationHistory() {
     if (routeID == null) {
         return;
@@ -359,6 +390,10 @@ async function insertNavigationHistory() {
     return response;
 }
 
+/**
+ * Puts the polyline on the google map
+ * @param {*} decodedPoints Decoded polyline, which is basically a list of lat,long
+ */
 function drawPolyline(decodedPoints) {
     if (polylinePath) {
         polylinePath.setMap(null);
@@ -375,11 +410,19 @@ function drawPolyline(decodedPoints) {
     polylinePath.setMap(map);
 }
 
+/**
+ * Checks if string is a number using regex
+ * @param {string} str string to check
+ * @returns true if string is number else false
+ */
 function isNum(str) {
     const regex = /^\d+,\d+$/;
     return regex.test(str);
 }
 
+/**
+ * Inits the google map using the API and calls the functions to add the initial markers
+ */
 async function initMap() {
     const { Map } = await google.maps.importLibrary("maps");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -488,6 +531,9 @@ async function initMap() {
     });
 }
 
+/**
+ * Bigger function to call smaller functions to add the different markers to the map
+ */
 async function addMarkers() {
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
@@ -607,6 +653,9 @@ async function addMarkers() {
 //     maximumAge: 10000
 // });
 
+/**
+ * Renders the page
+ */
 async function renderPage() {
     await initMap();
     await addMarkers();
