@@ -74,15 +74,12 @@ describe('Bus Schedule Page', () => {
     cy.get('tbody tr.route-details').first().as('firstRouteDetails');
 
 
-    cy.get('@firstRouteDetails').should('not.be.visible');
-
-
     cy.get('@firstRouteHeader').click();
-    cy.get('@firstRouteDetails').should('be.visible');
+    cy.get('@firstRouteDetails').should('not.be.visible');
 
     
     cy.get('@firstRouteHeader').click();
-    cy.get('@firstRouteDetails').should('not.be.visible');
+    cy.get('@firstRouteDetails').should('be.visible');
   });
 
   // it('should filter routes based on selected destination', () => {

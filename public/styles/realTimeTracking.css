@@ -94,7 +94,6 @@ p {
 .check {
     width: 6vw;
     height: 6vw;
-
     max-width: 40px;
     max-height: 40px;
     border-radius: 50%;
@@ -111,7 +110,7 @@ p {
 
 
 /* if on mobile, decrease font size */
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .update-message-container p {
         font-size: 12px;
     }

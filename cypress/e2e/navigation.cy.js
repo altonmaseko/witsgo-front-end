@@ -4,7 +4,7 @@ describe('Navigation Page Test (Mobile View)', () => {
       cy.viewport(360, 800);
       
       // Intercept the verifylogin API call
-      cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin`, {
+      cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin?token=null`, {
           statusCode: 200,
           body: {
               isLoggedIn: true,
