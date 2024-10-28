@@ -1,3 +1,6 @@
+
+let notifier = new AWN()
+
 import { clientUrl, serverUrl } from "./constants.js";
 const navMeBtn = document.getElementById("nav-btn");
 const profileImg = document.getElementById("profile-user");
@@ -77,7 +80,14 @@ navMeBtn.addEventListener("click", async function () {
         }
 
         if (dest.latitude == -1 || dest.longitude == -1) {
-            alert("Please search some place first");
+            // alert("Please search some place first");
+
+            notifier.info("Please search some place first",
+                {
+                    durations: { info: 4000 },
+                    labels: { info: 'Please Note:' }
+                });
+
             return;
         }
         navMeBtn.textContent = "Stop Navigation";
@@ -169,7 +179,14 @@ async function getLocation() {
                 reject(error);  // Reject the Promise if there's an error
             });
         } else {
-            alert("Geolocation is not supported by this browser.");
+            // alert("Geolocation is not supported by this browser.");
+
+            notifier.alert("Geolocation is not supported by this browser.",
+                {
+                    durations: { alert: 4000 },
+                    labels: { alert: 'Error Occured:' }
+                });
+
             reject(new Error("Geolocation is not supported by this browser."));
         }
     });
@@ -378,7 +395,7 @@ async function initMap() {
     map = new Map(document.getElementById("map"), {
         zoom: 17,
         center: userLocation,
-        mapId:"d"
+        mapId: "d"
     });
 
 
@@ -397,10 +414,10 @@ async function initMap() {
         searchBox.setBounds(map.getBounds());
     });
 
-    google.maps.event.addListenerOnce(map, 'idle', function(){
+    google.maps.event.addListenerOnce(map, 'idle', function () {
         document.getElementById('loading-spinner').style.display = 'none';
     });
-    
+
 
     const searchBox = new SearchBox(searchInputField);
 
@@ -408,7 +425,14 @@ async function initMap() {
         var places = searchBox.getPlaces();
 
         if (places.length === 0) {
-            alert('No places found for the given input.');
+            // alert('No places found for the given input.');
+
+            notifier.info("No places found for the given input",
+                {
+                    durations: { info: 4000 },
+                    labels: { info: 'Please Note:' }
+                });
+
             return;
         }
 
@@ -524,25 +548,25 @@ async function addMarkers() {
 
             let valid = isNum(Location);
 
-            if (valid){
-            let id = restaurant.id;
-            let name = restaurant.name;
-            let opening_time = restaurant.opening_time;
-            let closing_time = restaurant.closing_time;
-            let categories = restaurant.categories;
+            if (valid) {
+                let id = restaurant.id;
+                let name = restaurant.name;
+                let opening_time = restaurant.opening_time;
+                let closing_time = restaurant.closing_time;
+                let categories = restaurant.categories;
 
-            categories.forEach((item) => {
-                let itemName = item.name;
-                let menuItems = item.menu_items
+                categories.forEach((item) => {
+                    let itemName = item.name;
+                    let menuItems = item.menu_items
 
-                menuItems.forEach((menuItem) => {
-                    console.log(menuItem);
-                    let menuItemName = menuItem.name;
-                    let description = menuItem.description;
-                    let price = menuItem.price;
-                    let is_available = menuItem.is_available;
+                    menuItems.forEach((menuItem) => {
+                        console.log(menuItem);
+                        let menuItemName = menuItem.name;
+                        let description = menuItem.description;
+                        let price = menuItem.price;
+                        let is_available = menuItem.is_available;
 
-                })
+                    })
                 })
             }
         })
@@ -552,7 +576,14 @@ async function addMarkers() {
     }
 
     if (errorOccured) {
-        alert("Error getting markers");
+        // alert("Error getting markers");
+
+        notifier.alert("Error getting the markers",
+            {
+                durations: { alert: 4000 },
+                labels: { alert: 'Error Occured:' }
+            });
+
     }
 }
 
@@ -565,7 +596,7 @@ async function addMarkers() {
 //     if (userMarker == null) {
 //         return;
 //     }
-    
+
 //     userMarker.position = { lat: origin["latitude"], lng: origin["longitude"] }
 
 // }, (error) => {

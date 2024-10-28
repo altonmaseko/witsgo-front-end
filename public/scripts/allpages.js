@@ -4,6 +4,8 @@ const statsButton = document.querySelector('#stats-button');
 const aboutButton = document.querySelector('#about-button');
 const wheelChairToggle = document.querySelector('#wheelchair-toggle');
 
+let notifier = new AWN()
+
 try {
     wheelChairToggle.checked = localStorage.getItem("onWheelChair") === "true";
     console.log("Wheel chair check is: ", localStorage.getItem("onWheelChair"))
@@ -50,7 +52,15 @@ logoutButton?.addEventListener('click', async () => {
         clearSiteData();
         window.location.href = `${clientUrl}`;
     } catch (error) {
-        alert("Something went wrong while trying to logout. You may still be logged in.");
+        // alert("Something went wrong while trying to logout. You may still be logged in.");
+
+        notifier.alert("Something went wrong while trying to logout. You may still be logged in.",
+            {
+                durations: { alert: 4000 },
+                labels: { alert: 'Error Occured' }
+            });
+        await new Promise(r => setTimeout(r, 4000));
+
         window.location.href = `${clientUrl}`;
         console.error("Error logging out", error);
     }
@@ -68,7 +78,12 @@ deleteButton?.addEventListener('click', async () => {
         clearSiteData();
         window.location.href = `${clientUrl}`;
     } catch (error) {
-        alert("Error deleting account");
+        notifier.alert("Error deleting account",
+            {
+                durations: { alert: 4000 },
+                labels: { alert: 'Error Occured' }
+            });
+
         console.error("Error deleting account", error);
     }
 });
@@ -81,7 +96,7 @@ wheelChairToggle?.addEventListener('click', async () => {
     }
 
     try {
-        let response = await axios.put(`${serverUrl}/user/update/${email}`, body);
+        let response = await axios.put(`${serverUrl}/user/update/${email}`, body, { withCredentials: true });
         console.log("Wheel chair check is: ", wheelChairToggle.checked)
         console.log(response.data);
     } catch (error) {
