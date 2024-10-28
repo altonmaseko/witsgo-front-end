@@ -39,7 +39,7 @@ const checkLogin = async () => {
 
 
 }
-// checkLogin();
+checkLogin();
 
 
 // PROFILE INTERACTIONS FOR ALL PAGES
