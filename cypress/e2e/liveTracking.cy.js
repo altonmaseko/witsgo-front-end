@@ -5,7 +5,7 @@ describe('Live tracking', () => {
       cy.window().then((window) => {
         window.localStorage.setItem('role', 'student'); // Example role
       });
-      cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin`, {
+      cy.intercept('GET', `${Cypress.env('serverUrl')}/verifylogin?token=null`, {
         statusCode: 200,
         body: {
             isLoggedIn: true,
