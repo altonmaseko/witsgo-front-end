@@ -5,6 +5,7 @@ console.log("verifylogin.js is connected");
 const checkLogin = async () => {
 
     const accessToken = localStorage.getItem("accessToken");
+    console.log(`${serverUrl}/verifylogin?token=${accessToken}`)
 
     let response
     try {
