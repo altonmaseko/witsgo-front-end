@@ -444,12 +444,14 @@ function addAlertMarker(data,AdvancedMarkerElement){
  * Queries the endpoint and checks if there are any new alerts
  */
 async function checkForNewAlerts(){
+    console.log("yo");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
     let response = await axios.get("https://sdp-campus-safety.azurewebsites.net/alert");
 
     //if not updated in the loop, no new alerts
     let updated = false;
+    let data;
 
     response.data.forEach((element)=>{
         if (element.status!="ASSISTED"){
@@ -460,22 +462,23 @@ async function checkForNewAlerts(){
 
             if (lastAlertID === null || id>lastAlertID){
                 lastAlertID = id;
-                let data = {
+                data = {
                     latitude:lat,
                     longitude:long,
                     details:details
                 };
-                addAlertMarker(data,AdvancedMarkerElement)
                 updated=true;
             }
         }
     })
 
     //reset condis
-    if (updated==false){
+    if (updated==false ){
         lastAlertMarker.map=null;
         lastAlertMarker=null;
         lastAlertID =null;
+    }else{
+        addAlertMarker(data,AdvancedMarkerElement)
     }
 
 }
@@ -857,4 +860,4 @@ renderPage();
 
 
 //check for new alerts every min
-setInterval(checkForNewAlerts, 60000);
+setInterval(checkForNewAlerts,60000)
