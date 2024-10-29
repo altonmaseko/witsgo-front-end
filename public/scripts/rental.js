@@ -6,6 +6,9 @@ let rentalActive = false;
 let rentalTimer;
 let rentalTimeLeft = 1200; // 20 minutes in seconds
 
+
+let userMarker = null;
+
 // Initialize the map
 window.initMap = function () {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -25,10 +28,10 @@ window.initMap = function () {
             //     lat: -26.190476,
             //     lng: 28.026834
             // };
-            // map.setCenter(userPosition);
+            map.setCenter(userPosition);
 
             // Add user position marker
-            new google.maps.Marker({
+            userMarker = new google.maps.Marker({
                 position: userPosition,
                 map: map,
                 icon: {
@@ -37,6 +40,31 @@ window.initMap = function () {
                 },
                 title: 'Your Position'
             });
+
+            // ADDED: Start watching position
+            navigator.geolocation.watchPosition(
+                (position) => {
+                    console.log('Position updated:', position);
+                    // Update user position
+                    userPosition = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Update marker position
+                    if (userMarker) {
+                        userMarker.setPosition(userPosition);
+                    }
+                },
+                (error) => {
+                    console.error('Error watching position:', error);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                }
+            );
 
             loadStations();
         });

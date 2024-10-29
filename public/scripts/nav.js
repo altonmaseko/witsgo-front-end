@@ -858,6 +858,5 @@ async function renderPage() {
 
 renderPage();
 
-
 //check for new alerts every min
-setInterval(checkForNewAlerts,60000)
+setInterval(checkForNewAlerts,300000)
