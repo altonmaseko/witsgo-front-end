@@ -1,3 +1,5 @@
+console.log('allpages.js loaded')
+
 const deleteButton = document.querySelector('#delete-button');
 const logoutButton = document.querySelector('#logout-button');
 const statsButton = document.querySelector('#stats-button');
@@ -104,3 +106,142 @@ wheelChairToggle?.addEventListener('click', async () => {
         alert("Something went wrong updating your disabiltiy status. Please try again later");
     }
 });
+
+// THEMES
+
+// // Function to switch to dark mode
+// function enableDarkMode() {
+//     document.documentElement.style.setProperty('--primary-color', '#5E3B76');
+//     document.documentElement.style.setProperty('--background-color', '#2C2C2C');
+//     document.documentElement.style.setProperty('--bottom-nav-color', '#1E1E1E');
+//     document.documentElement.style.setProperty('--text-color', '#ffffff');
+//     localStorage.setItem('theme', 'dark');
+// }
+
+// // Function to switch to light mode
+// function enableLightMode() {
+//     document.documentElement.style.setProperty('--primary-color', '#23527c');
+//     document.documentElement.style.setProperty('--background-color', '#ffffff');
+//     document.documentElement.style.setProperty('--bottom-nav-color', '#E0DDDD');
+//     document.documentElement.style.setProperty('--text-color', '#000000');
+//     localStorage.setItem('theme', 'light');
+// }
+
+// function loadTheme() {
+//     const theme = localStorage.getItem('theme');
+//     if (theme === 'dark') {
+//         enableDarkMode();
+//         console.log('dark mode enabled')
+//     } else {
+//         enableLightMode();
+//         console.log('light mode enabled')
+//     }
+// }
+
+// document.querySelector('.dark-theme-button').addEventListener('click', (event) => {
+//     enableDarkMode()
+// })
+
+// document.querySelector('.light-theme-button').addEventListener('click', (event) => {
+//     enableLightMode()
+// })
+
+// window.addEventListener('DOMContentLoaded', loadTheme);
+
+
+// Function to switch to dark mode
+function enableDarkMode() {
+    document.documentElement.style.setProperty('--primary-color', '#5E3B76');
+    document.documentElement.style.setProperty('--background-color', '#2C2C2C');
+    document.documentElement.style.setProperty('--bottom-nav-color', '#1E1E1E');
+    document.documentElement.style.setProperty('--text-color', '#ffffff');
+    localStorage.setItem('theme', 'dark');
+}
+
+// Function to switch to light mode
+function enableLightMode() {
+    document.documentElement.style.setProperty('--primary-color', '#23527c');
+    document.documentElement.style.setProperty('--background-color', '#ffffff');
+    document.documentElement.style.setProperty('--bottom-nav-color', '#E0DDDD');
+    document.documentElement.style.setProperty('--text-color', '#000000');
+    localStorage.setItem('theme', 'light');
+}
+
+// Additional theme functions
+function enableMonkeyTheme() {
+    document.documentElement.style.setProperty('--primary-color', '#8B4513');
+    document.documentElement.style.setProperty('--background-color', '#F5DEB3');
+    document.documentElement.style.setProperty('--bottom-nav-color', '#CD853F');
+    document.documentElement.style.setProperty('--text-color', '#2F4F4F');
+    localStorage.setItem('theme', 'monkey');
+}
+
+function enablePinkParadiseTheme() {
+    document.documentElement.style.setProperty('--primary-color', '#FF69B4');
+    document.documentElement.style.setProperty('--background-color', '#FFF0F5');
+    document.documentElement.style.setProperty('--bottom-nav-color', '#FFC0CB');
+    document.documentElement.style.setProperty('--text-color', '#8B0000');
+    localStorage.setItem('theme', 'pinkParadise');
+}
+
+function enableForestGreeneryTheme() {
+    document.documentElement.style.setProperty('--primary-color', '#2E8B57');
+    document.documentElement.style.setProperty('--background-color', '#F0FFF0');
+    document.documentElement.style.setProperty('--bottom-nav-color', '#556B2F');
+    document.documentElement.style.setProperty('--text-color', '#2F4F4F');
+    localStorage.setItem('theme', 'forestGreenery');
+}
+
+function enableOceanBreezeTheme() {
+    document.documentElement.style.setProperty('--primary-color', '#4682B4');
+    document.documentElement.style.setProperty('--background-color', '#E0FFFF');
+    document.documentElement.style.setProperty('--bottom-nav-color', '#B0E0E6');
+    document.documentElement.style.setProperty('--text-color', '#2F4F4F');
+    localStorage.setItem('theme', 'oceanBreeze');
+}
+
+// Function to load the saved theme on page load
+function loadTheme() {
+    const theme = localStorage.getItem('theme');
+    switch (theme) {
+        case 'dark':
+            enableDarkMode();
+            console.log('Dark mode enabled');
+            break;
+        case 'monkey':
+            enableMonkeyTheme();
+            console.log('Monkey theme enabled');
+            break;
+        case 'pinkParadise':
+            enablePinkParadiseTheme();
+            console.log('Pink Paradise theme enabled');
+            break;
+        case 'cyberNeon':
+            enableCyberNeonTheme();
+            console.log('Cyber Neon theme enabled');
+            break;
+        case 'forestGreenery':
+            enableForestGreeneryTheme();
+            console.log('Forest Greenery theme enabled');
+            break;
+        case 'oceanBreeze':
+            enableOceanBreezeTheme();
+            console.log('Ocean Breeze theme enabled');
+            break;
+        default:
+            enableLightMode();
+            console.log('Light mode enabled');
+            break;
+    }
+}
+
+// Event listeners for theme buttons
+document.querySelector('.dark-theme-button')?.addEventListener('click', enableDarkMode);
+document.querySelector('.light-theme-button')?.addEventListener('click', enableLightMode);
+document.querySelector('.monkey-theme-button')?.addEventListener('click', enableMonkeyTheme);
+document.querySelector('.pink-paradise-button')?.addEventListener('click', enablePinkParadiseTheme);
+document.querySelector('.forest-greenery-button')?.addEventListener('click', enableForestGreeneryTheme);
+document.querySelector('.ocean-breeze-button')?.addEventListener('click', enableOceanBreezeTheme);
+
+// Load the saved theme when the page loads
+window.addEventListener('DOMContentLoaded', loadTheme);

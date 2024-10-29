@@ -94,6 +94,7 @@ img {
 }
 
 @keyframes pulse {
+
     0%,
     100% {
         transform: scale(1);
@@ -128,7 +129,7 @@ body::before {
 /* Media Queries */
 
 /* Phones */
-@media (width <= 600px) {
+@media (width <=600px) {
     .logo-thing {
         flex-direction: row;
     }
@@ -158,7 +159,7 @@ body::before {
 }
 
 /* Tablets */
-@media (width >= 601px) and (width <= 1024px) {
+@media (width >=601px) and (width <=1024px) {
     .logo-thing {
         margin-top: -20px;
     }
@@ -181,7 +182,7 @@ body::before {
 }
 
 /* Laptops and Desktops */
-@media (width >= 1025px) {
+@media (width >=1025px) {
     .logo-thing {
         margin-top: -50px;
     }

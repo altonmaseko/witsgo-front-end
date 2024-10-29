@@ -6,7 +6,7 @@
 
 .header {
   display: flex;
-  background-color: #23527c;
+  background-color: var(--primary-color);
   width: 100%;
   padding: 1rem;
   justify-content: space-between;
@@ -40,7 +40,7 @@
 }
 
 .dropbtn {
-  background-color: #23527c;
+  background-color: var(--primary-color);
   color: white;
   font-size: 24px;
   border: none;

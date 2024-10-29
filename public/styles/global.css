@@ -1,0 +1,82 @@
+:root {
+    /* LIGHT MODE */
+    --primary-color: #23527c;
+    --background-color: #ffffff;
+    --bottom-nav-color: #E0DDDD;
+    --text-color: #000000;
+
+    /* DARK MODE */
+    /* --primary-color: #5E3B76;
+    --background-color: #2C2C2C;
+    --bottom-nav-color: #1E1E1E;
+    --text-color: #ffffff; */
+
+    /* MONKEY THEME */
+    /* --primary-color: #8B4513;
+    --background-color: #F5DEB3;
+    --bottom-nav-color: #CD853F;
+    --text-color: #2F4F4F; */
+
+    /* PINK PARADISE */
+    /* --primary-color: #FF69B4;
+    --background-color: #FFF0F5;
+    --bottom-nav-color: #FFC0CB;
+    --text-color: #8B0000; */
+
+    /* CYBER NEON */
+    /* --primary-color: #39FF14;
+    --background-color: #000000;
+    --bottom-nav-color: #333333;
+    --text-color: #00FFFF; */
+
+
+
+
+}
+
+
+/* THEMES */
+.themes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+
+}
+
+.theme-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.theme-button:hover {
+    border: 4px dotted aqua;
+}
+
+.dark-theme-button {
+    background-color: black;
+}
+
+.light-theme-button {
+    background-color: aliceblue;
+}
+
+.monkey-theme-button {
+    background-color: burlywood;
+}
+
+.pink-paradise-button {
+    background-color: pink;
+}
+
+.forest-greenery-button {
+    background-color: green;
+}
+
+.ocean-breeze-button {
+    background-color: blue;
+}

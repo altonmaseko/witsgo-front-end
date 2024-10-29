@@ -5,7 +5,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    background-color: var(--background-color);
 }
 
 .container {
@@ -49,7 +49,7 @@ select {
 }
 
 .input-container input {
-    padding-right: 30px; 
+    padding-right: 30px;
     margin-top: 15px;
 }
 
@@ -92,7 +92,7 @@ button[type="submit"]:hover {
 
 .signin button {
     background-color: transparent;
-    color: #23527c;
+    color: var(--primary-color);
     border: none;
     cursor: pointer;
     font-size: 16px;
@@ -161,8 +161,10 @@ button[type="submit"]:hover {
 
 @media (width <=600px) {
     .container {
-        padding: 20px; /* Padding inside the container */
-        margin: 0 15px; /* Space on the sides */
+        padding: 20px;
+        /* Padding inside the container */
+        margin: 0 15px;
+        /* Space on the sides */
     }
 
 }
