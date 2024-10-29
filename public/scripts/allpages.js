@@ -131,8 +131,10 @@ function loadTheme() {
     const theme = localStorage.getItem('theme');
     if (theme === 'dark') {
         enableDarkMode();
+        console.log('dark mode enabled')
     } else {
         enableLightMode();
+        console.log('light mode enabled')
     }
 }
 

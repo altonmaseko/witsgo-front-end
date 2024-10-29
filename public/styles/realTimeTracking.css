@@ -129,33 +129,6 @@ p {
     }
 }
 
-.themes-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-}
-
-.theme-button {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid black;
-}
-
-.theme-button:hover {
-    border: 4px dotted aqua;
-}
-
-.dark-theme-button {
-    background-color: black;
-}
-
-.light-theme-button {
-    background-color: aliceblue;
-}
-
 /* SIDE NAVIGATION */
 
 /*
