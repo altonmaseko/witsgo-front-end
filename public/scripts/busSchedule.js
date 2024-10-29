@@ -122,6 +122,19 @@ function filterRoutesByDestination() {
     const visibleSchedule = weekdaySchedule.classList.contains('hidden') ? weekendSchedule : weekdaySchedule;
     const rows = visibleSchedule.querySelectorAll('tbody tr');
 
+    if (!selectedDestination) {
+        rows.forEach(row => {
+            row.classList.remove('hidden');
+            row.style.display = 'table-row';
+
+          
+            if (row.classList.contains('route-header')) {
+                expandDetails(row);
+            }
+        });
+        return; 
+    }
+
     rows.forEach(row => {
         const routeDetailsCell = row.cells[1];
         if (routeDetailsCell) {
