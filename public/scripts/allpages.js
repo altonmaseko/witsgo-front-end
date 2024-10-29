@@ -1,5 +1,8 @@
 console.log('allpages.js loaded')
 
+import { serverUrl, clientUrl } from "./constants.js";
+let email = localStorage.getItem("email");
+
 const deleteButton = document.querySelector('#delete-button');
 const logoutButton = document.querySelector('#logout-button');
 const statsButton = document.querySelector('#stats-button');
@@ -8,14 +11,28 @@ const wheelChairToggle = document.querySelector('#wheelchair-toggle');
 
 let notifier = new AWN()
 
-try {
-    wheelChairToggle.checked = localStorage.getItem("onWheelChair") === "true";
-    console.log("Wheel chair check is: ", localStorage.getItem("onWheelChair"))
-} catch (error) {
-}
+// on document loaded
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log("document loaded");
 
-import { serverUrl, clientUrl } from "./constants.js";
-let email = localStorage.getItem("email");
+    // check if user is on a wheelchair
+    try {
+        let userResponse = await axios.get(`${serverUrl}/user/${email}`, { withCredentials: true });
+        // console.log("all pages user response: ", userResponse.data.user);
+        wheelChairToggle.checked = userResponse.data.user.onWheelChair;
+        localStorage.setItem("onWheelChair", userResponse.data.user.onWheelChair);
+    } catch (error) {
+        console.log("Error checking if user is on a wheelchair", error);
+    }
+});
+
+// try {
+//     wheelChairToggle.checked = localStorage.getItem("onWheelChair") === "true";
+//     console.log("Wheel chair check is: ", localStorage.getItem("onWheelChair"))
+// } catch (error) {
+// }
+
+
 
 const clearSiteData = () => {
 
@@ -92,6 +109,12 @@ deleteButton?.addEventListener('click', async () => {
 
 wheelChairToggle?.addEventListener('click', async () => {
     console.log("wheelChairToggle clicked");
+
+    notifier.info("Updating your disability status...",
+        {
+            durations: { info: 2000 },
+            labels: { info: 'Updating...' }
+        });
 
     const body = {
         onWheelChair: wheelChairToggle.checked,
