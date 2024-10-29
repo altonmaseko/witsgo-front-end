@@ -2,16 +2,18 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column; /* Ensure body content flows vertically */
+    flex-direction: column;
+    /* Ensure body content flows vertically */
 
     /* align-items: center; */
 
- /* This would be good for if the map is a different size */
+    /* This would be good for if the map is a different size */
     height: 100vh;
     margin: 0;
     padding: 0;
     font-size: 16px;
     overflow: hidden;
+    background-color: var(--background-color);
 }
 
 /* Header Section */
@@ -38,15 +40,21 @@ body {
 #map-container {
     width: 90%;
     max-width: 1900px;
-    margin: 20px auto; /* Centers the box */
-    border: 2px solid #000; /* Adds a border */
-    border-radius: 15px; /* Rounds the corners */
-    overflow: hidden; /* Ensures child elements don't overflow the box */
-    box-shadow: 0 2px 5px rgb(0 0 0 / 10%); /* Adds a subtle shadow */
+    margin: 20px auto;
+    /* Centers the box */
+    border: 2px solid #000;
+    /* Adds a border */
+    border-radius: 15px;
+    /* Rounds the corners */
+    overflow: hidden;
+    /* Ensures child elements don't overflow the box */
+    box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
+    /* Adds a subtle shadow */
 }
 
 #map {
-    height: 50vh; /* Set the height of the map */
+    height: 50vh;
+    /* Set the height of the map */
 }
 
 /* Controls Section */

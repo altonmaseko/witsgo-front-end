@@ -1,0 +1,15 @@
+:root {
+    /* LIGHT MODE */
+    --primary-color: #23527c;
+    --background-color: #ffffff;
+    --bottom-nav-color: #E0DDDD;
+    --text-color: #000000;
+
+    /* DARK MODE */
+    /* --primary-color: #5E3B76;
+    --background-color: #2C2C2C;
+    --bottom-nav-color: #1E1E1E;
+    --text-color: #ffffff; */
+
+
+}

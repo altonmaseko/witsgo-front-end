@@ -7,12 +7,14 @@ body {
     margin: 0;
     padding: 0;
     overflow-y: scroll;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 
 .header-nav {
     display: flex;
-    background-color: #23527c;
+    background-color: var(--primary-color);
     width: 100%;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -71,18 +73,20 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9999; /* Ensure the spinner is on top */
-    display: none; /* Initially hidden */
-  }
-  
-  /* Animation for spinning */
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
+    z-index: 9999;
+    /* Ensure the spinner is on top */
+    display: none;
+    /* Initially hidden */
+}
 
-  
+/* Animation for spinning */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
 
 .user-picture {
     height: 30px;
@@ -96,7 +100,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white;
+    /* background-color: white; */
+    background-color: var(--background-color);
     border-radius: 8px;
     box-shadow: 0 0 10px rgb(0 0 0 / 10%);
 
@@ -128,7 +133,7 @@ input {
 
 button {
     display: inline-block;
-    background-color: #23527c;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 6px;
@@ -138,11 +143,11 @@ button {
     height: fit-content;
 }
 
-label{
+label {
     font-size: 16px;
 }
 
-select{
+select {
     font-size: 16px;
 }
 

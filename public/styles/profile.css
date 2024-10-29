@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    background-color: var(--background-color);
     margin: 0;
     padding: 0;
     height: fit-content;
@@ -256,7 +256,7 @@ input:checked+.slider::before {
 button {
     padding: 1rem;
     border-radius: 10px;
-    background-color: #23527c;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     cursor: pointer;
@@ -266,5 +266,3 @@ button {
 button:hover {
     background-color: #1a3f5f;
 }
-
-

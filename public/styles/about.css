@@ -4,8 +4,10 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     padding-bottom: 50px;
+    background-color: var(--background-color);
+
 }
 
 .container {
@@ -17,7 +19,7 @@ body {
 
 header {
     /* background: #35424a; */
-    background: #23527c;
+    background: var(--primary-color);
     color: #fff;
     min-height: 60px;
     border-bottom: #747BDC 3px solid;
@@ -47,12 +49,15 @@ header .logo {
 
 .header-container img[alt="back"] {
     position: absolute;
-    left: 20px; /* Positioning chevron in the left corner */
+    left: 20px;
+    /* Positioning chevron in the left corner */
     top: 50%;
     transform: translateY(-50%);
-    width: 40px; /* Adjust size as needed */
+    width: 40px;
+    /* Adjust size as needed */
     height: 40px;
-    cursor: pointer; /* Adds a pointer cursor for clickable appearance */
+    cursor: pointer;
+    /* Adds a pointer cursor for clickable appearance */
 }
 
 
@@ -95,7 +100,7 @@ header .logo {
 }
 
 footer {
-    background: #23527c;
+    background: var(--primary-color);
     color: #fff;
     text-align: center;
     padding: 4px;
@@ -106,15 +111,15 @@ footer {
 
 
 /* Media query for phones and small devices */
-@media (width <= 768px) {
+@media (width <=768px) {
     .header-container img[alt="back"] {
-        width: 20px;  
-        height: 20px; 
-        left: 10px;   
+        width: 20px;
+        height: 20px;
+        left: 10px;
     }
 
     header .logo {
-        width: 70px; 
+        width: 70px;
         height: 70px;
     }
 }

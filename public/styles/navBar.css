@@ -5,15 +5,18 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
-    background-color: #E0DDDD;
+    /* background-color: #E0DDDD; */
+    background-color: var(--bottom-nav-color);
     padding: 10px 0;
     z-index: 10;
 
+    color: var(--text-color);
     /* background-color: white; */
 }
 
 .navbar a {
-    color: #373434;
+    /* color: #373434; */
+    color: var(--text-color);
     text-decoration: none;
     font-family: Roboto, sans-serif;
     font-weight: 400;
