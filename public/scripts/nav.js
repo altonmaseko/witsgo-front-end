@@ -34,12 +34,12 @@ let zoomedOut = false;
 let navigationStarted = false;
 let searchedPlace = false;
 
-
+//for 3rd party integration with alerts
+let lastAlertID = null; 
+let lastAlertMarker = null; 
 
 
 document.getElementById('loading-spinner').style.display = 'block';
-
-
 
 searchInputField.addEventListener("click", function () {
     profileImg.style.display = "None"
@@ -90,19 +90,19 @@ navMeBtn.addEventListener("click", async function () {
 
             return;
         }
+
         navMeBtn.textContent = "Stop Navigation";
+        
+        // if (searchedMarker != null) {
+        //     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+            
+        //     searchedMarker = new AdvancedMarkerElement({
+        //         map: map,
+        //         position: searchedMarker.location,
+        //         title: searchedMarker.name,
+        //     });
+        // }
 
-        if (searchedMarker != null) {
-            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-
-            let placeMarker = new AdvancedMarkerElement({
-                map: map,
-                position: searchedMarker.location,
-                title: searchedMarker.name,
-            });
-
-            searchedMarker = placeMarker;
-        }
         try {
             hideMarkersOnmap()
             filter.value = "none"
@@ -155,6 +155,9 @@ filter.addEventListener("change", () => {
     }
 })
 
+/**
+ * Shows all the markers on the map
+ */
 function showMarkersOnMap() {
     for (let i = 0; i < APIMarkers.length; i++) {
         let marker = APIMarkers[i];
@@ -162,6 +165,9 @@ function showMarkersOnMap() {
     }
 }
 
+/**
+ * Hides all the markers on the map
+ */
 function hideMarkersOnmap() {
     for (let i = 0; i < APIMarkers.length; i++) {
         let marker = APIMarkers[i];
@@ -169,6 +175,9 @@ function hideMarkersOnmap() {
     }
 }
 
+/**
+ * @returns the users lat and long if geolocation is allowed
+ */
 async function getLocation() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
@@ -192,7 +201,12 @@ async function getLocation() {
     });
 }
 
-
+/**
+ * Adds a wheelchair marker to the map. This needs to be a seperate function because we need to fetch
+ * the markers from different endpoint
+ * @param {*} element JSON including the map marker data
+ * @param {*} AdvancedMarkerElement google maps Advanced Marker
+ */
 function addWheelchairMarker(element, AdvancedMarkerElement) {
     let newMarker = {
         id: element._id,
@@ -231,6 +245,11 @@ function addWheelchairMarker(element, AdvancedMarkerElement) {
     });
 }
 
+/**
+ * Adds marker to the map
+ * @param {*} element JSON including the map marker data
+ * @param {*} AdvancedMarkerElement google maps Advanced Marker
+ */
 function addMarkerToMap(element, AdvancedMarkerElement) {
     let newMarker = {
         id: element._id,
@@ -296,6 +315,175 @@ function addMarkerToMap(element, AdvancedMarkerElement) {
     });
 }
 
+/**
+ * Adds a new dining hall to map
+ * @param {*} content 
+ * @param {*} AdvancedMarkerElement 
+ * @param {*} data 
+ */
+function addDiningHallMarker(content,AdvancedMarkerElement,data){
+    let newMarker = {
+        type: "dining",
+        location: { lat: data.latitude, lng: data.longitude }
+    };
+
+    APIMarkersInfo.push(newMarker);
+
+
+    let newAdvancedMarker = new AdvancedMarkerElement({
+        map: map,
+        position: newMarker.location,
+        title: data.name,
+        content: content
+    });
+
+
+    APIMarkers.push(newAdvancedMarker);
+
+    let infoWindow = new google.maps.InfoWindow({
+        content: `
+            <div style="font-family: Arial, sans-serif; text-align: center; position: relative; padding-bottom:30px">
+                <h3 style="margin: 0; font-size: 16px; color: #333; letter-spacing: 1px; padding:5px">
+                    ${data.name}
+                </h3>
+                <p style="margin: 5px 0; font-size: 14px; font-weight: bold; color: #777;">
+                    Open: ${data.opening_time} - ${data.closing_time}
+                </p>
+                <p style="margin: 5px 0; font-size: 14px; font-weight: bold; color: #777;">
+                    Rating: ${data.rating !== undefined ? data.rating : 'None'}
+                </p>
+                <p style="margin: 5px 0; font-size: 14px; font-weight: bold; color: #777;">
+                    Categories: ${data.categories.join(", ")}
+                </p>
+            </div>
+        `,
+
+    });
+    
+
+
+    newAdvancedMarker.addListener("click", () => {
+        infoWindow.open({
+            anchor: newAdvancedMarker,
+            map: map,
+            shouldFocus: true,
+        });
+        dest["latitude"] = newMarker.location.lat;
+        dest["longitude"] = newMarker.location.lng;
+
+        searchedPlace = true;
+        searchedMarker = newMarker
+        setTimeout(function () {
+            infoWindow.close();
+        }, 2500);
+
+    });
+}
+
+/**
+ * Adds alert marker to the map
+ * @param {*} data 
+ * @param {*} AdvancedMarkerElement 
+ */
+function addAlertMarker(data,AdvancedMarkerElement){
+
+    let newMarker = {
+        type: "alert",
+        location: { lat: data.latitude, lng: data.longitude },
+        details: data.details
+    };
+
+
+    let newContent = document.createElement('div');
+    newContent.classList.add("alert-marker");
+
+    if (lastAlertMarker!=null){
+        lastAlertMarker.map = null;
+        lastAlertMarker = null;
+    }
+
+    
+    let newAdvancedMarker = new AdvancedMarkerElement({
+        map: map,
+        position: newMarker.location,
+        title: "Alert",
+        content: newContent
+    });
+
+    lastAlertMarker = newAdvancedMarker;
+
+
+
+    let infoWindow = new google.maps.InfoWindow({
+        content: `
+            <div style="font-family: Arial, sans-serif; text-align: center; position: relative; padding-bottom:30px">
+                <h3 style="margin: 0; font-size: 16px; color: #333; letter-spacing: 1px; padding:5px">
+                    Alert
+                </h3>
+                <p style="margin: 5px 0; font-size: 14px; font-weight: bold; color: #777;">
+                    Details: ${newMarker.details}
+                </p>
+            </div>
+        `,
+    });
+
+    lastAlertMarker.addListener("click", () => {
+        infoWindow.open({
+            anchor: newAdvancedMarker,
+            map: map,
+            shouldFocus: true,
+        });
+        setTimeout(function () {
+            infoWindow.close();
+        }, 2500);
+
+    })
+}
+
+/**
+ * Queries the endpoint and checks if there are any new alerts
+ */
+async function checkForNewAlerts(){
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+    let response = await axios.get("https://sdp-campus-safety.azurewebsites.net/alert");
+
+    //if not updated in the loop, no new alerts
+    let updated = false;
+
+    response.data.forEach((element)=>{
+        if (element.status!="ASSISTED"){
+            let id = element.alertID;
+            let long = element.lon;
+            let lat = element.lat;
+            let details = element.details;
+
+            if (lastAlertID === null || id>lastAlertID){
+                lastAlertID = id;
+                let data = {
+                    latitude:lat,
+                    longitude:long,
+                    details:details
+                };
+                addAlertMarker(data,AdvancedMarkerElement)
+                updated=true;
+            }
+        }
+    })
+
+    //reset condis
+    if (updated==false){
+        lastAlertMarker.map=null;
+        lastAlertMarker=null;
+        lastAlertID =null;
+    }
+
+}
+
+/**
+ * Resets HTML DOM to pre navigation state.
+ * Includes clearing fields and resetting variables
+ */
 function resetNavigationState() {
     navMeBtn.textContent = "Navigate Me";
     searchInputField.value = "";
@@ -303,6 +491,7 @@ function resetNavigationState() {
     if (polylinePath) {
         polylinePath.setMap(null);
     }
+
     filter.value = "all";
     searchedMarker.map = null;
     navigationStarted = false;
@@ -311,14 +500,17 @@ function resetNavigationState() {
     dest["longitude"] = -1;
 }
 
+/**
+ * @returns JSON including the route data
+ */
 async function getOptimizedRoute() {
     let coords = await getLocation();
 
-    // origin["latitude"] = coords.latitude;
-    // origin["longitude"] = coords.longitude;
+    origin["latitude"] = coords.latitude;
+    origin["longitude"] = coords.longitude;
 
-    origin["latitude"] = -26.1908692;
-    origin["longitude"] = 28.0271597;
+    // origin["latitude"] = -26.1908692;
+    // origin["longitude"] = 28.0271597;
 
     const url = serverUrl + "/v1/route_optimize/route_optimize";
 
@@ -332,6 +524,11 @@ async function getOptimizedRoute() {
     return response;
 }
 
+/**
+ * 
+ * @param {*} polyline 
+ * @returns 
+ */
 async function insertRoute(polyline) {
     const url = serverUrl + "/v1/userRoutes/insertRoute";
 
@@ -346,6 +543,10 @@ async function insertRoute(polyline) {
     return response;
 }
 
+/**
+ * Inserts route data as history
+ * @returns response, which includes success status
+ */
 async function insertNavigationHistory() {
     if (routeID == null) {
         return;
@@ -359,6 +560,10 @@ async function insertNavigationHistory() {
     return response;
 }
 
+/**
+ * Puts the polyline on the google map
+ * @param {*} decodedPoints Decoded polyline, which is basically a list of lat,long
+ */
 function drawPolyline(decodedPoints) {
     if (polylinePath) {
         polylinePath.setMap(null);
@@ -375,11 +580,10 @@ function drawPolyline(decodedPoints) {
     polylinePath.setMap(map);
 }
 
-function isNum(str) {
-    const regex = /^\d+,\d+$/;
-    return regex.test(str);
-}
 
+/**
+ * Inits the google map using the API and calls the functions to add the initial markers
+ */
 async function initMap() {
     const { Map } = await google.maps.importLibrary("maps");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -488,6 +692,9 @@ async function initMap() {
     });
 }
 
+/**
+ * Bigger function to call smaller functions to add the different markers to the map
+ */
 async function addMarkers() {
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
@@ -542,37 +749,67 @@ async function addMarkers() {
 
     //dining hall stuff
     try {
-        const res = await axios.get("https://virtserver.swaggerhub.com/O-n-Site/CampusBites/1.0.0/restaurants");
+        let lat  = [-26.190466695649402, -26.185630238048255,-26.18982905349109,-26.18955506524597];
+        let long = [28.027754291350814,28.025862522847362,28.03069403720835,28.030718660964105];
+        let counter = 0;        
+        const res = await axios.get("https://app-rjelmm56pa-uc.a.run.app/restaurants");
+        
         res.data.forEach((restaurant) => {
+
             let location = restaurant.location;
+            let id = restaurant.id;
+            let name = restaurant.name;
+            let opening_time = restaurant.opening_time;
+            let closing_time = restaurant.closing_time;
+            let categories = restaurant.prefs;
+            let rating = restaurant.rating;
+            let restImg = restaurant.restImg;
 
-            let valid = isNum(Location);
 
-            if (valid) {
-                let id = restaurant.id;
-                let name = restaurant.name;
-                let opening_time = restaurant.opening_time;
-                let closing_time = restaurant.closing_time;
-                let categories = restaurant.categories;
 
-                categories.forEach((item) => {
-                    let itemName = item.name;
-                    let menuItems = item.menu_items
-
-                    menuItems.forEach((menuItem) => {
-                        console.log(menuItem);
-                        let menuItemName = menuItem.name;
-                        let description = menuItem.description;
-                        let price = menuItem.price;
-                        let is_available = menuItem.is_available;
-
-                    })
-                })
+            //Add the marker
+            let data = {
+                latitude : lat[counter],
+                longitude : long[counter],
+                name:name,
+                rating:rating,
+                categories:categories,
+                opening_time:opening_time,
+                closing_time:closing_time
             }
+
+
+
+            let markerRes = document.createElement('div');
+            markerRes.classList.add('restaurant-marker');
+            markerRes.style.backgroundImage = `url("${restImg}")`
+
+            addDiningHallMarker(markerRes,AdvancedMarkerElement,data)
+
+            // console.log(data)
+            counter+=1;
+            //     let itemName = item.name;
+            //     let menuItems = item.menu_items
+
+            //     menuItems.forEach((menuItem) => {
+            //         console.log(menuItem);
+            //         let menuItemName = menuItem.name;
+            //         let description = menuItem.description;
+            //         let price = menuItem.price;
+            //         let is_available = menuItem.is_available;
+
+            //     })
+            // })
         })
     } catch (error) {
         console.log(error);
-        //TODO make error shorter
+    }
+
+    //alerts
+    try{
+
+    }catch (error){
+
     }
 
     if (errorOccured) {
@@ -607,9 +844,17 @@ async function addMarkers() {
 //     maximumAge: 10000
 // });
 
+/**
+ * Renders the page
+ */
 async function renderPage() {
     await initMap();
     await addMarkers();
+    await checkForNewAlerts();
 }
 
 renderPage();
+
+
+//check for new alerts every min
+setInterval(checkForNewAlerts, 60000);

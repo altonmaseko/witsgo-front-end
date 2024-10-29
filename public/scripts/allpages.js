@@ -1,3 +1,5 @@
+console.log('allpages.js loaded')
+
 const deleteButton = document.querySelector('#delete-button');
 const logoutButton = document.querySelector('#logout-button');
 const statsButton = document.querySelector('#stats-button');
@@ -104,3 +106,44 @@ wheelChairToggle?.addEventListener('click', async () => {
         alert("Something went wrong updating your disabiltiy status. Please try again later");
     }
 });
+
+// THEMES
+
+// Function to switch to dark mode
+function enableDarkMode() {
+    document.documentElement.style.setProperty('--primary-color', '#5E3B76');
+    document.documentElement.style.setProperty('--background-color', '#2C2C2C');
+    document.documentElement.style.setProperty('--bottom-nav-color', '#1E1E1E');
+    document.documentElement.style.setProperty('--text-color', '#ffffff');
+    localStorage.setItem('theme', 'dark');
+}
+
+// Function to switch to light mode
+function enableLightMode() {
+    document.documentElement.style.setProperty('--primary-color', '#23527c');
+    document.documentElement.style.setProperty('--background-color', '#ffffff');
+    document.documentElement.style.setProperty('--bottom-nav-color', '#E0DDDD');
+    document.documentElement.style.setProperty('--text-color', '#000000');
+    localStorage.setItem('theme', 'light');
+}
+
+function loadTheme() {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+        enableDarkMode();
+        console.log('dark mode enabled')
+    } else {
+        enableLightMode();
+        console.log('light mode enabled')
+    }
+}
+
+document.querySelector('.dark-theme-button').addEventListener('click', (event) => {
+    enableDarkMode()
+})
+
+document.querySelector('.light-theme-button').addEventListener('click', (event) => {
+    enableLightMode()
+})
+
+window.addEventListener('DOMContentLoaded', loadTheme);

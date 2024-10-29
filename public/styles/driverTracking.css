@@ -13,7 +13,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #23527c;
+    background-color: var(--primary-color);
     color: white;
     padding: 1rem;
     width: 100%;
@@ -26,6 +26,7 @@ body {
     justify-content: center;
     align-items: center;
     height: calc(100vh - 70px);
+    background-color: var(--background-color);
 }
 
 .main {
@@ -70,7 +71,7 @@ body {
 #track-me-button {
     font-size: 1rem;
     padding: 1rem;
-    background-color: #23527c;
+    background-color: var(--primary-color);
     border-radius: 10px;
     color: white;
 }
@@ -106,7 +107,7 @@ body {
 .loader::before {
     content: '';
     position: absolute;
-    color: #23527c;
+    color: var(--primary-color);
     inset: 0;
 
     --g: currentColor calc(var(--loader-width)/2), #0000 0 calc(100% - calc(var(--loader-width)/2)), currentColor 0;
@@ -122,7 +123,7 @@ body {
         inset: calc(var(--loader-width)/2 * -1);
         transform: rotate(0deg);
 
-        --loader-center-color: #23527c;
+        --loader-center-color: var(--primary-color);
 
     }
 

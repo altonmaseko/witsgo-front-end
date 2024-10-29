@@ -21,11 +21,11 @@ window.initMap = function () {
                 lng: position.coords.longitude
             };
             //test location
-            userPosition = {
-                lat: -26.190476,
-                lng: 28.026834
-            };
-            map.setCenter(userPosition);
+            // userPosition = {
+            //     lat: -26.190476,
+            //     lng: 28.026834
+            // };
+            // map.setCenter(userPosition);
 
             // Add user position marker
             new google.maps.Marker({
@@ -92,7 +92,7 @@ async function handleStationClick(station) {
         notifier.alert("You are not within 20 meters of the station. Move closer to rent or return a vehicle.",
             {
                 durations: { alert: 4000 },
-                labels: { alert: 'Error Occured:' }
+                labels: { alert: 'Get Closer' }
             });
 
     } else {

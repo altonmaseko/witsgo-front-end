@@ -9,6 +9,7 @@
     <!-- Awesome Notifications -->
     <link rel="stylesheet" href="styles/awesome_notifications.css">
     <script src="scripts/awesome_notifications.js"></script>
+    <link rel="stylesheet" href="styles/global.css">
 
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -20,7 +21,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: rgb(236, 234, 234);
+            /* background-color: rgb(236, 234, 234); */
+            background-color: var(--background-color);
             margin: 0;
             padding: 0;
             display: flex;
@@ -63,7 +65,7 @@
         }
 
         .google-btn {
-            background-color: #23527c;
+            background-color: var(--primary-color);
             color: white;
             flex: 1;
         }
@@ -73,7 +75,7 @@
         }
 
         .register-btn {
-            background-color: #23527c;
+            background-color: var(--primary-color);
             color: white;
             flex: 1;
         }
