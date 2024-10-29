@@ -25,7 +25,7 @@ window.initMap = function () {
             //     lat: -26.190476,
             //     lng: 28.026834
             // };
-            // map.setCenter(userPosition);
+            map.setCenter(userPosition);
 
             // Add user position marker
             new google.maps.Marker({
