@@ -1,4 +1,101 @@
+// CustonMarker ========================================================
+
+
+// CustomMarkerElement class that mimics AdvancedMarkerElement interface
+class CustomMarkerElement {
+    constructor(options) {
+        this._position = options.position;
+        this._map = options.map;
+        this._title = options.title;
+
+        // Create the marker
+        this._marker = new google.maps.Marker({
+            position: this._position,
+            map: this._map,
+            title: this._title,
+            optimized: false // This helps with smoother updates
+        });
+
+        // Handle custom content (DOM element)
+        if (options.content) {
+            const scale = 1;
+
+            // If content is a DOM element with an image
+            if (options.content instanceof HTMLElement && options.content.querySelector('img')) {
+                const img = options.content.querySelector('img');
+                const icon = {
+                    url: img.src,
+                    scaledSize: new google.maps.Size(
+                        parseInt(img.style.width) * scale || 40,
+                        parseInt(img.style.height) * scale || 40
+                    ),
+                    anchor: new google.maps.Point(
+                        (parseInt(img.style.width) * scale || 40) / 2,
+                        (parseInt(img.style.height) * scale || 40) / 2
+                    )
+                };
+                this._marker.setIcon(icon);
+            }
+        }
+    }
+
+    // Getter and setter for position to match AdvancedMarkerElement interface
+    get position() {
+        return this._marker.getPosition();
+    }
+
+    set position(newPosition) {
+        this._marker.setPosition(newPosition);
+    }
+
+    // Map getter/setter
+    get map() {
+        return this._marker.getMap();
+    }
+
+    set map(newMap) {
+        this._marker.setMap(newMap);
+    }
+
+    // Title getter/setter
+    get title() {
+        return this._marker.getTitle();
+    }
+
+    set title(newTitle) {
+        this._marker.setTitle(newTitle);
+    }
+
+    // Method to update the icon
+    setContent(content) {
+        if (content instanceof HTMLElement && content.querySelector('img')) {
+            const img = content.querySelector('img');
+            const icon = {
+                url: img.src,
+                scaledSize: new google.maps.Size(
+                    parseInt(img.style.width) || 40,
+                    parseInt(img.style.height) || 40
+                ),
+                anchor: new google.maps.Point(
+                    (parseInt(img.style.width) || 40) / 2,
+                    (parseInt(img.style.height) || 40) / 2
+                )
+            };
+            this._marker.setIcon(icon);
+        }
+    }
+
+    // Method to remove marker from map
+    setMap(map) {
+        this._marker.setMap(map);
+    }
+}
+// END: CustonMarker ========================================================
+
 let notifier = new AWN()
+
+import { retroMap, hopperMap, midnightMap } from "./mapStyles.js";
+
 
 // LOAD MAP
 import { clientUrl, serverUrl } from "./constants.js";
@@ -94,7 +191,8 @@ async function importLibraries() {
     if (librariesImported) return;
 
     GMAP = (await google.maps.importLibrary("maps")).Map;
-    AdvancedMarkerElement = (await google.maps.importLibrary("marker")).AdvancedMarkerElement;
+    // AdvancedMarkerElement = (await google.maps.importLibrary("marker")).AdvancedMarkerElement;
+    AdvancedMarkerElement = CustomMarkerElement;
     ({ DirectionsService, DirectionsRenderer } = await google.maps.importLibrary("routes"));
 
     librariesImported = true;
@@ -111,8 +209,10 @@ async function initMap() {
     map = new GMAP(document.querySelector(".map-container"), {
         zoom: 18,
         center: currentLocation,
-        mapId: "DEMO_MAP_ID",
-
+        // mapId: "MAP_ID",
+        styles: retroMap,
+        // styles: hopperMap,
+        // styles: midnightMap,
 
     });
 

@@ -43,6 +43,7 @@ p {
     border: 2px solid black;
     border-radius: 0.4rem;
     z-index: 0;
+    background-color: white;
 }
 
 .update-message-container {
