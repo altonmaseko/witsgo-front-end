@@ -35,8 +35,8 @@ let navigationStarted = false;
 let searchedPlace = false;
 
 //for 3rd party integration with alerts
-let lastAlertID = null; 
-let lastAlertMarker = null; 
+let lastAlertID = null;
+let lastAlertMarker = null;
 
 
 document.getElementById('loading-spinner').style.display = 'block';
@@ -92,10 +92,10 @@ navMeBtn.addEventListener("click", async function () {
         }
 
         navMeBtn.textContent = "Stop Navigation";
-        
+
         // if (searchedMarker != null) {
         //     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-            
+
         //     searchedMarker = new AdvancedMarkerElement({
         //         map: map,
         //         position: searchedMarker.location,
@@ -321,7 +321,7 @@ function addMarkerToMap(element, AdvancedMarkerElement) {
  * @param {*} AdvancedMarkerElement 
  * @param {*} data 
  */
-function addDiningHallMarker(content,AdvancedMarkerElement,data){
+function addDiningHallMarker(content, AdvancedMarkerElement, data) {
     let newMarker = {
         type: "dining",
         location: { lat: data.latitude, lng: data.longitude }
@@ -359,7 +359,7 @@ function addDiningHallMarker(content,AdvancedMarkerElement,data){
         `,
 
     });
-    
+
 
 
     newAdvancedMarker.addListener("click", () => {
@@ -385,7 +385,7 @@ function addDiningHallMarker(content,AdvancedMarkerElement,data){
  * @param {*} data 
  * @param {*} AdvancedMarkerElement 
  */
-function addAlertMarker(data,AdvancedMarkerElement){
+function addAlertMarker(data, AdvancedMarkerElement) {
 
     let newMarker = {
         type: "alert",
@@ -397,12 +397,12 @@ function addAlertMarker(data,AdvancedMarkerElement){
     let newContent = document.createElement('div');
     newContent.classList.add("alert-marker");
 
-    if (lastAlertMarker!=null){
+    if (lastAlertMarker != null) {
         lastAlertMarker.map = null;
         lastAlertMarker = null;
     }
 
-    
+
     let newAdvancedMarker = new AdvancedMarkerElement({
         map: map,
         position: newMarker.location,
@@ -443,7 +443,7 @@ function addAlertMarker(data,AdvancedMarkerElement){
 /**
  * Queries the endpoint and checks if there are any new alerts
  */
-async function checkForNewAlerts(){
+async function checkForNewAlerts() {
     console.log("yo");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
@@ -453,32 +453,32 @@ async function checkForNewAlerts(){
     let updated = false;
     let data;
 
-    response.data.forEach((element)=>{
-        if (element.status!="ASSISTED"){
+    response.data.forEach((element) => {
+        if (element.status != "ASSISTED") {
             let id = element.alertID;
             let long = element.lon;
             let lat = element.lat;
             let details = element.details;
 
-            if (lastAlertID === null || id>lastAlertID){
+            if (lastAlertID === null || id > lastAlertID) {
                 lastAlertID = id;
                 data = {
-                    latitude:lat,
-                    longitude:long,
-                    details:details
+                    latitude: lat,
+                    longitude: long,
+                    details: details
                 };
-                updated=true;
+                updated = true;
             }
         }
     })
 
     //reset condis
-    if (updated==false ){
-        lastAlertMarker.map=null;
-        lastAlertMarker=null;
-        lastAlertID =null;
-    }else{
-        addAlertMarker(data,AdvancedMarkerElement)
+    if (updated == false) {
+        lastAlertMarker.map = null;
+        lastAlertMarker = null;
+        lastAlertID = null;
+    } else {
+        addAlertMarker(data, AdvancedMarkerElement)
     }
 
 }
@@ -592,12 +592,12 @@ async function initMap() {
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
     const { PlacesService, SearchBox } = await google.maps.importLibrary("places");
 
-    // let coords = await getLocation();
+    let coords = await getLocation();
     // origin["latitude"] = coords.latitude;
     // origin["longitude"] = coords.longitude;
 
-    // userLocation = {lat:coords.latitude,lng:coords.longitude};
-    userLocation = { lat: -26.1908692, lng: 28.0271597 };
+    userLocation = { lat: coords.latitude, lng: coords.longitude };
+    // userLocation = { lat: -26.1908692, lng: 28.0271597 };
 
     map = new Map(document.getElementById("map"), {
         zoom: 17,
@@ -752,11 +752,11 @@ async function addMarkers() {
 
     //dining hall stuff
     try {
-        let lat  = [-26.190466695649402, -26.185630238048255,-26.18982905349109,-26.18955506524597];
-        let long = [28.027754291350814,28.025862522847362,28.03069403720835,28.030718660964105];
-        let counter = 0;        
+        let lat = [-26.190466695649402, -26.185630238048255, -26.18982905349109, -26.18955506524597];
+        let long = [28.027754291350814, 28.025862522847362, 28.03069403720835, 28.030718660964105];
+        let counter = 0;
         const res = await axios.get("https://app-rjelmm56pa-uc.a.run.app/restaurants");
-        
+
         res.data.forEach((restaurant) => {
 
             let location = restaurant.location;
@@ -772,13 +772,13 @@ async function addMarkers() {
 
             //Add the marker
             let data = {
-                latitude : lat[counter],
-                longitude : long[counter],
-                name:name,
-                rating:rating,
-                categories:categories,
-                opening_time:opening_time,
-                closing_time:closing_time
+                latitude: lat[counter],
+                longitude: long[counter],
+                name: name,
+                rating: rating,
+                categories: categories,
+                opening_time: opening_time,
+                closing_time: closing_time
             }
 
 
@@ -787,10 +787,10 @@ async function addMarkers() {
             markerRes.classList.add('restaurant-marker');
             markerRes.style.backgroundImage = `url("${restImg}")`
 
-            addDiningHallMarker(markerRes,AdvancedMarkerElement,data)
+            addDiningHallMarker(markerRes, AdvancedMarkerElement, data)
 
             // console.log(data)
-            counter+=1;
+            counter += 1;
             //     let itemName = item.name;
             //     let menuItems = item.menu_items
 
@@ -809,9 +809,9 @@ async function addMarkers() {
     }
 
     //alerts
-    try{
+    try {
 
-    }catch (error){
+    } catch (error) {
 
     }
 
