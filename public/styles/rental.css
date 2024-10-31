@@ -55,6 +55,9 @@ body {
 #map {
     height: 50vh;
     /* Set the height of the map */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Controls Section */

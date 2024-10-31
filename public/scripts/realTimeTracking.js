@@ -94,7 +94,7 @@ class CustomMarkerElement {
 
 let notifier = new AWN()
 
-import { retroMap, hopperMap, midnightMap } from "./mapStyles.js";
+import { retroMap, hopperMap, midnightMap, defaultMap } from "./mapStyles.js";
 
 
 // LOAD MAP
@@ -143,7 +143,7 @@ try {
         labels: { alert: 'Error Occurred:' }
     });
 
-    console.error(error);
+    console.log('error: ', error);
 }
 // END: LOAD MAP
 
@@ -210,9 +210,10 @@ async function initMap() {
         zoom: 18,
         center: currentLocation,
         // mapId: "MAP_ID",
-        styles: retroMap,
+        // styles: retroMap,
         // styles: hopperMap,
         // styles: midnightMap,
+        styles: defaultMap,
 
     });
 

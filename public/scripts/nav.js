@@ -39,7 +39,7 @@ let lastAlertID = null;
 let lastAlertMarker = null;
 
 
-document.getElementById('loading-spinner').style.display = 'block';
+// document.getElementById('loading-spinner').style.display = 'block';
 
 searchInputField.addEventListener("click", function () {
     profileImg.style.display = "None"
@@ -622,7 +622,7 @@ async function initMap() {
     });
 
     google.maps.event.addListenerOnce(map, 'idle', function () {
-        document.getElementById('loading-spinner').style.display = 'none';
+        // document.getElementById('loading-spinner').style.display = 'none';
     });
 
 

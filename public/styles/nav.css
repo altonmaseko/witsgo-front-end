@@ -62,7 +62,7 @@ body {
 }
 
 /* Center the spinner */
-.spinner {
+/* .spinner {
     border: 8px solid rgb(0 0 0 / 10%);
     border-left-color: #4b9ce2;
     border-radius: 50%;
@@ -74,10 +74,10 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
-    /* Ensure the spinner is on top */
+
     display: none;
-    /* Initially hidden */
-}
+
+} */
 
 /* Animation for spinning */
 @keyframes spin {
@@ -204,6 +204,10 @@ button:active {
 #map {
     height: 100%;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
 }
 
 

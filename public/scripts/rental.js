@@ -8,12 +8,14 @@ let rentalTimeLeft = 1200; // 20 minutes in seconds
 
 
 let userMarker = null;
+import { retroMap, hopperMap, midnightMap, defaultMap } from "./mapStyles.js";
 
 // Initialize the map
 window.initMap = function () {
     map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: -26.192082, lng: 28.026229 },
-        zoom: 16
+        zoom: 16,
+        styles: defaultMap
     });
 
     // Get user position
@@ -57,7 +59,7 @@ window.initMap = function () {
                     }
                 },
                 (error) => {
-                    console.error('Error watching position:', error);
+                    console.log('Error watching position:', error);
                 },
                 {
                     enableHighAccuracy: true,
@@ -513,7 +515,7 @@ window.onload = function () {
         }
     } else {
         // If no rental information is stored, initialize the map normally
-        initMap();
+        window.initMap();
     }
 };
 

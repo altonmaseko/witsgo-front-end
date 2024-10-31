@@ -177,8 +177,18 @@ function enableDarkMode() {
     document.documentElement.style.setProperty('--primary-color', '#5E3B76');
     document.documentElement.style.setProperty('--background-color', '#2C2C2C');
     document.documentElement.style.setProperty('--bottom-nav-color', '#1E1E1E');
+    // document.documentElement.style.setProperty('--bottom-nav-color', '#904eb9'); // bright purple
+    // document.documentElement.style.setProperty('--bottom-nav-color', '#704f87');
+    // document.documentElement.style.setProperty('--bottom-nav-color', '#9a70b9');
+    // document.documentElement.style.setProperty('--bottom-nav-color', '#493b53');
     document.documentElement.style.setProperty('--text-color', '#ffffff');
     localStorage.setItem('theme', 'dark');
+
+    // make the bottom nav images more visible
+    let imgs = document.querySelectorAll('a img');
+    imgs.forEach(img => {
+        img.style.filter = 'invert(1)';
+    });
 }
 
 // Function to switch to light mode
@@ -188,6 +198,12 @@ function enableLightMode() {
     document.documentElement.style.setProperty('--bottom-nav-color', '#E0DDDD');
     document.documentElement.style.setProperty('--text-color', '#000000');
     localStorage.setItem('theme', 'light');
+
+    // bottom nav images back to normal
+    let imgs = document.querySelectorAll('a img');
+    imgs.forEach(img => {
+        img.style.filter = 'invert(0)';
+    });
 }
 
 // Additional theme functions
@@ -197,6 +213,12 @@ function enableMonkeyTheme() {
     document.documentElement.style.setProperty('--bottom-nav-color', '#CD853F');
     document.documentElement.style.setProperty('--text-color', '#2F4F4F');
     localStorage.setItem('theme', 'monkey');
+
+    // bottom nav images back to normal
+    let imgs = document.querySelectorAll('a img');
+    imgs.forEach(img => {
+        img.style.filter = 'invert(0)';
+    });
 }
 
 function enablePinkParadiseTheme() {
@@ -205,6 +227,12 @@ function enablePinkParadiseTheme() {
     document.documentElement.style.setProperty('--bottom-nav-color', '#FFC0CB');
     document.documentElement.style.setProperty('--text-color', '#8B0000');
     localStorage.setItem('theme', 'pinkParadise');
+
+    // bottom nav images back to normal
+    let imgs = document.querySelectorAll('a img');
+    imgs.forEach(img => {
+        img.style.filter = 'invert(0)';
+    });
 }
 
 function enableForestGreeneryTheme() {
@@ -213,6 +241,12 @@ function enableForestGreeneryTheme() {
     document.documentElement.style.setProperty('--bottom-nav-color', '#556B2F');
     document.documentElement.style.setProperty('--text-color', '#2F4F4F');
     localStorage.setItem('theme', 'forestGreenery');
+
+    // bottom nav images back to normal
+    let imgs = document.querySelectorAll('a img');
+    imgs.forEach(img => {
+        img.style.filter = 'invert(0)';
+    });
 }
 
 function enableOceanBreezeTheme() {
@@ -221,6 +255,12 @@ function enableOceanBreezeTheme() {
     document.documentElement.style.setProperty('--bottom-nav-color', '#B0E0E6');
     document.documentElement.style.setProperty('--text-color', '#2F4F4F');
     localStorage.setItem('theme', 'oceanBreeze');
+
+    // bottom nav images back to normal
+    let imgs = document.querySelectorAll('a img');
+    imgs.forEach(img => {
+        img.style.filter = 'invert(0)';
+    });
 }
 
 // Function to load the saved theme on page load
