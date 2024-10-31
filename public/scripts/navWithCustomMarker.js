@@ -587,9 +587,10 @@ function drawPolyline(decodedPoints) {
 /**
  * Inits the google map using the API and calls the functions to add the initial markers
  */
+
+import { retroMap, hopperMap, midnightMap, defaultMap } from "./mapStyles.js";
 async function initMap() {
     const { Map } = await google.maps.importLibrary("maps");
-    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
     const { PlacesService, SearchBox } = await google.maps.importLibrary("places");
 
@@ -603,8 +604,11 @@ async function initMap() {
     map = new Map(document.getElementById("map"), {
         zoom: 17,
         center: userLocation,
-        mapId: "d"
+        // mapId: "d",
+        styles: midnightMap,
     });
+
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
 
 

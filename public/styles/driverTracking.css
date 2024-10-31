@@ -50,6 +50,9 @@ body {
     border-radius: 0.4rem;
     z-index: 0;
     background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
 }
 
