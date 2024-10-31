@@ -49,6 +49,8 @@ body {
     border: 2px solid black;
     border-radius: 0.4rem;
     z-index: 0;
+    background-color: white;
+
 }
 
 .bottom-map {

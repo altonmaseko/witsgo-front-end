@@ -31,8 +31,8 @@
 </head>
 
 <body>
-    <div id="loading-spinner" class="spinner"></div>
     <div class="container">
+
         <!-- <section class="header">
             <h1 class="title">Navigation</h1>
             <a href="profile">
@@ -74,7 +74,11 @@
             <img src="images/X.png" class="user-picture" id="cancel-search" style="display: none;">
         </section>
         <div class="map-container">
-            <div id="map"></div>
+            <div id="map">
+                <div id="loading-spinner" class="spinner">
+                    <img src="images/multiple_color_radio_loader.gif" alt="Loading..." />
+                </div>
+            </div>
         </div>
         <div class="filter">
             <label for="filterType">Filter by type:</label>
